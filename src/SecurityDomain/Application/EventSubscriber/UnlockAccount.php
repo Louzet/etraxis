@@ -54,7 +54,7 @@ class UnlockAccount implements EventSubscriberInterface
         /** @var \eTraxis\SecurityDomain\Model\Entity\User $user */
         $user = $this->repository->findOneByUsername($event->username);
 
-        if ($user) {
+        if ($user !== null) {
 
             $user->unlockAccount();
 
