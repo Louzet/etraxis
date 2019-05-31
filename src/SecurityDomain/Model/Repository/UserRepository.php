@@ -23,7 +23,7 @@ use LazySec\Repository\UserRepositoryInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface, CollectionInterface
+class UserRepository extends ServiceEntityRepository implements CollectionInterface, UserRepositoryInterface
 {
     /**
      * {@inheritdoc}

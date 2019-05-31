@@ -51,7 +51,7 @@ use Webinarium\PropertyTrait;
  * @property      string      $timezone    User's timezone (see the "Timezone" dictionary).
  * @property-read Group[]     $groups      List of groups the user is member of.
  */
-class User implements UserInterface, EncoderAwareInterface, \JsonSerializable
+class User implements \JsonSerializable, EncoderAwareInterface, UserInterface
 {
     use PropertyTrait;
     use UserTrait;
