@@ -74,9 +74,9 @@ class GoogleOAuth2AuthenticatorTest extends TransactionalTestCase
     public function testGetUserFromToken()
     {
         $owner = new GoogleUser([
-            'id'          => '423729',
-            'email'       => 'anna@example.com',
-            'displayName' => 'Anna Rodygina',
+            'sub'   => '423729',
+            'email' => 'anna@example.com',
+            'name'  => 'Anna Rodygina',
         ]);
 
         $provider = $this->createMock(AbstractProvider::class);
