@@ -6,9 +6,9 @@ module.exports = {
 
     mode: 'development',
 
-    entry: () => {
+    entry() {
+
         let files = {
-            'polyfill.js': 'babel-polyfill/dist/polyfill',
             'etraxis.js': './assets/etraxis.js',
         };
 

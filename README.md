@@ -39,8 +39,8 @@ composer install
 
 ```bash
 npm install
-./node_modules/gulp/bin/gulp.js
-./node_modules/webpack/bin/webpack.js
+./node_modules/gulp/bin/gulp.js --prod
+./node_modules/webpack/bin/webpack.js --mode=production
 ```
 
 ### Development

@@ -9,17 +9,18 @@
 //
 //----------------------------------------------------------------------
 
+const cssnano = require('cssnano');
 const gulp    = require('gulp');
 const concat  = require('gulp-concat');
-const cssnano = require('gulp-cssnano');
 const gulpif  = require('gulp-if');
 const insert  = require('gulp-insert');
 const less    = require('gulp-less');
 const plumber = require('gulp-plumber');
+const postcss = require('gulp-postcss');
 const rename  = require('gulp-rename');
 const uglify  = require('gulp-uglify');
 const yaml    = require('gulp-yaml');
-const argv    = require('yargs').argv;
+const yargs   = require('yargs');
 
 /**
  * Installs vendor fonts to the "public/fonts" folder.
@@ -46,7 +47,7 @@ const cssVendor = () => {
     ];
 
     return gulp.src(files)
-        .pipe(gulpif(argv.prod, cssnano({ discardComments: { removeAll: true }})))
+        .pipe(gulpif(yargs.argv.prod, postcss([cssnano()])))
         .pipe(concat('vendor.css'))
         .pipe(gulp.dest('public/css/'));
 };
@@ -57,14 +58,15 @@ const cssVendor = () => {
 const jsVendor = () => {
 
     const files = [
-        argv.prod ? 'node_modules/vue/dist/vue.min.js'   : 'node_modules/vue/dist/vue.js',
-        argv.prod ? 'node_modules/vuex/dist/vuex.min.js' : 'node_modules/vuex/dist/vuex.js',
+        yargs.argv.prod ? 'node_modules/vue/dist/vue.min.js'   : 'node_modules/vue/dist/vue.js',
+        yargs.argv.prod ? 'node_modules/vuex/dist/vuex.min.js' : 'node_modules/vuex/dist/vuex.js',
         'node_modules/axios/dist/axios.js',
         'node_modules/dialog-polyfill/dialog-polyfill.js',
+        'node_modules/babel-polyfill/dist/polyfill.js',
     ];
 
     return gulp.src(files)
-        .pipe(gulpif(argv.prod, uglify()))
+        .pipe(gulpif(yargs.argv.prod, uglify()))
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest('public/js/'));
 };
@@ -74,7 +76,7 @@ const jsVendor = () => {
  */
 const cssLTR = () =>
     gulp.src('node_modules/unsemantic/assets/stylesheets/unsemantic-grid-responsive-no-ie7.css')
-        .pipe(gulpif(argv.prod, cssnano({ discardComments: { removeAll: true }})))
+        .pipe(gulpif(yargs.argv.prod, postcss([cssnano()])))
         .pipe(concat('ltr.css'))
         .pipe(gulp.dest('public/css/'));
 
@@ -83,7 +85,7 @@ const cssLTR = () =>
  */
 const cssRTL = () =>
     gulp.src('node_modules/unsemantic/assets/stylesheets/unsemantic-grid-responsive-no-ie7-rtl.css')
-        .pipe(gulpif(argv.prod, cssnano({ discardComments: { removeAll: true }})))
+        .pipe(gulpif(yargs.argv.prod, postcss([cssnano()])))
         .pipe(concat('rtl.css'))
         .pipe(gulp.dest('public/css/'));
 
@@ -94,7 +96,7 @@ const etraxisThemes = () =>
     gulp.src('assets/less/themes/*.less')
         .pipe(plumber())
         .pipe(less())
-        .pipe(gulpif(argv.prod, cssnano({ discardComments: { removeAll: true }})))
+        .pipe(gulpif(yargs.argv.prod, postcss([cssnano()])))
         .pipe(rename(path => {
             path.basename = `etraxis-${path.basename}`;
             path.extname  = '.css';
@@ -109,20 +111,21 @@ const etraxisTranslations = () =>
         .pipe(plumber())
         .pipe(yaml({ space: 4 }))
         .pipe(insert.prepend('Object.assign(window.i18n, '))
-        .pipe(insert.prepend('window.i18n = window.i18n || {};\n'))
         .pipe(insert.append(');\n'))
         .pipe(rename(path => {
             path.basename = path.basename.replace('messages.', 'etraxis-');
             path.extname  = '.js';
         }))
-        .pipe(gulpif(argv.prod, uglify()))
+        .pipe(gulpif(yargs.argv.prod, uglify()))
         .pipe(gulp.dest('public/js/i18n/'));
 
 /**
  * Watches for changes in source files and updates affected assets when necessary.
  */
-gulp.watch('assets/less/**/*.less',                 gulp.parallel(etraxisThemes));
-gulp.watch('translations/messages/messages.*.yaml', gulp.parallel(etraxisTranslations));
+if (yargs.argv.watch || yargs.argv.w) {
+    gulp.watch('assets/less/**/*.less',                 gulp.parallel(etraxisThemes));
+    gulp.watch('translations/messages/messages.*.yaml', gulp.parallel(etraxisTranslations));
+}
 
 /**
  * Performs all installation tasks in one.
