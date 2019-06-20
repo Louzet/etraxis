@@ -12,12 +12,12 @@
 /**
  * Returns absolute URL of the specified relative one.
  *
- * @param {string} url Relative URL (should start with '/').
- * @returns {string}
+ * @param  {string} url Relative URL (should start with '/').
+ * @return {string} Absolute URL.
  */
 module.exports = (url) => {
 
-    let homepage = document.querySelector('body').dataset.url;
+    let homepage = eTraxis.homepage;
 
     if (homepage.substr(-1) === '/') {
         homepage = homepage.slice(0, -1);

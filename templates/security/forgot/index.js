@@ -19,8 +19,10 @@ new Vue({
     el: '#vue-forgot',
 
     data: {
-        values: {},     // form values
-        errors: {},     // form errors
+
+        // Form contents.
+        values: {},
+        errors: {},
     },
 
     methods: {
@@ -28,7 +30,8 @@ new Vue({
         /**
          * Submits the form.
          */
-        onOk() {
+        submit() {
+
             ui.block();
 
             axios.post(url('/forgot'), this.values)
@@ -39,14 +42,14 @@ new Vue({
                 })
                 .catch(exception => {
                     ui.unblock();
-                    this.errors = ui.getErrors(exception);
+                    this.errors = ui.errors(exception);
                 });
         },
 
         /**
          * Goes back to the login page.
          */
-        onCancel() {
+        cancel() {
             location.href = url('/login');
         },
     },

@@ -1,28 +1,46 @@
-{% macro item(title, url, icon) %}
-    <a href="{{ url }}">
-        <i class="fa {{ icon }}" aria-hidden="true" title="{{ title }}"></i>
-        <span>{{ title }}</span>
-    </a>
+{% macro item(title, icon) %}
+    <i class="fa {{ icon }}" aria-hidden="true" title="{{ title | trans }}"></i>
+    <span>{{ title | trans }}</span>
 {% endmacro %}
 
 {% import _self as menu %}
 
-{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+<nav v-cloak>
+    <div class="grid-container grid-parent">
 
-    {{ menu.item('button.login' | trans, path('login'), 'fa-sign-in') }}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div class="hide-on-mobile">
+                <span class="logo"><a href="{{ path('homepage') }}"><img alt="eTraxis" src="{{ asset('etraxis.svg') }}"></a></span>
+                <span class="username">{{ app.user.fullname ?? null }}</span>
+            </div>
+        {% endif %}
 
-{% elseif app.request.uri starts with url('admin') %}
+        <div class="hide-on-desktop">
+            <span class="bars" @click="toggleMenu"><i class="fa fa-bars fa-lg" aria-hidden="true"></i></span>
+            <span class="logo"><a href="{{ path('homepage') }}"><img alt="eTraxis" src="{{ asset('etraxis.svg') }}"></a></span>
+            <span class="title">{{ title ?? 'eTraxis' }}</span>
+        </div>
 
-    {{ menu.item('users'       | trans, path('admin_users'),    'fa-user')    }}
-    {{ menu.item('projects'    | trans, path('admin_projects'), 'fa-sitemap') }}
-    {{ menu.item('button.back' | trans, path('homepage'),       'fa-reply')   }}
+        <div class="menu {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? null : 'hide-on-desktop' }}" :class="{ 'hide-on-mobile': isMenuHidden }">
 
-{% else %}
+            {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                {# Menu for unauthenticated user #}
+                <a href="{{ path('login') }}">{{ menu.item('button.login', 'fa-sign-in') }}</a>
+            {% elseif app.request.uri starts with url('admin') %}
+                {# Admin area menu #}
+                <a href="{{ path('homepage') }}">{{ menu.item('button.back', 'fa-reply') }}</a>
+            {% else %}
+                {# Public area menu #}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin') }}">{{ menu.item('menu.administration', 'fa-cog') }}</a>
+                {% endif %}
+            {% endif %}
 
-    {{ menu.item('menu.settings' | trans, path('settings'), 'fa-sliders') }}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <a href="{{ path('logout') }}" @click.prevent="logout">{{ menu.item('button.logout', 'fa-sign-out') }}</a>
+            {% endif %}
 
-    {% if is_granted('ROLE_ADMIN') %}
-        {{ menu.item('menu.administration' | trans, path('admin'), 'fa-cog') }}
-    {% endif %}
+        </div>
 
-{% endif %}
+    </div>
+</nav>

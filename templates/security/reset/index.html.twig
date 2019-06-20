@@ -6,7 +6,7 @@
 
     <div class="anonymous grid-100" id="vue-reset" v-cloak>
         <div class="panel">
-            <div class="panel-header hide-on-mobile">
+            <div class="panel-header">
                 <div class="grid-100">{{ 'password.change' | trans }}</div>
             </div>
             <div class="panel-body">
@@ -34,7 +34,7 @@
 
                     <div class="grid-row">
                         <div class="grid-66 prefix-33">
-                            <button type="button" @click="save">{{ 'button.save' | trans }}</button>
+                            <button type="button" @click="submit">{{ 'button.save' | trans }}</button>
                         </div>
                     </div>
 
@@ -47,9 +47,7 @@
 
 {% block scripts %}
 
-    <script>
-        eTraxis.token = '{{ token }}';
-    </script>
+    <script>eTraxis.token = {{ token | json_encode | raw }};</script>
 
     <script src="{{ asset('js/security/reset/index.js') }}"></script>
 

@@ -43,6 +43,6 @@ class DefaultController extends AbstractController
      */
     public function admin(): Response
     {
-        return $this->redirectToRoute('admin_users');
+        return $this->render('base.html.twig');
     }
 }

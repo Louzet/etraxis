@@ -6,7 +6,7 @@
 
     <div class="anonymous grid-100" id="vue-forgot" v-cloak>
         <div class="panel">
-            <div class="panel-header hide-on-mobile">
+            <div class="panel-header">
                 <div class="grid-100">{{ 'password.forgot' | trans }}</div>
             </div>
             <div class="panel-body">
@@ -24,8 +24,8 @@
 
                     <div class="grid-row">
                         <div class="grid-66 prefix-33">
-                            <button type="button" @click="onOk">{{ 'button.ok' | trans }}</button>
-                            <button type="button" @click="onCancel">{{ 'button.cancel' | trans }}</button>
+                            <button type="button" @click="submit">{{ 'button.ok' | trans }}</button>
+                            <button type="button" @click="cancel">{{ 'button.cancel' | trans }}</button>
                         </div>
                     </div>
 

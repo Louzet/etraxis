@@ -19,7 +19,9 @@ new Vue({
     el: 'nav',
 
     data: {
-        isMenuHidden: true,     // whether the main menu is visible
+
+        // Whether the main menu is visible.
+        isMenuHidden: true,
     },
 
     methods: {

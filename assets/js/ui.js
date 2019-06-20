@@ -159,11 +159,13 @@ exports.unblock = () => {
 
 /**
  * Retrieves all errors caught in the axios `catch` block.
+ * If there is a set of errors, returns them as an object.
+ * If there is a single error, shows this error in a message box and returns empty object.
  *
- * @param {Object} exception An error from the `catch` block.
- * @returns {Object}
+ * @param  {Object} exception An exception from the `catch` block.
+ * @return {Object} Each property is a field name, while its value is an error message.
  */
-exports.getErrors = (exception) => {
+exports.errors = (exception) => {
 
     let errors = {};
 

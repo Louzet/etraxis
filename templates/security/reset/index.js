@@ -19,8 +19,10 @@ new Vue({
     el: '#vue-reset',
 
     data: {
-        values: {},     // form values
-        errors: {},     // form errors
+
+        // Form contents.
+        values: {},
+        errors: {},
     },
 
     methods: {
@@ -28,7 +30,7 @@ new Vue({
         /**
          * Submits the form.
          */
-        save() {
+        submit() {
 
             if (this.values.password !== this.values.confirm) {
                 ui.alert(i18n['password.dont_match']);
@@ -45,7 +47,7 @@ new Vue({
                 })
                 .catch(exception => {
                     ui.unblock();
-                    this.errors = ui.getErrors(exception);
+                    this.errors = ui.errors(exception);
                 });
         },
     },

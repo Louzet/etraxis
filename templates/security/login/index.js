@@ -26,14 +26,23 @@ new Vue({
 
     methods: {
 
+        /**
+         * Initiates Google OAuth 2.0 authentication process.
+         */
         google() {
             location.href = url('/oauth/google');
         },
 
+        /**
+         * Initiates GitHub OAuth 2.0 authentication process.
+         */
         github() {
             location.href = url('/oauth/github');
         },
 
+        /**
+         * Initiates Bitbucket OAuth 2.0 authentication process.
+         */
         bitbucket() {
             location.href = url('/oauth/bitbucket');
         },

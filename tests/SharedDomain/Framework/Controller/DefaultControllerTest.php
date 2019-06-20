@@ -55,6 +55,6 @@ class DefaultControllerTest extends WebTestCase
         $this->loginAs('admin@example.com');
 
         $this->client->request(Request::METHOD_GET, $uri);
-        self::assertTrue($this->client->getResponse()->isRedirect('/admin/users'));
+        self::assertTrue($this->client->getResponse()->isOk());
     }
 }

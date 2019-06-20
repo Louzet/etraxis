@@ -12,8 +12,8 @@
 /**
  * Converts Unix Epoch timestamp to human-readable localized date.
  *
- * @param {number} timestamp Unix Epoch timestamp.
- * @returns {string} Localized date.
+ * @param  {number} timestamp Unix Epoch timestamp.
+ * @return {string} Localized date.
  */
 exports.date = (timestamp) => {
 
@@ -30,8 +30,8 @@ exports.date = (timestamp) => {
 /**
  * Converts Unix Epoch timestamp to human-readable localized time.
  *
- * @param {number} timestamp Unix Epoch timestamp.
- * @returns {string} Localized time.
+ * @param  {number} timestamp Unix Epoch timestamp.
+ * @return {string} Localized time.
  */
 exports.time = (timestamp) => {
 
@@ -48,8 +48,8 @@ exports.time = (timestamp) => {
 /**
  * Converts Unix Epoch timestamp to human-readable localized date and time.
  *
- * @param {number} timestamp Unix Epoch timestamp.
- * @returns {string} Localized date and time.
+ * @param  {number} timestamp Unix Epoch timestamp.
+ * @return {string} Localized date and time.
  */
 exports.datetime = (timestamp) => {
 
