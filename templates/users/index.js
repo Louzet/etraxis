@@ -11,6 +11,8 @@
 
 import Column    from 'components/datatable/column';
 import DataTable from 'components/datatable/datatable.vue';
+import Modal     from 'components/modal/modal.vue';
+import ui        from 'utilities/ui';
 import url       from 'utilities/url';
 
 /**
@@ -36,6 +38,7 @@ new Vue({
 
     components: {
         'datatable': DataTable,
+        'modal':     Modal,
     },
 
     data: {
@@ -109,6 +112,59 @@ new Vue({
          */
         viewUser(id) {
             location.href = url('/admin/users/' + id);
+        },
+
+        /**
+         * Shows 'New user' dialog.
+         */
+        showNewUserDialog() {
+
+            this.values = {
+                locale:   eTraxis.defaultLocale,
+                theme:    eTraxis.defaultTheme,
+                timezone: eTraxis.defaultTimezone,
+                admin:    false,
+                disabled: false,
+            };
+
+            this.errors = {};
+
+            this.$refs.dlgNewUser.open();
+        },
+
+        /**
+         * Creates new user.
+         */
+        createUser() {
+
+            if (this.values.password !== this.values.confirm) {
+                ui.alert(i18n['password.dont_match']);
+                return;
+            }
+
+            let data = {
+                fullname:    this.values.fullname,
+                email:       this.values.email,
+                description: this.values.description,
+                password:    this.values.password,
+                locale:      this.values.locale,
+                theme:       this.values.theme,
+                timezone:    this.values.timezone,
+                admin:       this.values.admin,
+                disabled:    this.values.disabled,
+            };
+
+            ui.block();
+
+            axios.post(url('/api/users'), data)
+                .then(() => {
+                    ui.info(i18n['user.successfully_created'], () => {
+                        this.$refs.dlgNewUser.close();
+                        this.$refs.users.refresh();
+                    });
+                })
+                .catch(exception => (this.errors = ui.errors(exception)))
+                .then(() => ui.unblock());
         },
     },
 });

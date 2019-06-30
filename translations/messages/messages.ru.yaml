@@ -197,6 +197,7 @@ user.password: Пароль
 user.permissions: 'Права доступа'
 user.profile: Профиль
 user.status: Состояние
+user.successfully_created: 'Новый пользователь успешно создан.'
 user.theme: Оформление
 user.timezone: 'Часовой пояс'
 users: Пользователи

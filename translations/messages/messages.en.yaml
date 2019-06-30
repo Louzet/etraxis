@@ -197,6 +197,7 @@ user.password: Password
 user.permissions: Permissions
 user.profile: Profile
 user.status: Status
+user.successfully_created: 'New user was successfully created.'
 user.theme: Theme
 user.timezone: Timezone
 users: Users

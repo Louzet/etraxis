@@ -7,7 +7,15 @@
     <div class="grid-row" id="vue-users" v-cloak>
         <div class="grid-100">
 
-            <datatable name="users" :columns="columns" :data="users" :clickable="true" :checkboxes="false" @click="viewUser"></datatable>
+            <datatable ref="users" name="users" :columns="columns" :data="users" :clickable="true" :checkboxes="false" @click="viewUser">
+                {% if can.create %}
+                    <button class="fa fa-plus" title="{{ 'button.create' | trans }}" @click="showNewUserDialog"></button>
+                {% endif %}
+            </datatable>
+
+            <modal ref="dlgNewUser" header="{{ 'user.new' | trans }}" @submit="createUser">
+                {% include 'users/dlg_user.html.twig' %}
+            </modal>
 
         </div>
     </div>
@@ -15,6 +23,10 @@
 {% endblock %}
 
 {% block scripts %}
+
+    <script>eTraxis.defaultLocale   = {{ locale   | json_encode | raw }};</script>
+    <script>eTraxis.defaultTheme    = {{ theme    | json_encode | raw }};</script>
+    <script>eTraxis.defaultTimezone = {{ timezone | json_encode | raw }};</script>
 
     <script src="{{ asset('js/users/index.js') }}"></script>
 
