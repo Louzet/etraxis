@@ -255,7 +255,7 @@ export default {
         },
 
         /**
-         * Reloads the table data.
+         * @external Reloads the table data.
          */
         refresh() {
 
