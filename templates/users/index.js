@@ -101,5 +101,14 @@ new Vue({
                 };
             });
         },
+
+        /**
+         * A row with an account is clicked.
+         *
+         * @param {number} id Account ID.
+         */
+        viewUser(id) {
+            location.href = url('/admin/users/' + id);
+        },
     },
 });

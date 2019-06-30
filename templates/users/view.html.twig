@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% set title = user.fullname %}
+
+{% block content %}
+
+    <div class="grid-row" id="vue-user" v-cloak>
+        <div class="grid-100">
+
+            <tabs>
+                <tab id="profile" :title="profile.fullname">
+                    {% include 'users/tab_profile.html.twig' %}
+                </tab>
+            </tabs>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>eTraxis.userId    = {{ user.id | json_encode | raw }};</script>
+    <script>eTraxis.providers = {{ providers | json_encode | raw }};</script>
+    <script>eTraxis.locales   = {{ locales | json_encode | raw }};</script>
+    <script>eTraxis.themes    = {{ themes | json_encode | raw }};</script>
+
+    <script src="{{ asset('js/users/view.js') }}"></script>
+
+{% endblock %}
