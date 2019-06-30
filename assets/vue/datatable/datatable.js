@@ -163,25 +163,25 @@ export default {
 
         // Translation resources.
         text: {
-            empty: i18n['table.empty'],
-            first: i18n['page.first'],
-            last: i18n['page.last'],
-            next: i18n['page.next'],
-            pages: i18n['table.pages'],
-            pleaseWait: i18n['text.please_wait'],
-            previous: i18n['page.previous'],
-            refresh: i18n['button.refresh'],
+            empty:        i18n['table.empty'],
+            first:        i18n['page.first'],
+            last:         i18n['page.last'],
+            next:         i18n['page.next'],
+            pages:        i18n['table.pages'],
+            pleaseWait:   i18n['text.please_wait'],
+            previous:     i18n['page.previous'],
+            refresh:      i18n['button.refresh'],
             resetFilters: i18n['button.reset_filters'],
-            search: i18n['button.search'],
-            size: i18n['table.size'],
-            status: i18n['table.status'],
+            search:       i18n['button.search'],
+            size:         i18n['table.size'],
+            status:       i18n['table.status'],
         },
     }),
 
     computed: {
 
         /**
-         * @returns {string} Status string for the table's footer.
+         * @return {string} Status string for the table's footer.
          */
         status() {
 
@@ -198,14 +198,14 @@ export default {
         },
 
         /**
-         * @returns {number} Total number of pages.
+         * @return {number} Total number of pages.
          */
         pages() {
             return Math.ceil(this.total / this.pageSize);
         },
 
         /**
-         * @returns {number} Number of filterable columns.
+         * @return {number} Number of filterable columns.
          */
         totalFilters() {
 
@@ -247,8 +247,8 @@ export default {
         /**
          * Retrieves value from the local storage.
          *
-         * @param   {string} name Name used in the storage.
-         * @returns {*}      Retrieved value.
+         * @param  {string} name Name used in the storage.
+         * @return {*}      Retrieved value.
          */
         loadState(name) {
             return JSON.parse(localStorage[`DT_${this.name}_${name}`] || null);
@@ -342,8 +342,8 @@ export default {
         /**
          * Returns current sort direction of the specified column.
          *
-         * @param   {string} columnName Column ID.
-         * @returns {string} 'asc', 'desc', or empty.
+         * @param  {string} columnName Column ID.
+         * @return {string} 'asc', 'desc', or empty.
          */
         sortDirection(columnName) {
             return this.sorting[columnName] || '';

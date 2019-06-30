@@ -18,10 +18,10 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**
  * Makes an AJAX call for DataTable component.
  *
- * @param   {string}   url      Absolute URL of the call.
- * @param   {Request}  request  Request from the DataTable component.
- * @param   {function} callback Callback function to process the received data.
- * @returns {Promise}  Promise of response.
+ * @param  {string}   url      Absolute URL of the call.
+ * @param  {Request}  request  Request from the DataTable component.
+ * @param  {function} callback Callback function to process the received data.
+ * @return {Promise}  Promise of response.
  */
 axios.datatable = (url, request, callback) => {
 

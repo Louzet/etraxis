@@ -28,7 +28,7 @@
 
 {% block scripts %}
 
-    <script>eTraxis.country = {{ country | json_encode | raw }};</script>
+    <script>eTraxis.country  = {{ country | json_encode | raw }};</script>
     <script>eTraxis.external = {{ app.user.isAccountExternal | json_encode | raw }};</script>
 
     <script src="{{ asset('js/settings/store.js')      }}"></script>

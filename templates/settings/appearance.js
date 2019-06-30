@@ -57,7 +57,7 @@ new Vue({
 
             let data = {
                 locale: this.locale,
-                theme: this.theme,
+                theme:  this.theme,
             };
 
             ui.block();

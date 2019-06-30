@@ -68,7 +68,7 @@ new Vue({
 
             let data = {
                 fullname: this.fullname,
-                email: this.email,
+                email:    this.email,
             };
 
             ui.block();

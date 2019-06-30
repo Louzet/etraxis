@@ -18,10 +18,10 @@ import url from 'utilities/url';
 eTraxis.store = new Vuex.Store({
 
     state: {
-        email: null,
+        email:    null,
         fullname: null,
-        locale: null,
-        theme: null,
+        locale:   null,
+        theme:    null,
         timezone: null,
     },
 

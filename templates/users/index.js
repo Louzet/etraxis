@@ -30,7 +30,7 @@ new Vue({
         // 'Authentication' column filter.
         this.columns[3].filter = {
             'etraxis': 'eTraxis',
-            'ldap': 'LDAP',
+            'ldap':    'LDAP',
         };
     },
 
@@ -42,10 +42,10 @@ new Vue({
 
         // Table columns definition.
         columns: [
-            new Column('fullname', i18n['user.fullname']),
-            new Column('email', i18n['user.email']),
-            new Column('admin', i18n['user.permissions']),
-            new Column('provider', i18n['user.authentication']),
+            new Column('fullname',    i18n['user.fullname']),
+            new Column('email',       i18n['user.email']),
+            new Column('admin',       i18n['user.permissions']),
+            new Column('provider',    i18n['user.authentication']),
             new Column('description', i18n['user.description'], '100%'),
         ],
 
@@ -59,8 +59,8 @@ new Vue({
         /**
          * Data provider for the table.
          *
-         * @param   {Request} request Request from the DataTable component.
-         * @returns {Promise} Promise of response.
+         * @param  {Request} request Request from the DataTable component.
+         * @return {Promise} Promise of response.
          */
         users(request) {
 
@@ -90,14 +90,14 @@ new Vue({
                 }
 
                 return {
-                    DT_id: user.id,
-                    DT_class: status,
+                    DT_id:        user.id,
+                    DT_class:     status,
                     DT_checkable: true,
-                    fullname: user.fullname,
-                    email: user.email,
-                    admin: user.admin ? i18n['role.admin'] : i18n['role.user'],
-                    provider: provider,
-                    description: user.description,
+                    fullname:     user.fullname,
+                    email:        user.email,
+                    admin:        user.admin ? i18n['role.admin'] : i18n['role.user'],
+                    provider:     provider,
+                    description:  user.description,
                 };
             });
         },

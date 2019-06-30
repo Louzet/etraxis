@@ -21,9 +21,9 @@ exports.date = (timestamp) => {
     date.setUTCSeconds(timestamp);
 
     return date.toLocaleDateString(eTraxis.locale, {
-        day: 'numeric',
+        day:   'numeric',
         month: 'long',
-        year: 'numeric',
+        year:  'numeric',
     });
 };
 
@@ -39,7 +39,7 @@ exports.time = (timestamp) => {
     date.setUTCSeconds(timestamp);
 
     return date.toLocaleTimeString(eTraxis.locale, {
-        hour: 'numeric',
+        hour:   'numeric',
         minute: 'numeric',
         second: 'numeric',
     });
@@ -57,10 +57,10 @@ exports.datetime = (timestamp) => {
     date.setUTCSeconds(timestamp);
 
     return date.toLocaleString(eTraxis.locale, {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-        hour: 'numeric',
+        day:    'numeric',
+        month:  'long',
+        year:   'numeric',
+        hour:   'numeric',
         minute: 'numeric',
         second: 'numeric',
     });
