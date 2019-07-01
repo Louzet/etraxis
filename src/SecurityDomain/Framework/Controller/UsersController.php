@@ -70,8 +70,10 @@ class UsersController extends AbstractController
             'themes'    => Theme::all(),
             'timezones' => Timezone::all(),
             'can'       => [
-                'update' => $this->isGranted(UserVoter::UPDATE_USER, $entity),
-                'delete' => $this->isGranted(UserVoter::DELETE_USER, $entity),
+                'update'  => $this->isGranted(UserVoter::UPDATE_USER, $entity),
+                'delete'  => $this->isGranted(UserVoter::DELETE_USER, $entity),
+                'disable' => $this->isGranted(UserVoter::DISABLE_USER, $entity),
+                'enable'  => $this->isGranted(UserVoter::ENABLE_USER, $entity),
             ],
         ]);
     }

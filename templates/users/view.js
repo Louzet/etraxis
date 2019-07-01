@@ -156,5 +156,39 @@ new Vue({
                     .then(() => ui.unblock());
             });
         },
+
+        /**
+         * Disables the user.
+         */
+        disableUser() {
+
+            ui.block();
+
+            let data = {
+                users: [eTraxis.userId],
+            };
+
+            axios.post(url('/api/users/disable'), data)
+                .then(() => this.reloadProfile())
+                .catch(exception => ui.errors(exception))
+                .then(() => ui.unblock());
+        },
+
+        /**
+         * Enables the user.
+         */
+        enableUser() {
+
+            ui.block();
+
+            let data = {
+                users: [eTraxis.userId],
+            };
+
+            axios.post(url('/api/users/enable'), data)
+                .then(() => this.reloadProfile())
+                .catch(exception => ui.errors(exception))
+                .then(() => ui.unblock());
+        },
     },
 });

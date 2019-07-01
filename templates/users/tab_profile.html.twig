@@ -5,6 +5,12 @@
         {% if can.update %}
             <button @click="showEditUserDialog">{{ 'button.edit' | trans }}</button>
         {% endif %}
+        {% if can.disable %}
+            <button v-if="!profile.disabled" @click="disableUser">{{ 'button.disable' | trans }}</button>
+        {% endif %}
+        {% if can.enable %}
+            <button v-if="profile.disabled" @click="enableUser">{{ 'button.enable' | trans }}</button>
+        {% endif %}
         {% if can.delete %}
             <button class="danger" @click="deleteUser">{{ 'button.delete' | trans }}</button>
         {% endif %}
