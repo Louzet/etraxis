@@ -74,6 +74,7 @@ class UsersController extends AbstractController
                 'delete'  => $this->isGranted(UserVoter::DELETE_USER, $entity),
                 'disable' => $this->isGranted(UserVoter::DISABLE_USER, $entity),
                 'enable'  => $this->isGranted(UserVoter::ENABLE_USER, $entity),
+                'unlock'  => $this->isGranted(UserVoter::UNLOCK_USER, $entity),
             ],
         ]);
     }
