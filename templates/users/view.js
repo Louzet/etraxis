@@ -138,5 +138,23 @@ new Vue({
                 .catch(exception => (this.errors = ui.errors(exception)))
                 .then(() => ui.unblock());
         },
+
+        /**
+         * Deletes the user.
+         */
+        deleteUser() {
+
+            ui.confirm(i18n['confirm.user.delete'], () => {
+
+                ui.block();
+
+                axios.delete(url(`/api/users/${eTraxis.userId}`))
+                    .then(() => {
+                        location.href = url('/admin/users');
+                    })
+                    .catch(exception => ui.errors(exception))
+                    .then(() => ui.unblock());
+            });
+        },
     },
 });

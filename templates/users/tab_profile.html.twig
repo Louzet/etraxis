@@ -5,6 +5,9 @@
         {% if can.update %}
             <button @click="showEditUserDialog">{{ 'button.edit' | trans }}</button>
         {% endif %}
+        {% if can.delete %}
+            <button class="danger" @click="deleteUser">{{ 'button.delete' | trans }}</button>
+        {% endif %}
     </div>
 
     <div class="grid-50 mobile-grid-100">

@@ -71,6 +71,7 @@ class UsersController extends AbstractController
             'timezones' => Timezone::all(),
             'can'       => [
                 'update' => $this->isGranted(UserVoter::UPDATE_USER, $entity),
+                'delete' => $this->isGranted(UserVoter::DELETE_USER, $entity),
             ],
         ]);
     }
