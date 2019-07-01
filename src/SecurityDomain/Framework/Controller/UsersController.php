@@ -68,6 +68,10 @@ class UsersController extends AbstractController
             'providers' => AccountProvider::all(),
             'locales'   => Locale::all(),
             'themes'    => Theme::all(),
+            'timezones' => Timezone::all(),
+            'can'       => [
+                'update' => $this->isGranted(UserVoter::UPDATE_USER, $entity),
+            ],
         ]);
     }
 }

@@ -13,6 +13,10 @@
                 </tab>
             </tabs>
 
+            <modal ref="dlgEditUser" header="{{ 'user.edit' | trans }}" @submit="updateUser">
+                {% include 'users/dlg_user.html.twig' with { 'user': user } %}
+            </modal>
+
         </div>
     </div>
 
@@ -20,10 +24,10 @@
 
 {% block scripts %}
 
-    <script>eTraxis.userId    = {{ user.id | json_encode | raw }};</script>
+    <script>eTraxis.userId    = {{ user.id   | json_encode | raw }};</script>
     <script>eTraxis.providers = {{ providers | json_encode | raw }};</script>
-    <script>eTraxis.locales   = {{ locales | json_encode | raw }};</script>
-    <script>eTraxis.themes    = {{ themes | json_encode | raw }};</script>
+    <script>eTraxis.locales   = {{ locales   | json_encode | raw }};</script>
+    <script>eTraxis.themes    = {{ themes    | json_encode | raw }};</script>
 
     <script src="{{ asset('js/users/view.js') }}"></script>
 
