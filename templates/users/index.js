@@ -52,6 +52,9 @@ new Vue({
             new Column('description', i18n['user.description'], '100%'),
         ],
 
+        // List of user IDs whose rows are checked.
+        checked: [],
+
         // Form contents.
         values: {},
         errors: {},
@@ -95,7 +98,7 @@ new Vue({
                 return {
                     DT_id:        user.id,
                     DT_class:     status,
-                    DT_checkable: true,
+                    DT_checkable: user.id !== eTraxis.currentUser,
                     fullname:     user.fullname,
                     email:        user.email,
                     admin:        user.admin ? i18n['role.admin'] : i18n['role.user'],
@@ -103,6 +106,15 @@ new Vue({
                     description:  user.description,
                 };
             });
+        },
+
+        /**
+         * A set of checked rows in the table is changed.
+         *
+         * @param {Array} ids List of checked rows (user IDs).
+         */
+        onCheck(ids) {
+            this.checked = ids;
         },
 
         /**
@@ -164,6 +176,40 @@ new Vue({
                     });
                 })
                 .catch(exception => (this.errors = ui.errors(exception)))
+                .then(() => ui.unblock());
+        },
+
+        /**
+         * Disables selected users.
+         */
+        disableUsers() {
+
+            ui.block();
+
+            let data = {
+                users: this.checked,
+            };
+
+            axios.post(url('/api/users/disable'), data)
+                .then(() => this.$refs.users.refresh())
+                .catch(exception => ui.errors(exception))
+                .then(() => ui.unblock());
+        },
+
+        /**
+         * Enables selected users.
+         */
+        enableUsers() {
+
+            ui.block();
+
+            let data = {
+                users: this.checked,
+            };
+
+            axios.post(url('/api/users/enable'), data)
+                .then(() => this.$refs.users.refresh())
+                .catch(exception => ui.errors(exception))
                 .then(() => ui.unblock());
         },
     },
