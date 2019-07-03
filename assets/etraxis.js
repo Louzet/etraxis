@@ -37,7 +37,7 @@ axios.datatable = (url, request, callback) => {
     };
 
     return new Promise((resolve, reject) => {
-        axios.get(url, {headers, params})
+        axios.get(url, { headers, params })
             .then(response => resolve({
                 from:  response.data.from,
                 to:    response.data.to,
