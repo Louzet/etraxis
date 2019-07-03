@@ -11,6 +11,9 @@
                 <tab id="profile" :title="profile.fullname">
                     {% include 'users/tab_profile.html.twig' %}
                 </tab>
+                <tab id="groups" title="{{ 'groups' | trans }}" :counter="userGroups.length">
+                    {% include 'users/tab_groups.html.twig' %}
+                </tab>
             </tabs>
 
             <modal ref="dlgEditUser" header="{{ 'user.edit' | trans }}" @submit="updateUser">
