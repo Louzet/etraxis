@@ -2,7 +2,7 @@
 
     <div class="grid-50 mobile-grid-100">
         <div class="fieldset">
-            <div class="legend">{{ 'groups.user' | trans }}</div>
+            <div class="legend">{{ 'user.groups' | trans }}</div>
             <div class="grid-row">
                 <div class="grid-100">
                     <select class="grid-100 mobile-grid-100" size="20" multiple="multiple" :disabled="userGroups.length === 0" v-model="groupsToRemove">
@@ -34,10 +34,10 @@
 
     <div class="grid-50 mobile-grid-100">
         <div class="fieldset">
-            <div class="legend">{{ 'groups.other' | trans }}</div>
+            <div class="legend">{{ 'groups.others' | trans }}</div>
             <div class="grid-row">
                 <div class="grid-100">
-                    <select class="grid-100 mobile-grid-100" size="20" multiple="multiple" :disabled="allGroups.length === 0" v-model="groupsToAdd">
+                    <select class="grid-100 mobile-grid-100" size="20" multiple="multiple" :disabled="otherGroups.length === 0" v-model="groupsToAdd">
                         <option v-for="group in otherGroups" :value="group.id">${ group.name } (${ group.global ? text.global.toLowerCase() : group.project.name })</option>
                     </select>
                 </div>

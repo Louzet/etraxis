@@ -87,12 +87,14 @@ group.description: Description
 group.edit: 'Edit group'
 group.global: Global
 group.local: Local
+group.members: 'Group members'
+group.membership: Membership
 group.name: 'Group name'
 group.new: 'New group'
+group.successfully_created: 'New group was successfully created.'
 group.type: 'Group type'
 groups: Groups
-groups.other: 'Other groups'
-groups.user: 'User groups'
+groups.others: 'Other groups'
 http_error.403.description: 'You don''t have permission to access to this resource.'
 http_error.403.suggestion: 'Ask your manager or system administrator to grant you access to this resource.'
 http_error.404.description: 'We couldn''t find the page you requested.'
@@ -192,6 +194,7 @@ user.edit: 'Edit user'
 user.email: Email
 user.enabled: Enabled
 user.fullname: 'Full name'
+user.groups: 'User groups'
 user.language: Language
 user.new: 'New user'
 user.password: Password
@@ -202,3 +205,4 @@ user.successfully_created: 'New user was successfully created.'
 user.theme: Theme
 user.timezone: Timezone
 users: Users
+users.others: 'Other users'

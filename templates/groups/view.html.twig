@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% set title = group.name %}
+
+{% block content %}
+
+    <div class="grid-row" id="vue-group" v-cloak>
+        <div class="grid-100">
+
+            <tabs>
+                <tab id="group" :title="group.name">
+                    {% include 'groups/tab_group.html.twig' %}
+                </tab>
+                <tab id="groups" title="{{ 'group.membership' | trans }}" :counter="groupMembers.length">
+                    {% include 'groups/tab_members.html.twig' %}
+                </tab>
+            </tabs>
+
+            <modal ref="dlgEditGroup" header="{{ 'group.edit' | trans }}" @submit="updateGroup">
+                {% include 'groups/dlg_group.html.twig' with { 'group': group } %}
+            </modal>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>eTraxis.groupId = {{ group.id | json_encode | raw }};</script>
+
+    <script src="{{ asset('js/groups/view.js') }}"></script>
+
+{% endblock %}

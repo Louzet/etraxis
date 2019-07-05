@@ -1,0 +1,30 @@
+<div class="grid-row">
+
+    <div class="grid-100">
+        <button @click="goBack">{{ 'button.back' | trans }}</button>
+        {% if can.update %}
+            <button @click="showEditGroupDialog">{{ 'button.edit' | trans }}</button>
+        {% endif %}
+        {% if can.delete %}
+            <button class="danger" @click="deleteGroup">{{ 'button.delete' | trans }}</button>
+        {% endif %}
+    </div>
+
+    <div class="grid-100">
+        <div class="fieldset">
+            <div class="grid-row">
+                <div class="grid-25"><p class="label">{{ 'group.name' | trans }}:</p></div>
+                <div class="grid-75"><p>${ group.name || '&mdash;' }</p></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-25"><p class="label">{{ 'group.description' | trans }}:</p></div>
+                <div class="grid-75"><p>${ group.description || '&mdash;' }</p></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-25"><p class="label">{{ 'project' | trans }}:</p></div>
+                <div class="grid-75"><p>${ group.project ? group.project.name : '&mdash;' }</p></div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'groups' | trans %}
+
+{% block content %}
+
+    <div class="grid-row" id="vue-groups" v-cloak>
+        <div class="grid-100">
+
+            <datatable ref="groups" name="groups" :columns="columns" :data="groups" :checkboxes="false" @click="viewGroup">
+                {% if can.create %}
+                    <button class="fa fa-plus" title="{{ 'button.create' | trans }}" @click="showNewGroupDialog"></button>
+                {% endif %}
+            </datatable>
+
+            <modal ref="dlgNewGroup" header="{{ 'group.new' | trans }}" @submit="createGroup">
+                {% include 'groups/dlg_group.html.twig' %}
+            </modal>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>eTraxis.projects = {{ projects | json_encode | raw }};</script>
+
+    <script src="{{ asset('js/groups/index.js') }}"></script>
+
+{% endblock %}
