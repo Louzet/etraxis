@@ -70,10 +70,6 @@ new Vue({
          */
         users(request) {
 
-            if (request.filters.admin.length === 0) {
-                delete request.filters.admin;
-            }
-
             return axios.datatable(url('/api/users'), request, user => {
 
                 let status = null, provider = 'Unknown';

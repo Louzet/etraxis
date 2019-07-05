@@ -263,8 +263,10 @@ export default {
 
             for (let index in this.columns) {
                 if (this.columns.hasOwnProperty(index)) {
-                    const column = this.columns[index];
-                    filters[column.name] = this.filters[index];
+                    if (typeof this.filters[index] !== 'string' || this.filters[index].length !== 0) {
+                        const column = this.columns[index];
+                        filters[column.name] = this.filters[index];
+                    }
                 }
             }
 
