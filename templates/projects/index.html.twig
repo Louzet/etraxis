@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'projects' | trans %}
+
+{% block content %}
+
+    {% include 'projects/project/project.html.twig'   %}
+    {% include 'projects/template/template.html.twig' %}
+    {% include 'projects/state/state.html.twig'       %}
+    {% include 'projects/field/field.html.twig'       %}
+    {% include 'projects/sidebar/sidebar.html.twig'   %}
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>eTraxis.state_types        = {{ state_types        | json_encode | raw }};</script>
+    <script>eTraxis.state_responsibles = {{ state_responsibles | json_encode | raw }};</script>
+    <script>eTraxis.field_types        = {{ field_types        | json_encode | raw }};</script>
+
+    <script src="{{ asset('js/projects/store.js')             }}"></script>
+    <script src="{{ asset('js/projects/sidebar/sidebar.js')   }}"></script>
+    <script src="{{ asset('js/projects/project/project.js')   }}"></script>
+    <script src="{{ asset('js/projects/template/template.js') }}"></script>
+    <script src="{{ asset('js/projects/state/state.js')       }}"></script>
+    <script src="{{ asset('js/projects/field/field.js')       }}"></script>
+
+{% endblock %}
