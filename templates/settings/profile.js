@@ -34,7 +34,9 @@ new Vue({
 
     computed: {
 
-        // Store's data.
+        /**
+         * @property {string} User's full name.
+         */
         fullname: {
             get() {
                 return this.$store.state.fullname;
@@ -44,7 +46,9 @@ new Vue({
             }
         },
 
-        // Store's data.
+        /**
+         * @property {string} User's email.
+         */
         email: {
             get() {
                 return this.$store.state.email;

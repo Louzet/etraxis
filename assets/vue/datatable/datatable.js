@@ -181,7 +181,7 @@ export default {
     computed: {
 
         /**
-         * @return {string} Status string for the table's footer.
+         * @property {string} Status string for the table's footer.
          */
         status() {
 
@@ -198,14 +198,14 @@ export default {
         },
 
         /**
-         * @return {number} Total number of pages.
+         * @property {number} Total number of pages.
          */
         pages() {
             return Math.ceil(this.total / this.pageSize);
         },
 
         /**
-         * @return {number} Number of filterable columns.
+         * @property {number} Number of filterable columns.
          */
         totalFilters() {
 

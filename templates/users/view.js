@@ -92,28 +92,28 @@ new Vue({
     computed: {
 
         /**
-         * @returns {string} Human-readable provider.
+         * @property {string} Human-readable provider.
          */
         provider() {
             return eTraxis.providers[this.profile.provider];
         },
 
         /**
-         * @returns {string} Human-readable language.
+         * @property {string} Human-readable language.
          */
         language() {
             return eTraxis.locales[this.profile.locale];
         },
 
         /**
-         * @returns {string} Human-readable theme.
+         * @property {string} Human-readable theme.
          */
         theme() {
             return eTraxis.themes[this.profile.theme];
         },
 
         /**
-         * @returns {Array<Object>} List of all groups which the user is not a member of.
+         * @property {Array<Object>} List of all groups which the user is not a member of.
          */
         otherGroups() {
 

@@ -37,7 +37,9 @@ new Vue({
 
     computed: {
 
-        // Store's data.
+        /**
+         * @property {string} User's timezone.
+         */
         timezone: {
             get() {
                 return this.$store.state.timezone;

@@ -46,7 +46,7 @@
         computed: {
 
             /**
-             * @return {string} Full caption of the tab.
+             * @property {string} Full caption of the tab.
              */
             caption() {
                 return typeof this.counter === 'undefined'

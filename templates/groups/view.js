@@ -87,7 +87,7 @@ new Vue({
     computed: {
 
         /**
-         * @returns {Array<Object>} List of all users who are not members of the group.
+         * @property {Array<Object>} List of all users who are not members of the group.
          */
         otherUsers() {
 

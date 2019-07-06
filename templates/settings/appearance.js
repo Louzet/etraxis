@@ -27,7 +27,9 @@ new Vue({
 
     computed: {
 
-        // Store's data.
+        /**
+         * @property {string} User's locale.
+         */
         locale: {
             get() {
                 return this.$store.state.locale;
@@ -37,7 +39,9 @@ new Vue({
             }
         },
 
-        // Store's data.
+        /**
+         * @property {string} User's UI theme.
+         */
         theme: {
             get() {
                 return this.$store.state.theme;
