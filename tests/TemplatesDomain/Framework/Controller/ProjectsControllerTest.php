@@ -13,8 +13,10 @@
 
 namespace eTraxis\TemplatesDomain\Framework\Controller;
 
+use eTraxis\TemplatesDomain\Model\Entity\Project;
 use eTraxis\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @coversDefaultClass \eTraxis\TemplatesDomain\Framework\Controller\ProjectsController
@@ -40,5 +42,37 @@ class ProjectsControllerTest extends WebTestCase
 
         $this->client->request(Request::METHOD_GET, $uri);
         self::assertTrue($this->client->getResponse()->isOk());
+    }
+
+    /**
+     * @covers ::actions
+     */
+    public function testActions()
+    {
+        /** @var Project $project */
+        $project = $this->doctrine->getRepository(Project::class)->findOneBy(['name' => 'Distinctio']);
+
+        $expected = [
+            'update'  => true,
+            'delete'  => false,
+            'suspend' => true,
+            'resume'  => true,
+        ];
+
+        $uri = sprintf('/admin/projects/actions/%s', $project->id);
+
+        $response = $this->json(Request::METHOD_GET, $uri);
+        self::assertSame(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+
+        $this->loginAs('artem@example.com');
+
+        $response = $this->json(Request::METHOD_GET, $uri);
+        self::assertSame(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+
+        $this->loginAs('admin@example.com');
+
+        $response = $this->json(Request::METHOD_GET, $uri);
+        self::assertTrue($this->client->getResponse()->isOk());
+        self::assertSame($expected, json_decode($response->getContent(), true));
     }
 }

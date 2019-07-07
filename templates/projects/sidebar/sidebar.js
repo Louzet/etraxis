@@ -9,8 +9,11 @@
 //
 //----------------------------------------------------------------------
 
+import Modal from 'components/modal/modal.vue';
 import List  from 'components/panel/list.vue';
 import Panel from 'components/panel/panel.vue';
+import ui    from 'utilities/ui';
+import url   from 'utilities/url';
 
 // State types.
 const STATE_INITIAL      = 'initial';
@@ -30,7 +33,15 @@ new Vue({
 
     components: {
         'list':  List,
+        'modal': Modal,
         'panel': Panel,
+    },
+
+    data: {
+
+        // Form contents.
+        values: {},
+        errors: {},
     },
 
     computed: {
@@ -137,6 +148,49 @@ new Vue({
             set(value) {
                 this.$store.commit('fields/current', value);
             },
+        },
+    },
+
+    methods: {
+
+        /**
+         * Shows 'New project' dialog.
+         */
+        showNewProjectDialog() {
+
+            this.values = {
+                suspended: true,
+            };
+
+            this.errors = {};
+
+            this.$refs.dlgNewProject.open();
+        },
+
+        /**
+         * Creates new project.
+         */
+        createProject() {
+
+            let data = {
+                name:        this.values.name,
+                description: this.values.description,
+                suspended:   this.values.suspended,
+            };
+
+            ui.block();
+
+            axios.post(url('/api/projects'), data)
+                .then(async response => {
+                    this.$refs.dlgNewProject.close();
+                    await eTraxis.store.dispatch('projects/load')
+                        .then(() => {
+                            let location = response.headers.location;
+                            this.projectId = parseInt(location.substr(location.lastIndexOf('/') + 1));
+                        });
+                })
+                .catch(exception => (this.errors = ui.errors(exception)))
+                .then(() => ui.unblock());
         },
     },
 
