@@ -359,8 +359,8 @@ export default {
         toggleSorting(event) {
 
             const target = event.target.tagName === 'TH'
-                           ? event.target
-                           : event.target.parentNode;
+                         ? event.target
+                         : event.target.parentNode;
 
             if (target.classList.contains('sortable')) {
 

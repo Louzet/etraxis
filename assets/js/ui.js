@@ -25,9 +25,9 @@ const messageBox = (header, message, iconGlyph, iconClass, singleButton, onClose
     const id = '__etraxis_' + Math.random().toString(36).substr(2);
 
     const buttons = singleButton
-        ? `<button data-id="yes">${i18n['button.close']}</button>`
-        : `<button data-id="yes">${i18n['button.yes']}</button>` +
-          `<button data-id="no">${i18n['button.no']}</button>`;
+                  ? `<button data-id="yes">${i18n['button.close']}</button>`
+                  : `<button data-id="yes">${i18n['button.yes']}</button>` +
+                    `<button data-id="no">${i18n['button.no']}</button>`;
 
     const template = `
         <dialog id=${id} class="messagebox">
