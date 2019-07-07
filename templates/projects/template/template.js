@@ -140,7 +140,7 @@ new Vue({
 
                 axios.delete(url(`/api/templates/${this.templateId}`))
                     .then(() => {
-                        eTraxis.store.dispatch('templates/load', this.template.project.id);
+                        this.$store.dispatch('templates/load', this.template.project.id);
                         this.templateId = null;
                     })
                     .catch(exception => ui.errors(exception))

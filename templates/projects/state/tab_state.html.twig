@@ -1,6 +1,12 @@
 <div class="grid-row">
 
     <div class="grid-100">
+        <button :disabled="!actions.update" @click="showEditStateDialog">{{ 'button.edit' | trans }}</button>
+        <button v-if="state.type === 'intermediate'" :disabled="!actions.initial" @click="setInitial">{{ 'state.make_initial' | trans }}</button>
+        <button :disabled="!actions.delete" class="danger" @click="deleteState">{{ 'button.delete' | trans }}</button>
+    </div>
+
+    <div class="grid-100">
         <div class="fieldset">
             <div class="grid-row">
                 <div class="grid-25"><p class="label">{{ 'state.name' | trans }}:</p></div>
