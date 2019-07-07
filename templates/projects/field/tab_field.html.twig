@@ -1,6 +1,11 @@
 <div class="grid-row">
 
     <div class="grid-100">
+        <button :disabled="!actions.update" @click="showEditFieldDialog">{{ 'button.edit' | trans }}</button>
+        <button :disabled="!actions.delete" class="danger" @click="deleteField">{{ 'button.delete' | trans }}</button>
+    </div>
+
+    <div class="grid-100">
         <div class="fieldset">
             <div class="grid-row">
                 <div class="grid-25"><p class="label">{{ 'field.name' | trans }}:</p></div>

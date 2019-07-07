@@ -188,7 +188,7 @@ new Vue({
             axios.post(url('/api/projects'), data)
                 .then(async response => {
                     this.$refs.dlgNewProject.close();
-                    await eTraxis.store.dispatch('projects/load')
+                    await this.$store.dispatch('projects/load')
                         .then(() => {
                             let location = response.headers.location;
                             this.projectId = parseInt(location.substr(location.lastIndexOf('/') + 1));
@@ -228,7 +228,7 @@ new Vue({
             axios.post(url('/api/templates'), data)
                 .then(async response => {
                     this.$refs.dlgNewTemplate.close();
-                    await eTraxis.store.dispatch('templates/load', data.project)
+                    await this.$store.dispatch('templates/load', data.project)
                         .then(() => {
                             let location = response.headers.location;
                             this.templateId = parseInt(location.substr(location.lastIndexOf('/') + 1));
@@ -243,7 +243,7 @@ new Vue({
          */
         showNewStateDialog() {
 
-            let template = eTraxis.store.state.templates.list.find(template => template.id === this.templateId);
+            let template = this.$store.state.templates.list.find(template => template.id === this.templateId);
 
             if (template.class === null) {
                 ui.info(i18n['template.must_be_locked']);
@@ -278,7 +278,7 @@ new Vue({
             axios.post(url('/api/states'), data)
                 .then(async response => {
                     this.$refs.dlgNewState.close();
-                    await eTraxis.store.dispatch('states/load', data.template)
+                    await this.$store.dispatch('states/load', data.template)
                         .then(() => {
                             let location = response.headers.location;
                             this.stateId = parseInt(location.substr(location.lastIndexOf('/') + 1));
@@ -286,6 +286,51 @@ new Vue({
                 })
                 .catch(exception => (this.errors = ui.errors(exception)))
                 .then(() => ui.unblock());
+        },
+
+        /**
+         * Shows 'New field' dialog.
+         */
+        showNewFieldDialog() {
+
+            let template = this.$store.state.templates.list.find(template => template.id === this.templateId);
+
+            if (template.class === null) {
+                ui.info(i18n['template.must_be_locked']);
+                return;
+            }
+
+            this.values = {
+                state:    this.stateId,
+                required: false,
+            };
+
+            this.errors = {};
+
+            this.$refs.dlgNewField.open();
+        },
+
+        /**
+         * Creates new field.
+         */
+        createField() {
+
+            if (this.values.type) {
+
+                ui.block();
+
+                axios.post(url('/api/fields'), this.values)
+                    .then(async response => {
+                        this.$refs.dlgNewField.close();
+                        await this.$store.dispatch('fields/load', this.values.state)
+                            .then(() => {
+                                let location = response.headers.location;
+                                this.fieldId = parseInt(location.substr(location.lastIndexOf('/') + 1));
+                            });
+                    })
+                    .catch(exception => (this.errors = ui.errors(exception)))
+                    .then(() => ui.unblock());
+            }
         },
     },
 
@@ -331,6 +376,15 @@ new Vue({
             if (id !== null) {
                 this.$store.dispatch('fields/load', id);
             }
+        },
+
+        /**
+         * Field type in the 'New field' dialog has been changed.
+         *
+         * @param {string} value New type.
+         */
+        'values.type'(value) {
+            this.values.default = (value === 'checkbox') ? false : null;
         },
     },
 });
