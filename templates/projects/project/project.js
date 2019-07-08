@@ -193,6 +193,7 @@ new Vue({
         projectId(id) {
 
             if (id !== null) {
+                this.$store.dispatch('groups/load', id);
                 this.reloadProject();
             }
         }

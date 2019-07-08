@@ -22,6 +22,7 @@ button.reset_filters: 'Сбросить фильтры'
 button.resume: Возобновить
 button.save: Сохранить
 button.search: Поиск
+button.select_all: 'Выбрать все'
 button.suspend: Приостановить
 button.unlock: Разблокировать
 button.yes: Да
@@ -86,7 +87,9 @@ group: Группа
 group.description: Описание
 group.edit: 'Редактирование группы'
 group.global: Глобальная
+group.global_groups: 'Глобальные группы'
 group.local: Локальная
+group.local_groups: 'Локальные группы'
 group.members: 'Члены группы'
 group.membership: 'Состав группы'
 group.name: 'Название группы'
@@ -132,6 +135,7 @@ role.any: 'Любой пользователь'
 role.author: Автор
 role.responsible: Ответственный
 role.user: Пользователь
+roles: Роли
 security.remember_me: 'Запомнить меня'
 state: Состояние
 state.edit: 'Редактирование состояния'
@@ -176,6 +180,7 @@ template.permission.resume_issues: 'Возобновление записей'
 template.permission.send_reminders: 'Рассылка напоминаний'
 template.permission.suspend_issues: 'Откладывание записей'
 template.permission.view_issues: 'Просмотр записей'
+template.permissions: 'Права доступа'
 template.prefix: Префикс
 template.status: Состояние
 templates: Шаблоны

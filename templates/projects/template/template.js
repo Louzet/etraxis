@@ -39,6 +39,18 @@ new Vue({
         // Form contents.
         values: {},
         errors: {},
+
+        // Template permissions.
+        permissions: {},
+
+        // Currently selected permission.
+        permission: null,
+
+        // List of system roles currently ticked.
+        roles: [],
+
+        // List of groups currently ticked.
+        groups: [],
     },
 
     computed: {
@@ -61,6 +73,20 @@ new Vue({
                 this.$store.commit('templates/current', value);
             },
         },
+
+        /**
+         * @property {Array<Object>} All global groups.
+         */
+        globalGroups() {
+            return this.$store.state.groups.global;
+        },
+
+        /**
+         * @property {Array<Object>} All local groups of the current project.
+         */
+        localGroups() {
+            return this.$store.state.groups.local;
+        },
     },
 
     methods: {
@@ -72,12 +98,38 @@ new Vue({
 
             ui.block();
 
+            this.permissions = Object.keys(eTraxis.template_permissions).map(permission => ({
+                permission: permission,
+                roles:      [],
+                groups:     [],
+            }));
+
             this.actions = {};
 
             axios.get(url(`/api/templates/${this.templateId}`))
                 .then(response => {
                     this.template = response.data;
                     this.$store.commit('templates/update', this.template);
+                })
+                .then(() => {
+                    axios.get(url(`/api/templates/${this.templateId}/permissions`))
+                        .then(response => {
+
+                            for (let entry of response.data.roles) {
+                                let permission = this.permissions.find(x => x.permission === entry.permission);
+                                permission.roles.push(entry.role);
+                            }
+
+                            for (let entry of response.data.groups) {
+                                let permission = this.permissions.find(x => x.permission === entry.permission);
+                                permission.groups.push(entry.group);
+                            }
+
+                            let permission = this.permissions.find(x => x.permission === this.permission);
+
+                            this.roles  = permission ? permission.roles : [];
+                            this.groups = permission ? permission.groups : [];
+                        });
                 })
                 .then(() => {
                     axios.get(url(`/admin/templates/actions/${this.templateId}`))
@@ -177,6 +229,46 @@ new Vue({
                 .catch(exception => ui.errors(exception))
                 .then(() => ui.unblock());
         },
+
+        /**
+         * Selects all roles and groups for currently selected permission of the template.
+         */
+        selectAllPermission() {
+
+            this.roles = Object.keys(eTraxis.system_roles);
+
+            this.groups = Array.concat(
+                this.localGroups.map(group => group.id),
+                this.globalGroups.map(group => group.id),
+            );
+        },
+
+        /**
+         * Saves currently selected permission of the template.
+         */
+        savePermission() {
+
+            let data = {
+                permission: this.permission,
+                roles:      this.roles,
+                groups:     this.groups,
+            };
+
+            ui.block();
+
+            axios.put(url(`/api/templates/${this.templateId}/permissions`), data)
+                .then(() => {
+
+                    ui.info(i18n['text.changes_saved'], () => {
+                        let permission = this.permissions.find(x => x.permission === this.permission);
+
+                        permission.roles  = this.roles;
+                        permission.groups = this.groups;
+                    });
+                })
+                .catch(exception => (this.errors = ui.errors(exception)))
+                .then(() => ui.unblock());
+        },
     },
 
     watch: {
@@ -191,6 +283,25 @@ new Vue({
             if (id !== null) {
                 this.reloadTemplate();
             }
-        }
+        },
+
+        /**
+         * Another permission has been selected.
+         *
+         * @param {null|string} value Permission ID.
+         */
+        permission(value) {
+
+            if (value === null) {
+                this.roles  = [];
+                this.groups = [];
+            }
+            else {
+                let permission = this.permissions.find(x => x.permission === value);
+
+                this.roles  = permission.roles;
+                this.groups = permission.groups;
+            }
+        },
     },
 });

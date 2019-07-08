@@ -33,6 +33,7 @@ new Vue({
     store: eTraxis.store,
 
     created() {
+        this.$store.dispatch('groups/load');
         this.$store.dispatch('projects/load');
     },
 

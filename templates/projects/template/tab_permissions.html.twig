@@ -1,0 +1,71 @@
+<div class="grid-50 mobile-grid-100">
+    <div class="grid-row">
+        <div class="fieldset">
+            <div class="legend">{{ 'template.permissions' | trans }}</div>
+            <div class="grid-row">
+                <div class="grid-100">
+                    <select class="grid-100 mobile-grid-100" size="20" v-model="permission">
+                        {% for permissions, prompt in template_permissions %}
+                            <option value="{{ permissions }}">{{ prompt | trans }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid-50 mobile-grid-100">
+
+    <div class="grid-row">
+        <div class="fieldset">
+            <div class="legend">{{ 'roles' | trans }}</div>
+            <div class="grid-row">
+                {% for role, prompt in system_roles %}
+                    <div class="grid-100">
+                        <label title="{{ prompt | trans }}" :class="{ 'disabled': !permission }">
+                            <input type="checkbox" value="{{ role }}" :disabled="!permission" v-model="roles">
+                            <span>{{ prompt | trans }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-row">
+        <div class="fieldset">
+            <div class="legend">{{ 'group.local_groups' | trans }}</div>
+            <div class="grid-row">
+                <div v-for="group in localGroups" class="grid-100">
+                    <label :title="group.name" :class="{ 'disabled': !permission }">
+                        <input type="checkbox" :value="group.id" :disabled="!permission" v-model="groups">
+                        <span>${ group.name }</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-row">
+        <div class="fieldset">
+            <div class="legend">{{ 'group.global_groups' | trans }}</div>
+            <div class="grid-row">
+                <div v-for="group in globalGroups" class="grid-100">
+                    <label :title="group.name" :class="{ 'disabled': !permission }">
+                        <input type="checkbox" :value="group.id" :disabled="!permission" v-model="groups">
+                        <span>${ group.name }</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-row">
+        <button :disabled="!permission" @click="savePermission">{{ 'button.save' | trans }}</button>
+        <button :disabled="!permission" @click="selectAllPermission">{{ 'button.select_all' | trans }}</button>
+    </div>
+
+</div>
+
+<div class="clear"></div>

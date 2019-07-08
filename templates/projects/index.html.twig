@@ -14,9 +14,11 @@
 
 {% block scripts %}
 
-    <script>eTraxis.state_types        = {{ state_types        | json_encode | raw }};</script>
-    <script>eTraxis.state_responsibles = {{ state_responsibles | json_encode | raw }};</script>
-    <script>eTraxis.field_types        = {{ field_types        | json_encode | raw }};</script>
+    <script>eTraxis.system_roles         = {{ system_roles         | json_encode | raw }};</script>
+    <script>eTraxis.template_permissions = {{ template_permissions | json_encode | raw }};</script>
+    <script>eTraxis.state_types          = {{ state_types          | json_encode | raw }};</script>
+    <script>eTraxis.state_responsibles   = {{ state_responsibles   | json_encode | raw }};</script>
+    <script>eTraxis.field_types          = {{ field_types          | json_encode | raw }};</script>
 
     <script src="{{ asset('js/projects/store.js')             }}"></script>
     <script src="{{ asset('js/projects/sidebar/sidebar.js')   }}"></script>

@@ -10,6 +10,7 @@
 //----------------------------------------------------------------------
 
 import moduleFields    from './store_fields';
+import moduleGroups    from './store_groups';
 import moduleProjects  from './store_projects';
 import moduleStates    from './store_states';
 import moduleTemplates from './store_templates';
@@ -27,6 +28,7 @@ const APPLICATION_FIELD    = 'field';
 eTraxis.store = new Vuex.Store({
 
     modules: {
+        groups:    moduleGroups,
         projects:  moduleProjects,
         templates: moduleTemplates,
         states:    moduleStates,

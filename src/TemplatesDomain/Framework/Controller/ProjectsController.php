@@ -14,9 +14,7 @@
 namespace eTraxis\TemplatesDomain\Framework\Controller;
 
 use eTraxis\TemplatesDomain\Application\Voter\ProjectVoter;
-use eTraxis\TemplatesDomain\Model\Dictionary\FieldType;
-use eTraxis\TemplatesDomain\Model\Dictionary\StateResponsible;
-use eTraxis\TemplatesDomain\Model\Dictionary\StateType;
+use eTraxis\TemplatesDomain\Model\Dictionary;
 use eTraxis\TemplatesDomain\Model\Entity\Project;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,9 +40,11 @@ class ProjectsController extends AbstractController
     public function index(): Response
     {
         return $this->render('projects/index.html.twig', [
-            'state_types'        => StateType::all(),
-            'state_responsibles' => StateResponsible::all(),
-            'field_types'        => FieldType::all(),
+            'system_roles'         => Dictionary\SystemRole::all(),
+            'template_permissions' => Dictionary\TemplatePermission::all(),
+            'state_types'          => Dictionary\StateType::all(),
+            'state_responsibles'   => Dictionary\StateResponsible::all(),
+            'field_types'          => Dictionary\FieldType::all(),
         ]);
     }
 

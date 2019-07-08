@@ -22,6 +22,7 @@ button.reset_filters: 'Reset filters'
 button.resume: Resume
 button.save: Save
 button.search: Search
+button.select_all: 'Select all'
 button.suspend: Suspend
 button.unlock: Unlock
 button.yes: Yes
@@ -86,7 +87,9 @@ group: Group
 group.description: Description
 group.edit: 'Edit group'
 group.global: Global
+group.global_groups: 'Global groups'
 group.local: Local
+group.local_groups: 'Local groups'
 group.members: 'Group members'
 group.membership: Membership
 group.name: 'Group name'
@@ -132,6 +135,7 @@ role.any: 'Any user'
 role.author: Author
 role.responsible: Responsible
 role.user: User
+roles: Roles
 security.remember_me: 'Remember me'
 state: State
 state.edit: 'Edit state'
@@ -176,6 +180,7 @@ template.permission.resume_issues: 'Resume issues'
 template.permission.send_reminders: 'Send reminders'
 template.permission.suspend_issues: 'Suspend issues'
 template.permission.view_issues: 'View issues'
+template.permissions: Permissions
 template.prefix: 'Template prefix'
 template.status: Status
 templates: Templates
