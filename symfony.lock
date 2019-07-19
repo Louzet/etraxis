@@ -311,6 +311,9 @@
     "symfony/ldap": {
         "version": "v4.1.6"
     },
+    "symfony/mime": {
+        "version": "v4.3.2"
+    },
     "symfony/monolog-bridge": {
         "version": "v4.0.6"
     },
@@ -346,6 +349,9 @@
     },
     "symfony/polyfill-php72": {
         "version": "v1.7.0"
+    },
+    "symfony/polyfill-php73": {
+        "version": "v1.11.0"
     },
     "symfony/process": {
         "version": "v4.0.6"

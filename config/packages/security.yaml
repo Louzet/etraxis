@@ -16,8 +16,8 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: ~
-            logout:    ~
+            anonymous: true
+            logout:    true
             user_checker: LazySec\Checker\GenericUserChecker
             guard:
                 entry_point: eTraxis\SecurityDomain\Framework\Authenticator\DatabaseAuthenticator

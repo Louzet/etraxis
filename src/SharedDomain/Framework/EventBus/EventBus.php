@@ -65,7 +65,7 @@ class EventBus implements EventBusInterface
         $start = microtime(true);
 
         try {
-            $this->dispatcher->dispatch(get_class($event), $event);
+            $this->dispatcher->dispatch($event);
             $this->manager->flush();
             $this->manager->commit();
         }

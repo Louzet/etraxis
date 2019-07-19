@@ -5,4 +5,4 @@ framework:
         paths:
             - '%kernel.project_dir%/vendor/webinarium/symfony-lazysec/translations'
         fallbacks:
-            - 'en'
+            - en
