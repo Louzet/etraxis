@@ -147,39 +147,6 @@ class SetGroupsTransitionCommandTest extends TransactionalTestCase
         $this->commandBus->handle($command);
     }
 
-    public function testFinalState()
-    {
-        $this->expectException(AccessDeniedHttpException::class);
-
-        $this->loginAs('admin@example.com');
-
-        /** @var \eTraxis\SecurityDomain\Model\Repository\GroupRepository $groupRepository */
-        $groupRepository = $this->doctrine->getRepository(Group::class);
-
-        /** @var State $fromState */
-        [$fromState] = $this->repository->findBy(['name' => 'Resolved'], ['id' => 'ASC']);
-
-        /** @var State $toState */
-        [$toState] = $this->repository->findBy(['name' => 'Opened'], ['id' => 'ASC']);
-
-        /** @var Group $developers */
-        [$developers] = $groupRepository->findBy(['name' => 'Developers'], ['id' => 'ASC']);
-
-        /** @var Group $support */
-        [$support] = $groupRepository->findBy(['name' => 'Support Engineers'], ['id' => 'ASC']);
-
-        $command = new SetGroupsTransitionCommand([
-            'from'   => $fromState->id,
-            'to'     => $toState->id,
-            'groups' => [
-                $developers->id,
-                $support->id,
-            ],
-        ]);
-
-        $this->commandBus->handle($command);
-    }
-
     public function testUnknownFromState()
     {
         $this->expectException(NotFoundHttpException::class);

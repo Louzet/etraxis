@@ -120,30 +120,6 @@ class SetRolesTransitionCommandTest extends TransactionalTestCase
         $this->commandBus->handle($command);
     }
 
-    public function testFinalState()
-    {
-        $this->expectException(AccessDeniedHttpException::class);
-
-        $this->loginAs('admin@example.com');
-
-        /** @var State $fromState */
-        [$fromState] = $this->repository->findBy(['name' => 'Resolved'], ['id' => 'ASC']);
-
-        /** @var State $toState */
-        [$toState] = $this->repository->findBy(['name' => 'Opened'], ['id' => 'ASC']);
-
-        $command = new SetRolesTransitionCommand([
-            'from'  => $fromState->id,
-            'to'    => $toState->id,
-            'roles' => [
-                SystemRole::ANYONE,
-                SystemRole::RESPONSIBLE,
-            ],
-        ]);
-
-        $this->commandBus->handle($command);
-    }
-
     public function testUnknownFromState()
     {
         $this->expectException(NotFoundHttpException::class);
