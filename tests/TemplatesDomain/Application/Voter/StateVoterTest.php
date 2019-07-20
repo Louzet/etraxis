@@ -184,7 +184,7 @@ class StateVoterTest extends TransactionalTestCase
         [/* skipping */, $stateB, $stateC] = $this->repository->findBy(['name' => 'Completed'], ['id' => 'ASC']);
 
         $this->loginAs('admin@example.com');
-        self::assertFalse($this->security->isGranted(StateVoter::MANAGE_TRANSITIONS, $stateB));
+        self::assertTrue($this->security->isGranted(StateVoter::MANAGE_TRANSITIONS, $stateB));
         self::assertFalse($this->security->isGranted(StateVoter::MANAGE_TRANSITIONS, $stateC));
 
         $this->loginAs('artem@example.com');

@@ -147,6 +147,7 @@ state.responsible: Ответственный
 state.responsible.assign: Назначить
 state.responsible.keep: 'Оставить без изменений'
 state.responsible.remove: Убрать
+state.transitions: Переходы
 state.type: 'Тип состояния'
 state.type.final: Финальное
 state.type.initial: Исходное

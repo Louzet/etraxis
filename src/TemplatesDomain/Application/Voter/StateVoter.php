@@ -184,7 +184,7 @@ class StateVoter extends Voter
      */
     protected function isManageTransitionsGranted(State $subject, User $user): bool
     {
-        return $user->isAdmin && $subject->template->isLocked && $subject->type !== StateType::FINAL;
+        return $user->isAdmin && $subject->template->isLocked;
     }
 
     /**

@@ -196,6 +196,6 @@ new Vue({
                 this.$store.dispatch('groups/load', id);
                 this.reloadProject();
             }
-        }
+        },
     },
 });

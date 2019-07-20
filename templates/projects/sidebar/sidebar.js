@@ -15,6 +15,12 @@ import Panel from 'components/panel/panel.vue';
 import ui    from 'utilities/ui';
 import url   from 'utilities/url';
 
+// Right-side applications.
+const APPLICATION_PROJECT  = 'project';
+const APPLICATION_TEMPLATE = 'template';
+const APPLICATION_STATE    = 'state';
+const APPLICATION_FIELD    = 'field';
+
 // State types.
 const STATE_INITIAL      = 'initial';
 const STATE_INTERMEDIATE = 'intermediate';
@@ -158,6 +164,70 @@ new Vue({
     },
 
     methods: {
+
+        /**
+         * Sets current project to the specified one.
+         *
+         * @param {number} id Project ID.
+         */
+        setCurrentProject(id) {
+
+            if (this.applicationId !== APPLICATION_PROJECT) {
+                this.projectId = null;
+            }
+
+            setTimeout(() => {
+                this.projectId = id;
+            });
+        },
+
+        /**
+         * Sets current template to the specified one.
+         *
+         * @param {number} id Template ID.
+         */
+        setCurrentTemplate(id) {
+
+            if (this.applicationId !== APPLICATION_TEMPLATE) {
+                this.templateId = null;
+            }
+
+            setTimeout(() => {
+                this.templateId = id;
+            });
+        },
+
+        /**
+         * Sets current state to the specified one.
+         *
+         * @param {number} id State ID.
+         */
+        setCurrentState(id) {
+
+            if (this.applicationId !== APPLICATION_STATE) {
+                this.stateId = null;
+            }
+
+            setTimeout(() => {
+                this.stateId = id;
+            });
+        },
+
+        /**
+         * Sets current field to the specified one.
+         *
+         * @param {number} id Field ID.
+         */
+        setCurrentField(id) {
+
+            if (this.applicationId !== APPLICATION_FIELD) {
+                this.fieldId = null;
+            }
+
+            setTimeout(() => {
+                this.fieldId = id;
+            });
+        },
 
         /**
          * Shows 'New project' dialog.

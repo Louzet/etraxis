@@ -82,9 +82,10 @@ module.exports = {
 
                         for (let template of response.data.data) {
                             templates.push({
-                                id:    template.id,
-                                title: template.name,
-                                class: template.locked ? 'attention' : null,
+                                id:     template.id,
+                                title:  template.name,
+                                locked: template.locked,
+                                class:  template.locked ? 'attention' : null,
                             });
                         }
 

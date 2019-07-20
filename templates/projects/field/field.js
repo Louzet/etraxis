@@ -204,6 +204,6 @@ new Vue({
             if (id !== null) {
                 this.reloadField();
             }
-        }
+        },
     },
 });

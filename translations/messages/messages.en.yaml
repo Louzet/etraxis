@@ -147,6 +147,7 @@ state.responsible: Responsible
 state.responsible.assign: Assign
 state.responsible.keep: 'Keep current'
 state.responsible.remove: 'Remove current'
+state.transitions: Transitions
 state.type: 'State type'
 state.type.final: Final
 state.type.initial: Initial
