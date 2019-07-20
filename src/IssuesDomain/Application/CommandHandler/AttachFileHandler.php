@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\IssuesDomain\Application\Command\AttachFileCommand;
 use eTraxis\IssuesDomain\Application\Voter\IssueVoter;
 use eTraxis\IssuesDomain\Model\Dictionary\EventType;
+use eTraxis\IssuesDomain\Model\Dictionary\MimeType;
 use eTraxis\IssuesDomain\Model\Entity\Event;
 use eTraxis\IssuesDomain\Model\Entity\File;
 use eTraxis\IssuesDomain\Model\Repository\EventRepository;
@@ -111,7 +112,7 @@ class AttachFileHandler
             $event,
             $command->file->getClientOriginalName(),
             $command->file->getSize(),
-            $command->file->getMimeType()
+            $command->file->getMimeType() ?? MimeType::FALLBACK
         );
 
         $this->eventRepository->persist($event);
