@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -83,7 +83,7 @@ class UnhandledExceptionTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $kernel,
             $request,
             HttpKernelInterface::MASTER_REQUEST,
@@ -134,7 +134,7 @@ class UnhandledExceptionTest extends TestCase
             '0'
         ));
 
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $kernel,
             $request,
             HttpKernelInterface::SUB_REQUEST,
@@ -162,7 +162,7 @@ class UnhandledExceptionTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $kernel,
             $request,
             HttpKernelInterface::SUB_REQUEST,
@@ -190,7 +190,7 @@ class UnhandledExceptionTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $kernel,
             $request,
             HttpKernelInterface::SUB_REQUEST,
@@ -218,7 +218,7 @@ class UnhandledExceptionTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $kernel,
             $request,
             HttpKernelInterface::SUB_REQUEST,
@@ -246,7 +246,7 @@ class UnhandledExceptionTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $kernel,
             $request,
             HttpKernelInterface::SUB_REQUEST,
@@ -273,7 +273,7 @@ class UnhandledExceptionTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $kernel,
             $request,
             HttpKernelInterface::SUB_REQUEST,
@@ -300,7 +300,7 @@ class UnhandledExceptionTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $kernel,
             $request,
             HttpKernelInterface::SUB_REQUEST,

@@ -17,7 +17,7 @@ use League\Tactician\Bundle\Middleware\InvalidCommandException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -59,11 +59,11 @@ class UnhandledException implements EventSubscriberInterface
     /**
      * In case of AJAX: logs the exception and converts it into JSON response with HTTP error.
      *
-     * @param GetResponseForExceptionEvent $event
+     * @param ExceptionEvent $event
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function onException(GetResponseForExceptionEvent $event): void
+    public function onException(ExceptionEvent $event): void
     {
         $request   = $event->getRequest();
         $exception = $event->getException();

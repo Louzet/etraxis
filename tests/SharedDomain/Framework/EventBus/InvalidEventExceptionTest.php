@@ -14,9 +14,9 @@
 namespace eTraxis\SharedDomain\Framework\EventBus;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @coversDefaultClass \eTraxis\SharedDomain\Framework\EventBus\InvalidEventException
@@ -37,7 +37,7 @@ class InvalidEventExceptionTest extends TestCase
 
         $exception = new InvalidEventException($event, $violations);
 
-        self::assertSame('Validation failed for Symfony\\Component\\EventDispatcher\\Event with 1 violation(s).', $exception->getMessage());
+        self::assertSame('Validation failed for Symfony\\Contracts\\EventDispatcher\\Event with 1 violation(s).', $exception->getMessage());
         self::assertSame($event, $exception->getEvent());
         self::assertSame($violations, $exception->getViolations());
     }

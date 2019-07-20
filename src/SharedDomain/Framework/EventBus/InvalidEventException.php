@@ -13,8 +13,8 @@
 
 namespace eTraxis\SharedDomain\Framework\EventBus;
 
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Event validation exception.

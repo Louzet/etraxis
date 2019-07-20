@@ -13,7 +13,7 @@
 
 namespace eTraxis\SharedDomain\Framework\EventBus;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Event bus.

@@ -15,7 +15,7 @@ namespace eTraxis\SecurityDomain\Application\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
@@ -67,9 +67,9 @@ class StickyLocale implements EventSubscriberInterface
     /**
      * Overrides current locale with one saved in the session.
      *
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      */
-    public function setLocale(GetResponseEvent $event): void
+    public function setLocale(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

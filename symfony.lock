@@ -212,6 +212,9 @@
     "ramsey/uuid": {
         "version": "3.7.3"
     },
+    "sabre/cache": {
+        "version": "1.0.1"
+    },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
         "recipe": {

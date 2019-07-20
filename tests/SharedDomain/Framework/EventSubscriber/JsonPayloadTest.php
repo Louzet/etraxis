@@ -15,7 +15,7 @@ namespace eTraxis\SharedDomain\Framework\EventSubscriber;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -57,7 +57,7 @@ class JsonPayloadTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new FilterControllerEvent(
+        $event = new ControllerEvent(
             $kernel,
             function () {},
             $request,
@@ -96,7 +96,7 @@ class JsonPayloadTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new FilterControllerEvent(
+        $event = new ControllerEvent(
             $kernel,
             function () {},
             $request,
@@ -138,7 +138,7 @@ class JsonPayloadTest extends TestCase
         /** @var HttpKernelInterface $kernel */
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new FilterControllerEvent(
+        $event = new ControllerEvent(
             $kernel,
             function () {},
             $request,

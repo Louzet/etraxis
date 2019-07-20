@@ -14,7 +14,7 @@
 namespace eTraxis\TemplatesDomain\Model\Repository;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use Symfony\Component\Cache\Simple\ArrayCache;
+use Sabre\Cache\Memory;
 
 /**
  * PSR-16 cache to store found entities.
@@ -30,7 +30,7 @@ trait CacheTrait
      */
     protected function createCache(): void
     {
-        $this->cache = new ArrayCache(0, false);
+        $this->cache = new Memory();
     }
 
     /**

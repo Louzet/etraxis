@@ -13,8 +13,8 @@
 
 namespace eTraxis\SecurityDomain\Application\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Contracts\EventDispatcher\Event;
 use Webinarium\DataTransferObjectTrait;
 
 /**

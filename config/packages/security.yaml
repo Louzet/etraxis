@@ -1,7 +1,7 @@
 security:
 
     encoders:
-        eTraxis\SecurityDomain\Model\Entity\User: bcrypt
+        eTraxis\SecurityDomain\Model\Entity\User: auto
         legacy.md5:
             id: eTraxis\SecurityDomain\Framework\Encoder\Md5PasswordEncoder
         legacy.sha1:

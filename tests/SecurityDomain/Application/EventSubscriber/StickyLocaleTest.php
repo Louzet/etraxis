@@ -14,7 +14,7 @@ namespace eTraxis\SecurityDomain\Application\EventSubscriber;
 use eTraxis\SecurityDomain\Model\Entity\User;
 use eTraxis\Tests\TransactionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -84,7 +84,7 @@ class StickyLocaleTest extends TransactionalTestCase
 
         $this->request_stack->push($request);
 
-        $event = new GetResponseEvent(static::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent(static::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $object = new StickyLocale($this->session, 'ru');
 
@@ -106,7 +106,7 @@ class StickyLocaleTest extends TransactionalTestCase
 
         $this->request_stack->push($request);
 
-        $event = new GetResponseEvent(static::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent(static::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $object = new StickyLocale($this->session, 'ru');
 
