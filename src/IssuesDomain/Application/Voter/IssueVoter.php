@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\IssuesDomain\Model\Entity\Issue;
 use eTraxis\SecurityDomain\Model\Entity\User;
 use eTraxis\SharedDomain\Application\Voter\VoterTrait;
+use eTraxis\TemplatesDomain\Model\Dictionary\StateType;
 use eTraxis\TemplatesDomain\Model\Dictionary\SystemRole;
 use eTraxis\TemplatesDomain\Model\Dictionary\TemplatePermission;
 use eTraxis\TemplatesDomain\Model\Entity\State;
@@ -267,9 +268,11 @@ class IssueVoter extends Voter
         }
 
         // Check whether the issue has opened dependencies.
-        foreach ($subject->dependencies as $dependency) {
-            if (!$dependency->isClosed) {
-                return false;
+        if ($state->type === StateType::FINAL) {
+            foreach ($subject->dependencies as $dependency) {
+                if (!$dependency->isClosed) {
+                    return false;
+                }
             }
         }
 

@@ -277,41 +277,59 @@ class IssueVoterTest extends TransactionalTestCase
     {
         [$stateA, $stateB, $stateC] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Resolved'], ['id' => 'ASC']);
 
-        [/* skipping */, /* skipping */, $reopen] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Opened'], ['id' => 'ASC']);
+        [/* skipping */, /* skipping */, $opened]   = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Opened'], ['id' => 'ASC']);
+        [/* skipping */, /* skipping */, $resolved] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Resolved'], ['id' => 'ASC']);
 
         // Template B is locked, template C is not.
         // Project A is suspended.
+        /** @var Issue $issueC */
         [$issueA, $issueB, $issueC] = $this->repository->findBy(['subject' => 'Support request 2'], ['id' => 'ASC']);
 
         [/* skipping */, /* skipping */, $suspended] = $this->repository->findBy(['subject' => 'Support request 5'], ['id' => 'ASC']);
         [/* skipping */, /* skipping */, $dependant] = $this->repository->findBy(['subject' => 'Support request 6'], ['id' => 'ASC']);
 
-        [/* skipping */, /* skipping */, $createdByClient1]   = $this->repository->findBy(['subject' => 'Support request 1'], ['id' => 'ASC']);
-        [/* skipping */, /* skipping */, $createdByClient3]   = $this->repository->findBy(['subject' => 'Support request 4'], ['id' => 'ASC']);
-        [/* skipping */, /* skipping */, $assignedToSupport1] = $this->repository->findBy(['subject' => 'Support request 4'], ['id' => 'ASC']);
+        [/* skipping */, /* skipping */, $closed]            = $this->repository->findBy(['subject' => 'Support request 1'], ['id' => 'ASC']);
+        [/* skipping */, /* skipping */, $createdByClient]   = $this->repository->findBy(['subject' => 'Support request 4'], ['id' => 'ASC']);
+        [/* skipping */, /* skipping */, $assignedToSupport] = $this->repository->findBy(['subject' => 'Support request 4'], ['id' => 'ASC']);
 
+        // Logging as a manager of all projects (A, B, C, D).
         $this->loginAs('ldoyle@example.com');
+        // Project is suspended.
         self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueA, $stateA]));
+        // Template is locked.
         self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueB, $stateB]));
+        // Everything is OK.
         self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueC, $stateC]));
+        // Issue is suspended.
         self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$suspended, $stateC]));
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$dependant, $reopen]));
+        // The issue has unclosed dependencies, but it's being moved to an intermediate state, so it's OK.
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$dependant, $opened]));
 
+        // Logging as a client of projects B and C.
         $this->loginAs('dtillman@example.com');
+        // Everything is OK, but the user doesn't have permissions.
         self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueC, $stateC]));
-        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$createdByClient3, $stateC]));
+        // Everything is OK, the user is the author.
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$createdByClient, $stateC]));
 
+        // Logging as a support engineer of projects A and C.
         $this->loginAs('cbatz@example.com');
+        // Everything is OK, but the user doesn't have permissions.
         self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueC, $stateC]));
-        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$assignedToSupport1, $stateC]));
+        // Everything is OK, the user is the current responsible.
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$assignedToSupport, $stateC]));
 
+        // Logging as a client of projects A, B, and C.
         $this->loginAs('lucas.oconnell@example.com');
+        // Everything is OK, but the user doesn't have permissions.
         self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueC, $stateC]));
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$createdByClient1, $reopen]));
-
-        /** @var Issue $issueC */
+        // The issue has unclosed dependencies, so it can't be moved to a final state.
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$dependant, $resolved]));
+        // Everything is OK, but the issue is closed and frozen.
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$closed, $opened]));
+        // Everything is OK (the issue is not frozen anymore).
         $issueC->template->frozenTime = null;
-        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$createdByClient1, $reopen]));
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$closed, $opened]));
     }
 
     /**

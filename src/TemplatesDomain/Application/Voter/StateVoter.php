@@ -19,7 +19,6 @@ use eTraxis\IssuesDomain\Model\Entity\Event;
 use eTraxis\SecurityDomain\Model\Entity\User;
 use eTraxis\SharedDomain\Application\Voter\VoterTrait;
 use eTraxis\TemplatesDomain\Model\Dictionary\StateResponsible;
-use eTraxis\TemplatesDomain\Model\Dictionary\StateType;
 use eTraxis\TemplatesDomain\Model\Entity\State;
 use eTraxis\TemplatesDomain\Model\Entity\Template;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

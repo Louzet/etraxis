@@ -64,8 +64,9 @@ class StateTransitionFixtures extends Fixture implements DependentFixtureInterfa
             'issue' => [
 
                 SystemRole::AUTHOR => [
-                    'opened:%s'   => 'resolved:%s',
-                    'resolved:%s' => 'opened:%s',
+                    'submitted:%s' => 'resolved:%s',
+                    'opened:%s'    => 'resolved:%s',
+                    'resolved:%s'  => 'opened:%s',
                 ],
 
                 SystemRole::RESPONSIBLE => [
