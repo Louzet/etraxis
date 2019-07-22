@@ -34,56 +34,56 @@ services:
         autoconfigure: true
 
     eTraxis\:
-        resource: '../src/{IssuesDomain,SecurityDomain,TemplatesDomain}/{Framework,Model/Repository,Application/EventSubscriber,Application/Service,Application/Voter}'
+        resource: '../src/{Console,EventBus,Repository,Security,Serializer,Service,Subscriber,Twig,Validator,Voter}'
 
-    eTraxis\SharedDomain\:
-        resource: '../src/SharedDomain/{Framework,Application}/*'
-        exclude:  '../src/SharedDomain/Framework/{Doctrine}'
-
-    # autowiring hints
-    eTraxis\IssuesDomain\Application\Voter\IssueVoter:
-        $maxsize: '%env(FILES_MAXSIZE)%'
+    eTraxis\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
 
     # autowiring hints
-    eTraxis\IssuesDomain\Model\Repository\FileRepository:
-        $storage: '%env(FILES_STORAGE)%'
+    eTraxis\DataFixtures\ProductionFixtures:
+        $locale: '%env(ETRAXIS_LOCALE)%'
+        $theme:  '%env(ETRAXIS_THEME)%'
 
     # autowiring hints
-    eTraxis\SecurityDomain\Application\EventSubscriber\LockAccount:
+    eTraxis\EventBus\EventSubscriber\LockAccount:
         $authFailures: '%env(ETRAXIS_AUTH_FAILURES)%'
         $lockDuration: '%env(ETRAXIS_LOCK_DURATION)%'
 
     # autowiring hints
-    eTraxis\SecurityDomain\Application\EventSubscriber\StickyLocale:
-        $locale: '%env(ETRAXIS_LOCALE)%'
+    eTraxis\Repository\FileRepository:
+        $storage: '%env(FILES_STORAGE)%'
 
     # autowiring hints
-    eTraxis\SecurityDomain\Framework\Authenticator\BitbucketOAuth2Authenticator:
+    eTraxis\Security\Authenticator\BitbucketOAuth2Authenticator:
         $clientId:     '%env(BITBUCKET_CLIENT_ID)%'
         $clientSecret: '%env(BITBUCKET_CLIENT_SECRET)%'
 
     # autowiring hints
-    eTraxis\SecurityDomain\Framework\Authenticator\GithubOAuth2Authenticator:
+    eTraxis\Security\Authenticator\GithubOAuth2Authenticator:
         $clientId:     '%env(GITHUB_CLIENT_ID)%'
         $clientSecret: '%env(GITHUB_CLIENT_SECRET)%'
 
     # autowiring hints
-    eTraxis\SecurityDomain\Framework\Authenticator\GoogleOAuth2Authenticator:
+    eTraxis\Security\Authenticator\GoogleOAuth2Authenticator:
         $clientId:     '%env(GOOGLE_CLIENT_ID)%'
         $clientSecret: '%env(GOOGLE_CLIENT_SECRET)%'
         $clientDomain: '%env(GOOGLE_CLIENT_DOMAIN)%'
 
     # autowiring hints
-    eTraxis\SecurityDomain\Framework\Authenticator\LdapAuthenticator:
+    eTraxis\Security\Authenticator\LdapAuthenticator:
         $url:    '%env(LDAP_URL)%'
         $basedn: '%env(LDAP_BASEDN)%'
 
     # autowiring hints
-    eTraxis\SecurityDomain\Model\DataFixtures\ProductionFixtures:
-        $locale: '%env(ETRAXIS_LOCALE)%'
-        $theme:  '%env(ETRAXIS_THEME)%'
-
-    # autowiring hints
-    eTraxis\SharedDomain\Application\Mailer\Mailer:
+    eTraxis\Service\Mailer:
         $address: '%env(MAILER_ADDRESS)%'
         $name:    '%env(MAILER_NAME)%'
+
+    # autowiring hints
+    eTraxis\Subscriber\StickyLocale:
+        $locale: '%env(ETRAXIS_LOCALE)%'
+
+    # autowiring hints
+    eTraxis\Voter\IssueVoter:
+        $maxsize: '%env(FILES_MAXSIZE)%'

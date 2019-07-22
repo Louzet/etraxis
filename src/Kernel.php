@@ -14,8 +14,8 @@
 namespace eTraxis;
 
 use Doctrine\ORM\Query;
-use eTraxis\SharedDomain\Framework\Doctrine\SortableNullsWalker;
-use eTraxis\SharedDomain\Model\Dictionary\DatabasePlatform;
+use eTraxis\Dictionary\DatabasePlatform;
+use eTraxis\Doctrine\SortableNullsWalker;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;

@@ -4,11 +4,5 @@ services:
         autowire: true
         autoconfigure: true
 
-    eTraxis\IssuesDomain\Model\DataFixtures\:
-        resource: '../../../src/IssuesDomain/Model/DataFixtures'
-
-    eTraxis\SecurityDomain\Model\DataFixtures\:
-        resource: '../../../src/SecurityDomain/Model/DataFixtures'
-
-    eTraxis\TemplatesDomain\Model\DataFixtures\:
-        resource: '../../../src/TemplatesDomain/Model/DataFixtures'
+    eTraxis\DataFixtures\:
+        resource: '../../../src/DataFixtures'

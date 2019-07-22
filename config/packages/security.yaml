@@ -1,11 +1,11 @@
 security:
 
     encoders:
-        eTraxis\SecurityDomain\Model\Entity\User: auto
+        eTraxis\Entity\User: auto
         legacy.md5:
-            id: eTraxis\SecurityDomain\Framework\Encoder\Md5PasswordEncoder
+            id: eTraxis\Security\Encoder\Md5PasswordEncoder
         legacy.sha1:
-            id: eTraxis\SecurityDomain\Framework\Encoder\Sha1PasswordEncoder
+            id: eTraxis\Security\Encoder\Sha1PasswordEncoder
 
     providers:
         etraxis_provider:
@@ -20,13 +20,13 @@ security:
             logout:    true
             user_checker: LazySec\Checker\GenericUserChecker
             guard:
-                entry_point: eTraxis\SecurityDomain\Framework\Authenticator\DatabaseAuthenticator
+                entry_point: eTraxis\Security\Authenticator\DatabaseAuthenticator
                 authenticators:
-                    - eTraxis\SecurityDomain\Framework\Authenticator\LdapAuthenticator
-                    - eTraxis\SecurityDomain\Framework\Authenticator\DatabaseAuthenticator
-                    - eTraxis\SecurityDomain\Framework\Authenticator\GoogleOAuth2Authenticator
-                    - eTraxis\SecurityDomain\Framework\Authenticator\GithubOAuth2Authenticator
-                    - eTraxis\SecurityDomain\Framework\Authenticator\BitbucketOAuth2Authenticator
+                    - eTraxis\Security\Authenticator\LdapAuthenticator
+                    - eTraxis\Security\Authenticator\DatabaseAuthenticator
+                    - eTraxis\Security\Authenticator\GoogleOAuth2Authenticator
+                    - eTraxis\Security\Authenticator\GithubOAuth2Authenticator
+                    - eTraxis\Security\Authenticator\BitbucketOAuth2Authenticator
             remember_me:
                 secret:   '%kernel.secret%'
                 lifetime: 2592000

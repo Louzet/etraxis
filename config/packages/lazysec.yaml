@@ -12,4 +12,4 @@ services:
 
     # Uncomment the line below and update path to your repository there,
     # if you want use the 'GenericUserProvider' service from above
-    LazySec\Repository\UserRepositoryInterface: '@eTraxis\SecurityDomain\Model\Repository\UserRepository'
+    LazySec\Repository\UserRepositoryInterface: '@eTraxis\Repository\UserRepository'

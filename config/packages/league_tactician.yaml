@@ -14,26 +14,29 @@ services:
 
     League\Tactician\CommandBus: '@tactician.commandbus'
 
-    tactician.middleware.timing: '@eTraxis\SharedDomain\Framework\CommandBus\TimingMiddleware'
+    tactician.middleware.timing: '@eTraxis\CommandBus\TimingMiddleware'
 
-    eTraxis\:
+    eTraxis\CommandBus\TimingMiddleware:
         autowire: true
-        resource: '../../src/{IssuesDomain,SecurityDomain,TemplatesDomain}/Application/CommandHandler'
+
+    eTraxis\CommandBus\CommandHandler\:
+        autowire: true
+        resource: '../../src/CommandBus/CommandHandler'
         tags: [{ name: tactician.handler, typehints: true }]
 
     # autowiring hints
-    eTraxis\IssuesDomain\Application\CommandHandler\AttachFileHandler:
+    eTraxis\CommandBus\CommandHandler\Issues\AttachFileHandler:
         autowire: true
         tags:
-            - { name: tactician.handler, command: eTraxis\IssuesDomain\Application\Command\AttachFileCommand }
+            - { name: tactician.handler, command: eTraxis\CommandBus\Command\Issues\AttachFileCommand }
         arguments:
             $maxsize: '%env(FILES_MAXSIZE)%'
 
     # autowiring hints
-    eTraxis\SecurityDomain\Application\CommandHandler\Users\RegisterExternalAccountHandler:
+    eTraxis\CommandBus\CommandHandler\Users\RegisterExternalAccountHandler:
         autowire: true
         tags:
-            - { name: tactician.handler, command: eTraxis\SecurityDomain\Application\Command\Users\RegisterExternalAccountCommand }
+            - { name: tactician.handler, command: eTraxis\CommandBus\Command\Users\RegisterExternalAccountCommand }
         arguments:
             $locale: '%env(ETRAXIS_LOCALE)%'
             $theme:  '%env(ETRAXIS_THEME)%'

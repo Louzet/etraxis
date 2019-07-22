@@ -13,21 +13,9 @@ doctrine:
                 greatest: DoctrineExtensions\Query\Mysql\Greatest
                 lpad: DoctrineExtensions\Query\Mysql\Lpad
         mappings:
-            IssuesDomain:
+            eTraxis:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/IssuesDomain/Model/Entity'
-                prefix: 'eTraxis\IssuesDomain\Model\Entity'
-                alias: IssuesDomain
-            SecurityDomain:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/SecurityDomain/Model/Entity'
-                prefix: 'eTraxis\SecurityDomain\Model\Entity'
-                alias: SecurityDomain
-            TemplatesDomain:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/TemplatesDomain/Model/Entity'
-                prefix: 'eTraxis\TemplatesDomain\Model\Entity'
-                alias: TemplatesDomain
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'eTraxis\Entity'
+                alias: eTraxis

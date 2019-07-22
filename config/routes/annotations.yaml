@@ -1,15 +1,3 @@
-IssuesDomain:
-    resource: '../../src/IssuesDomain/Framework/Controller/'
-    type: annotation
-
-SecurityDomain:
-    resource: '../../src/SecurityDomain/Framework/Controller/'
-    type: annotation
-
-SharedDomain:
-    resource: '../../src/SharedDomain/Framework/Controller/'
-    type: annotation
-
-TemplatesDomain:
-    resource: '../../src/TemplatesDomain/Framework/Controller/'
+controllers:
+    resource: '../../src/Controller/'
     type: annotation
