@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiGroupsController::updateGroup
+ * @covers \eTraxis\Controller\API\ApiGroupsController::updateGroup
  */
 class UpdateGroupTest extends TransactionalTestCase
 {

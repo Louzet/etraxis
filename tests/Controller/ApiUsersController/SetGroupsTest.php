@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiUsersController::setGroups
+ * @covers \eTraxis\Controller\API\ApiUsersController::setGroups
  */
 class SetGroupsTest extends TransactionalTestCase
 {

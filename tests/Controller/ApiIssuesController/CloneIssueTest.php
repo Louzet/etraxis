@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiIssuesController::cloneIssue
+ * @covers \eTraxis\Controller\API\ApiIssuesController::cloneIssue
  */
 class CloneIssueTest extends TransactionalTestCase
 {

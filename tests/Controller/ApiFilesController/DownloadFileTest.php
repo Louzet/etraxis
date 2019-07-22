@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiFilesController::downloadFile
+ * @covers \eTraxis\Controller\API\ApiFilesController::downloadFile
  */
 class DownloadFileTest extends TransactionalTestCase
 {

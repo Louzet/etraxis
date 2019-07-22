@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiFieldsController::deleteField
+ * @covers \eTraxis\Controller\API\ApiFieldsController::deleteField
  */
 class DeleteFieldTest extends TransactionalTestCase
 {

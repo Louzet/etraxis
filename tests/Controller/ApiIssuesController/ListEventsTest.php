@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiIssuesController::listEvents
+ * @covers \eTraxis\Controller\API\ApiIssuesController::listEvents
  */
 class ListEventsTest extends TransactionalTestCase
 {

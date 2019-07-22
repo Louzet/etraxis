@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiIssuesController::createFile
+ * @covers \eTraxis\Controller\API\ApiIssuesController::createFile
  */
 class CreateFileTest extends TransactionalTestCase
 {

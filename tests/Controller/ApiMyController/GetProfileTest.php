@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiMyController::getProfile
+ * @covers \eTraxis\Controller\API\ApiMyController::getProfile
  */
 class GetProfileTest extends WebTestCase
 {

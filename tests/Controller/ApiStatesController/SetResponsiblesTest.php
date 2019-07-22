@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiStatesController::setResponsibles
+ * @covers \eTraxis\Controller\API\ApiStatesController::setResponsibles
  */
 class SetResponsiblesTest extends TransactionalTestCase
 {

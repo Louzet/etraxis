@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiIssuesController::listChanges
+ * @covers \eTraxis\Controller\API\ApiIssuesController::listChanges
  */
 class ListChangesTest extends TransactionalTestCase
 {

@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiStatesController::getTransitions
+ * @covers \eTraxis\Controller\API\ApiStatesController::getTransitions
  */
 class GetTransitionsTest extends TransactionalTestCase
 {

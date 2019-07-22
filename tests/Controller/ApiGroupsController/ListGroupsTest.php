@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiGroupsController::listGroups
+ * @covers \eTraxis\Controller\API\ApiGroupsController::listGroups
  */
 class ListGroupsTest extends WebTestCase
 {

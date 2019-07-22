@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiIssuesController::deleteIssue
+ * @covers \eTraxis\Controller\API\ApiIssuesController::deleteIssue
  */
 class DeleteIssueTest extends TransactionalTestCase
 {

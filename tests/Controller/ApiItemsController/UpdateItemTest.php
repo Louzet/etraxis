@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiItemsController::updateItem
+ * @covers \eTraxis\Controller\API\ApiItemsController::updateItem
  */
 class UpdateItemTest extends TransactionalTestCase
 {

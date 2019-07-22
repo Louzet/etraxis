@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiMyController::getProjects
+ * @covers \eTraxis\Controller\API\ApiMyController::getProjects
  */
 class GetProjectsTest extends WebTestCase
 {

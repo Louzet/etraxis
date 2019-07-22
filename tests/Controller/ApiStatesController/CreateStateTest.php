@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiStatesController::createState
+ * @covers \eTraxis\Controller\API\ApiStatesController::createState
  */
 class CreateStateTest extends TransactionalTestCase
 {

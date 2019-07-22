@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiStatesController::setTransitions
+ * @covers \eTraxis\Controller\API\ApiStatesController::setTransitions
  */
 class SetTransitionsTest extends TransactionalTestCase
 {

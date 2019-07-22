@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiUsersController::unlockUser
+ * @covers \eTraxis\Controller\API\ApiUsersController::unlockUser
  */
 class UnlockUserTest extends TransactionalTestCase
 {

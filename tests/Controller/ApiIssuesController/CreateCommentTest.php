@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiIssuesController::createComment
+ * @covers \eTraxis\Controller\API\ApiIssuesController::createComment
  */
 class CreateCommentTest extends TransactionalTestCase
 {

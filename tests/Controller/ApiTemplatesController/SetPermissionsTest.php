@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiTemplatesController::setPermissions
+ * @covers \eTraxis\Controller\API\ApiTemplatesController::setPermissions
  */
 class SetPermissionsTest extends TransactionalTestCase
 {

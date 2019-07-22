@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiGroupsController::deleteGroup
+ * @covers \eTraxis\Controller\API\ApiGroupsController::deleteGroup
  */
 class DeleteGroupTest extends TransactionalTestCase
 {

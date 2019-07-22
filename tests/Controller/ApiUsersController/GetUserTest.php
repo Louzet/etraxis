@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \eTraxis\Controller\ApiUsersController::retrieveUser
+ * @covers \eTraxis\Controller\API\ApiUsersController::retrieveUser
  */
 class GetUserTest extends TransactionalTestCase
 {
