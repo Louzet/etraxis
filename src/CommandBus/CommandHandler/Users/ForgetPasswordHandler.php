@@ -15,7 +15,7 @@ namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\ForgetPasswordCommand;
 use eTraxis\Repository\UserRepository;
-use eTraxis\Service\MailerInterface;
+use eTraxis\Service\Contracts\MailerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**

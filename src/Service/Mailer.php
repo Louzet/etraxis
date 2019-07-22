@@ -20,7 +20,7 @@ use Twig\Environment;
 /**
  * Shortcut service for standard mailer.
  */
-class Mailer implements MailerInterface
+class Mailer implements Contracts\MailerInterface
 {
     protected $logger;
     protected $twig;

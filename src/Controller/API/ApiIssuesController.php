@@ -509,13 +509,13 @@ class ApiIssuesController extends AbstractController
         /** @var State[] $states */
         $states = $stateRepository->findBy(['id' => array_unique($ids[Event::JSON_STATE])]);
 
-        /** @var State[] $users */
+        /** @var User[] $users */
         $users = $userRepository->findBy(['id' => array_unique($ids[Event::JSON_ASSIGNEE])]);
 
-        /** @var State[] $files */
+        /** @var \eTraxis\Entity\File[] $files */
         $files = $fileRepository->findBy(['id' => array_unique($ids[Event::JSON_FILE])]);
 
-        /** @var State[] $issues */
+        /** @var Issue[] $issues */
         $issues = $issueRepository->createQueryBuilder('issue')
             ->innerJoin('issue.state', 'state')
             ->addSelect('state')
