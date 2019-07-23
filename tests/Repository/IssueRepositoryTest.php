@@ -58,7 +58,7 @@ class IssueRepositoryTest extends TransactionalTestCase
         [$issue2] = $this->repository->findBy(['subject' => 'Development task 8'], ['id' => 'ASC']);
 
         /** @var Issue $issue3 */
-        [$issue3] = $this->repository->findBy(['subject' => 'Support Request 6'], ['id' => 'ASC']);
+        [$issue3] = $this->repository->findBy(['subject' => 'Support request 6'], ['id' => 'ASC']);
 
         $issues = $this->repository->findByIds([$issue1->id, $issue2->id, $issue1->id, $issue3->id]);
 
