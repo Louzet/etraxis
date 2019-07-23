@@ -332,7 +332,7 @@ class IssueRepository extends ServiceEntityRepository implements Contracts\Issue
 
             case Issue::JSON_STATE:
 
-                $query->andWhere('issue.state= :state');
+                $query->andWhere('issue.state = :state');
                 $query->setParameter('state', (int) $value);
 
                 break;

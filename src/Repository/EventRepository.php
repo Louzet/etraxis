@@ -52,7 +52,7 @@ class EventRepository extends ServiceEntityRepository implements Contracts\Event
             ->setParameter('issue', $issue);
 
         if (!$showPrivate) {
-            $query->andWhere('event.type <> :private');
+            $query->andWhere('event.type != :private');
             $query->setParameter('private', EventType::PRIVATE_COMMENT);
         }
 

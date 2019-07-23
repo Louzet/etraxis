@@ -203,7 +203,7 @@ class UserRepository extends ServiceEntityRepository implements Contracts\UserRe
                     $query->andWhere($query->expr()->orX(
                         'user.lockedUntil IS NULL',         // a) the user was never locked
                         $query->expr()->andX(
-                            'user.lockedUntil <> 0',        // b) the user is not locked for indefinite time
+                            'user.lockedUntil != 0',        // b) the user is not locked for indefinite time
                             'user.lockedUntil <= :now'      //    and this time is already in past
                         )
                     ));
