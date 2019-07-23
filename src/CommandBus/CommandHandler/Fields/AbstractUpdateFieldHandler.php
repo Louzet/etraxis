@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\Fields\AbstractFieldCommand;
 use eTraxis\CommandBus\Command\Fields\AbstractUpdateFieldCommand;
 use eTraxis\Entity\Field;
-use eTraxis\Repository\FieldRepository;
+use eTraxis\Repository\Contracts\FieldRepositoryInterface;
 use eTraxis\Voter\FieldVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -43,14 +43,14 @@ abstract class AbstractUpdateFieldHandler
      * @param AuthorizationCheckerInterface $security
      * @param TranslatorInterface           $translator
      * @param ValidatorInterface            $validator
-     * @param FieldRepository               $repository
+     * @param FieldRepositoryInterface      $repository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         TranslatorInterface           $translator,
         ValidatorInterface            $validator,
-        FieldRepository               $repository,
+        FieldRepositoryInterface      $repository,
         EntityManagerInterface        $manager
     )
     {

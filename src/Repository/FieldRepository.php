@@ -20,7 +20,7 @@ use eTraxis\Entity\Field;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class FieldRepository extends ServiceEntityRepository implements CollectionInterface
+class FieldRepository extends ServiceEntityRepository implements Contracts\FieldRepositoryInterface
 {
     protected $translator;
     protected $decimalRepository;
@@ -32,12 +32,12 @@ class FieldRepository extends ServiceEntityRepository implements CollectionInter
      * {@inheritdoc}
      */
     public function __construct(
-        RegistryInterface      $registry,
-        TranslatorInterface    $translator,
-        DecimalValueRepository $decimalRepository,
-        StringValueRepository  $stringRepository,
-        TextValueRepository    $textRepository,
-        ListItemRepository     $listRepository
+        RegistryInterface                         $registry,
+        TranslatorInterface                       $translator,
+        Contracts\DecimalValueRepositoryInterface $decimalRepository,
+        Contracts\StringValueRepositoryInterface  $stringRepository,
+        Contracts\TextValueRepositoryInterface    $textRepository,
+        Contracts\ListItemRepositoryInterface     $listRepository
     )
     {
         parent::__construct($registry, Field::class);

@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\SetPasswordCommand;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\UserVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -37,12 +37,12 @@ class SetPasswordHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param UserPasswordEncoderInterface  $encoder
-     * @param UserRepository                $repository
+     * @param UserRepositoryInterface       $repository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         UserPasswordEncoderInterface  $encoder,
-        UserRepository                $repository
+        UserRepositoryInterface       $repository
     )
     {
         $this->security   = $security;

@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Groups;
 
 use eTraxis\CommandBus\Command\Groups\UpdateGroupCommand;
-use eTraxis\Repository\GroupRepository;
+use eTraxis\Repository\Contracts\GroupRepositoryInterface;
 use eTraxis\Voter\GroupVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -36,12 +36,12 @@ class UpdateGroupHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
-     * @param GroupRepository               $repository
+     * @param GroupRepositoryInterface      $repository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
-        GroupRepository               $repository
+        GroupRepositoryInterface      $repository
     )
     {
         $this->security   = $security;

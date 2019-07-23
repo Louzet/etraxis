@@ -16,7 +16,7 @@ namespace eTraxis\CommandBus\CommandHandler\States;
 use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\States\SetRolesTransitionCommand;
 use eTraxis\Entity\StateRoleTransition;
-use eTraxis\Repository\StateRepository;
+use eTraxis\Repository\Contracts\StateRepositoryInterface;
 use eTraxis\Voter\StateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -35,12 +35,12 @@ class SetRolesTransitionHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param StateRepository               $repository
+     * @param StateRepositoryInterface      $repository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
-        StateRepository               $repository,
+        StateRepositoryInterface      $repository,
         EntityManagerInterface        $manager
     )
     {

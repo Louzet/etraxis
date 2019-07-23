@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\UpdateUserCommand;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\UserVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -39,13 +39,13 @@ class UpdateUserHandler
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
      * @param TokenStorageInterface         $tokens
-     * @param UserRepository                $repository
+     * @param UserRepositoryInterface       $repository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
         TokenStorageInterface         $tokens,
-        UserRepository                $repository
+        UserRepositoryInterface       $repository
     )
     {
         $this->security   = $security;

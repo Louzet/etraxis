@@ -18,7 +18,7 @@ use eTraxis\Entity\Comment;
 use eTraxis\Entity\Issue;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class CommentRepository extends ServiceEntityRepository
+class CommentRepository extends ServiceEntityRepository implements Contracts\CommentRepositoryInterface
 {
     /**
      * {@inheritdoc}
@@ -39,12 +39,7 @@ class CommentRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds all comments of specified issue.
-     *
-     * @param Issue $issue
-     * @param bool  $showPrivate
-     *
-     * @return Comment[]
+     * {@inheritdoc}
      */
     public function findAllByIssue(Issue $issue, bool $showPrivate): array
     {

@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Fields;
 
 use eTraxis\CommandBus\Command\Fields\DeleteFieldCommand;
-use eTraxis\Repository\FieldRepository;
+use eTraxis\Repository\Contracts\FieldRepositoryInterface;
 use eTraxis\Voter\FieldVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -31,9 +31,9 @@ class DeleteFieldHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param FieldRepository               $repository
+     * @param FieldRepositoryInterface      $repository
      */
-    public function __construct(AuthorizationCheckerInterface $security, FieldRepository $repository)
+    public function __construct(AuthorizationCheckerInterface $security, FieldRepositoryInterface $repository)
     {
         $this->security   = $security;
         $this->repository = $repository;

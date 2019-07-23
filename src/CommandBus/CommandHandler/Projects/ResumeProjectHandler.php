@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Projects;
 
 use eTraxis\CommandBus\Command\Projects\ResumeProjectCommand;
-use eTraxis\Repository\ProjectRepository;
+use eTraxis\Repository\Contracts\ProjectRepositoryInterface;
 use eTraxis\Voter\ProjectVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,9 +32,9 @@ class ResumeProjectHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param ProjectRepository             $repository
+     * @param ProjectRepositoryInterface    $repository
      */
-    public function __construct(AuthorizationCheckerInterface $security, ProjectRepository $repository)
+    public function __construct(AuthorizationCheckerInterface $security, ProjectRepositoryInterface $repository)
     {
         $this->security   = $security;
         $this->repository = $repository;

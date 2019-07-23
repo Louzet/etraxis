@@ -17,10 +17,10 @@ use Doctrine\ORM\EntityManager;
 use eTraxis\Dictionary\FieldType;
 use eTraxis\Dictionary\StateType;
 use eTraxis\ReflectionTrait;
-use eTraxis\Repository\DecimalValueRepository;
-use eTraxis\Repository\ListItemRepository;
-use eTraxis\Repository\StringValueRepository;
-use eTraxis\Repository\TextValueRepository;
+use eTraxis\Repository\Contracts\DecimalValueRepositoryInterface;
+use eTraxis\Repository\Contracts\ListItemRepositoryInterface;
+use eTraxis\Repository\Contracts\StringValueRepositoryInterface;
+use eTraxis\Repository\Contracts\TextValueRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -78,10 +78,10 @@ class FieldTest extends TestCase
         $manager
             ->method('getRepository')
             ->willReturnMap([
-                [DecimalValue::class, $this->createMock(DecimalValueRepository::class)],
-                [ListItem::class, $this->createMock(ListItemRepository::class)],
-                [StringValue::class, $this->createMock(StringValueRepository::class)],
-                [TextValue::class, $this->createMock(TextValueRepository::class)],
+                [DecimalValue::class, $this->createMock(DecimalValueRepositoryInterface::class)],
+                [ListItem::class, $this->createMock(ListItemRepositoryInterface::class)],
+                [StringValue::class, $this->createMock(StringValueRepositoryInterface::class)],
+                [TextValue::class, $this->createMock(TextValueRepositoryInterface::class)],
             ]);
 
         /** @var EntityManager $manager */

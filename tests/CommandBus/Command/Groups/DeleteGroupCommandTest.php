@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class DeleteGroupCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\GroupRepository */
+    /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface */
     protected $repository;
 
     protected function setUp()

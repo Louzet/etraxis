@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class RemoveMembersCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\GroupRepository */
+    /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -51,7 +51,7 @@ class RemoveMembersCommandTest extends TransactionalTestCase
             'labshire@example.com',
         ];
 
-        /** @var \eTraxis\Repository\UserRepository $userRepository */
+        /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface $userRepository */
         $userRepository = $this->doctrine->getRepository(User::class);
 
         /** @var User $fdooley */

@@ -17,7 +17,7 @@ use eTraxis\CommandBus\Command\States as Command;
 use eTraxis\Entity\State;
 use eTraxis\Entity\StateResponsibleGroup;
 use eTraxis\Repository\CollectionTrait;
-use eTraxis\Repository\StateRepository;
+use eTraxis\Repository\Contracts\StateRepositoryInterface;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -84,12 +84,12 @@ class ApiStatesController extends AbstractController
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      *
-     * @param Request         $request
-     * @param StateRepository $repository
+     * @param Request                  $request
+     * @param StateRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listStates(Request $request, StateRepository $repository): JsonResponse
+    public function listStates(Request $request, StateRepositoryInterface $repository): JsonResponse
     {
         $collection = $this->getCollection($request, $repository);
 

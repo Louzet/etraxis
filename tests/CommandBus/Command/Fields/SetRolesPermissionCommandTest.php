@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SetRolesPermissionCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\FieldRepository */
+    /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface */
     protected $repository;
 
     protected function setUp()

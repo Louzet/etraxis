@@ -16,7 +16,7 @@ namespace eTraxis\CommandBus\CommandHandler\Fields;
 use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\Fields\SetFieldPositionCommand;
 use eTraxis\Entity\Field;
-use eTraxis\Repository\FieldRepository;
+use eTraxis\Repository\Contracts\FieldRepositoryInterface;
 use eTraxis\Voter\FieldVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -35,10 +35,14 @@ class SetFieldPositionHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param FieldRepository               $repository
+     * @param FieldRepositoryInterface      $repository
      * @param EntityManagerInterface        $manager
      */
-    public function __construct(AuthorizationCheckerInterface $security, FieldRepository $repository, EntityManagerInterface $manager)
+    public function __construct(
+        AuthorizationCheckerInterface $security,
+        FieldRepositoryInterface      $repository,
+        EntityManagerInterface        $manager
+    )
     {
         $this->security   = $security;
         $this->repository = $repository;

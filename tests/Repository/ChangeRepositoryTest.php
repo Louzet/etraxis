@@ -23,7 +23,7 @@ use eTraxis\WebTestCase;
  */
 class ChangeRepositoryTest extends WebTestCase
 {
-    /** @var ChangeRepository */
+    /** @var Contracts\ChangeRepositoryInterface */
     protected $repository;
 
     protected function setUp()

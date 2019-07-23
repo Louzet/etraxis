@@ -18,11 +18,11 @@ use eTraxis\CommandBus\Command\Issues\CreateIssueCommand;
 use eTraxis\Dictionary\EventType;
 use eTraxis\Entity\Event;
 use eTraxis\Entity\Issue;
-use eTraxis\Repository\EventRepository;
-use eTraxis\Repository\FieldValueRepository;
-use eTraxis\Repository\IssueRepository;
-use eTraxis\Repository\TemplateRepository;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\EventRepositoryInterface;
+use eTraxis\Repository\Contracts\FieldValueRepositoryInterface;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -45,24 +45,24 @@ class CreateIssueHandler extends AbstractIssueHandler
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
      * @param TokenStorageInterface         $tokens
-     * @param UserRepository                $userRepository
-     * @param IssueRepository               $issueRepository
-     * @param EventRepository               $eventRepository
-     * @param FieldValueRepository          $valueRepository
+     * @param UserRepositoryInterface       $userRepository
+     * @param IssueRepositoryInterface      $issueRepository
+     * @param EventRepositoryInterface      $eventRepository
+     * @param FieldValueRepositoryInterface $valueRepository
      * @param EntityManagerInterface        $manager
-     * @param TemplateRepository            $templateRepository
+     * @param TemplateRepositoryInterface   $templateRepository
      */
     public function __construct(
         TranslatorInterface           $translator,
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
         TokenStorageInterface         $tokens,
-        UserRepository                $userRepository,
-        IssueRepository               $issueRepository,
-        EventRepository               $eventRepository,
-        FieldValueRepository          $valueRepository,
+        UserRepositoryInterface       $userRepository,
+        IssueRepositoryInterface      $issueRepository,
+        EventRepositoryInterface      $eventRepository,
+        FieldValueRepositoryInterface $valueRepository,
         EntityManagerInterface        $manager,
-        TemplateRepository            $templateRepository
+        TemplateRepositoryInterface   $templateRepository
     )
     {
         parent::__construct($translator, $security, $validator, $tokens, $userRepository, $issueRepository, $eventRepository, $valueRepository, $manager);

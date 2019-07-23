@@ -20,6 +20,7 @@ use eTraxis\Entity\State;
 use eTraxis\Entity\StringValue;
 use eTraxis\Entity\Template;
 use eTraxis\Entity\User;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
 use eTraxis\TransactionalTestCase;
 
 /**
@@ -27,7 +28,7 @@ use eTraxis\TransactionalTestCase;
  */
 class IssueRepositoryTest extends TransactionalTestCase
 {
-    /** @var IssueRepository */
+    /** @var Contracts\IssueRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -43,6 +44,36 @@ class IssueRepositoryTest extends TransactionalTestCase
     public function testRepository()
     {
         self::assertInstanceOf(IssueRepository::class, $this->repository);
+    }
+
+    /**
+     * @covers ::findByIds
+     */
+    public function testFindByIds()
+    {
+        /** @var Issue $issue1 */
+        [$issue1] = $this->repository->findBy(['subject' => 'Development task 3'], ['id' => 'ASC']);
+
+        /** @var Issue $issue2 */
+        [$issue2] = $this->repository->findBy(['subject' => 'Development task 8'], ['id' => 'ASC']);
+
+        /** @var Issue $issue3 */
+        [$issue3] = $this->repository->findBy(['subject' => 'Support Request 6'], ['id' => 'ASC']);
+
+        $issues = $this->repository->findByIds([$issue1->id, $issue2->id, $issue1->id, $issue3->id]);
+
+        self::assertCount(3, $issues);
+
+        $expected = [$issue1->id, $issue2->id, $issue3->id];
+
+        $actual = array_map(function (Issue $issue) {
+            return $issue->id;
+        }, $issues);
+
+        sort($expected);
+        sort($actual);
+
+        self::assertSame($expected, $actual);
     }
 
     /**
@@ -67,7 +98,7 @@ class IssueRepositoryTest extends TransactionalTestCase
         /** @var Change $change */
         [$change] = $this->doctrine->getRepository(Change::class)->findBy([], ['id' => 'DESC']);
 
-        /** @var StringValueRepository $repository */
+        /** @var Contracts\StringValueRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(StringValue::class);
 
         self::assertNull($change->field);
@@ -136,8 +167,8 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -178,8 +209,8 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('vparker@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -199,8 +230,8 @@ class IssueRepositoryTest extends TransactionalTestCase
     public function testGetCollectionByClientB()
     {
         $this->loginAs('aschinner@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -222,8 +253,8 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('lucas.oconnell@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -265,8 +296,8 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('tmarquardt@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -305,8 +336,8 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(10, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(10, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(10, $collection->from);
@@ -340,7 +371,7 @@ class IssueRepositoryTest extends TransactionalTestCase
 
         $this->loginAs('amarvin@example.com');
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -384,8 +415,8 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, 'pOr', [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, 'pOr', [], [
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -408,7 +439,7 @@ class IssueRepositoryTest extends TransactionalTestCase
         $this->loginAs('ldoyle@example.com');
 
         $collection = $this->repository->getCollection(0, 1, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         /** @var Issue $first */
@@ -418,10 +449,10 @@ class IssueRepositoryTest extends TransactionalTestCase
 
         $expected = range($id * 10, $id * 10 + 9);
 
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_ID => '-' . mb_substr('00' . $id, -max(2, mb_strlen($id))),
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -453,10 +484,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_SUBJECT => 'aSk',
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -485,10 +516,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'labshire@example.com']);
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_AUTHOR => $user->id,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -520,10 +551,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_AUTHOR_NAME => 'caR',
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -568,10 +599,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         $project = $this->doctrine->getRepository(Project::class)->findOneBy(['name' => 'Molestiae']);
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_PROJECT => $project->id,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -615,10 +646,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_PROJECT_NAME => 'Ti',
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -651,10 +682,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         [$template] = $this->doctrine->getRepository(Template::class)->findBy(['name' => 'Support'], ['id' => 'ASC']);
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_TEMPLATE => $template->id,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -686,10 +717,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_TEMPLATE_NAME => 'vELo',
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -719,10 +750,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         [$state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Opened'], ['id' => 'ASC']);
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_STATE => $state->id,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -753,10 +784,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_STATE_NAME => 'tED',
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -790,10 +821,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'nhills@example.com']);
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_RESPONSIBLE => $user->id,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -832,10 +863,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_RESPONSIBLE => null,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -865,10 +896,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_RESPONSIBLE_NAME => 'AR',
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -897,10 +928,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_IS_CLONED => true,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -949,10 +980,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_IS_CLONED => false,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -986,10 +1017,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         [$issue] = $this->repository->findBy(['subject' => 'Support request 1'], ['id' => 'ASC']);
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_AGE => $issue->age,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1025,10 +1056,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_IS_CRITICAL => true,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1066,10 +1097,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_IS_CRITICAL => false,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1097,10 +1128,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_IS_SUSPENDED => true,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1146,10 +1177,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_IS_SUSPENDED => false,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1183,10 +1214,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_IS_CLOSED => true,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1226,10 +1257,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_IS_CLOSED => false,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1258,10 +1289,10 @@ class IssueRepositoryTest extends TransactionalTestCase
         [$issue] = $this->repository->findBy(['subject' => 'Support request 6'], ['id' => 'ASC']);
 
         $this->loginAs('ldoyle@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_DEPENDENCY => $issue->id,
         ], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1311,8 +1342,8 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_ID => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_ID => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1362,9 +1393,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_SUBJECT => IssueRepository::SORT_ASC,
-            Issue::JSON_ID      => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_SUBJECT => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID      => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1414,9 +1445,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_CREATED_AT => IssueRepository::SORT_ASC,
-            Issue::JSON_ID         => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_CREATED_AT => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID         => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1466,9 +1497,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_CHANGED_AT => IssueRepository::SORT_ASC,
-            Issue::JSON_ID         => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_CHANGED_AT => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID         => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1520,9 +1551,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_CLOSED_AT => IssueRepository::SORT_ASC,
-            Issue::JSON_ID        => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_CLOSED_AT => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID        => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1572,9 +1603,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_AUTHOR => IssueRepository::SORT_ASC,
-            Issue::JSON_ID     => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_AUTHOR => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID     => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1628,9 +1659,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_PROJECT => IssueRepository::SORT_ASC,
-            Issue::JSON_ID      => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_PROJECT => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID      => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1680,9 +1711,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_TEMPLATE => IssueRepository::SORT_ASC,
-            Issue::JSON_ID       => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_TEMPLATE => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID       => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1736,9 +1767,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_STATE => IssueRepository::SORT_ASC,
-            Issue::JSON_ID    => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_STATE => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID    => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1792,9 +1823,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_RESPONSIBLE => IssueRepository::SORT_ASC,
-            Issue::JSON_ID          => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_RESPONSIBLE => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID          => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -1848,9 +1879,9 @@ class IssueRepositoryTest extends TransactionalTestCase
         ];
 
         $this->loginAs('amarvin@example.com');
-        $collection = $this->repository->getCollection(0, IssueRepository::MAX_LIMIT, null, [], [
-            Issue::JSON_AGE => IssueRepository::SORT_ASC,
-            Issue::JSON_ID  => IssueRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, IssueRepositoryInterface::MAX_LIMIT, null, [], [
+            Issue::JSON_AGE => IssueRepositoryInterface::SORT_ASC,
+            Issue::JSON_ID  => IssueRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);

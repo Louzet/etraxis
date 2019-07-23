@@ -14,7 +14,7 @@
 namespace eTraxis\EventBus\EventSubscriber;
 
 use eTraxis\EventBus\Event\LoginSuccessfulEvent;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -27,9 +27,9 @@ class UnlockAccount implements EventSubscriberInterface
     /**
      * @codeCoverageIgnore Dependency Injection constructor.
      *
-     * @param UserRepository $repository
+     * @param UserRepositoryInterface $repository
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

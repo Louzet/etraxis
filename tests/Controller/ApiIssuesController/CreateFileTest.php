@@ -52,7 +52,7 @@ class CreateFileTest extends TransactionalTestCase
     {
         $this->loginAs('ldoyle@example.com');
 
-        /** @var \eTraxis\Repository\FileRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\FileRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(File::class);
 
         /** @var Issue $issue */

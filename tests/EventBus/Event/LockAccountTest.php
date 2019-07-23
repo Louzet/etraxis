@@ -26,7 +26,7 @@ class LockAccountTest extends TransactionalTestCase
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
-    /** @var \eTraxis\Repository\UserRepository */
+    /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface */
     protected $repository;
 
     protected function setUp()

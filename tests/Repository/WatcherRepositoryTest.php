@@ -16,6 +16,7 @@ namespace eTraxis\Repository;
 use eTraxis\Entity\Issue;
 use eTraxis\Entity\User;
 use eTraxis\Entity\Watcher;
+use eTraxis\Repository\Contracts\WatcherRepositoryInterface;
 use eTraxis\WebTestCase;
 
 /**
@@ -23,7 +24,7 @@ use eTraxis\WebTestCase;
  */
 class WatcherRepositoryTest extends WebTestCase
 {
-    /** @var WatcherRepository */
+    /** @var Contracts\WatcherRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -38,7 +39,7 @@ class WatcherRepositoryTest extends WebTestCase
      */
     public function testRepository()
     {
-        self::assertInstanceOf(WatcherRepository::class, $this->repository);
+        self::assertInstanceOf(WatcherRepositoryInterface::class, $this->repository);
     }
 
     /**
@@ -86,8 +87,8 @@ class WatcherRepositoryTest extends WebTestCase
             'tmarquardt@example.com',
         ];
 
-        $collection = $this->repository->getCollection(15, WatcherRepository::MAX_LIMIT, null, [], [
-            User::JSON_EMAIL => WatcherRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(15, WatcherRepositoryInterface::MAX_LIMIT, null, [], [
+            User::JSON_EMAIL => WatcherRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(15, $collection->from);
@@ -120,7 +121,7 @@ class WatcherRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            User::JSON_EMAIL => WatcherRepository::SORT_DESC,
+            User::JSON_EMAIL => WatcherRepositoryInterface::SORT_DESC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -152,8 +153,8 @@ class WatcherRepositoryTest extends WebTestCase
             'tmarquardt@example.com',
         ];
 
-        $collection = $this->repository->getCollection(0, WatcherRepository::MAX_LIMIT, 'mARq', [], [
-            User::JSON_EMAIL => WatcherRepository::SORT_DESC,
+        $collection = $this->repository->getCollection(0, WatcherRepositoryInterface::MAX_LIMIT, 'mARq', [], [
+            User::JSON_EMAIL => WatcherRepositoryInterface::SORT_DESC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -180,10 +181,10 @@ class WatcherRepositoryTest extends WebTestCase
 
         [$issue] = $this->doctrine->getRepository(Issue::class)->findBy(['subject' => 'Support request 2'], ['id' => 'ASC']);
 
-        $collection = $this->repository->getCollection(0, WatcherRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, WatcherRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_ID => $issue->id,
         ], [
-            User::JSON_EMAIL => WatcherRepository::SORT_ASC,
+            User::JSON_EMAIL => WatcherRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -215,10 +216,10 @@ class WatcherRepositoryTest extends WebTestCase
             'tmarquardt@example.com',
         ];
 
-        $collection = $this->repository->getCollection(0, WatcherRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, WatcherRepositoryInterface::MAX_LIMIT, null, [
             User::JSON_EMAIL => 'mARq',
         ], [
-            User::JSON_EMAIL => WatcherRepository::SORT_ASC,
+            User::JSON_EMAIL => WatcherRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -250,10 +251,10 @@ class WatcherRepositoryTest extends WebTestCase
             'tmarquardt@example.com',
         ];
 
-        $collection = $this->repository->getCollection(0, WatcherRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, WatcherRepositoryInterface::MAX_LIMIT, null, [
             User::JSON_FULLNAME => 'rAcY',
         ], [
-            User::JSON_EMAIL => WatcherRepository::SORT_ASC,
+            User::JSON_EMAIL => WatcherRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -280,10 +281,10 @@ class WatcherRepositoryTest extends WebTestCase
 
         [$issue] = $this->doctrine->getRepository(Issue::class)->findBy(['subject' => 'Support request 2'], ['id' => 'ASC']);
 
-        $collection = $this->repository->getCollection(0, WatcherRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, WatcherRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_ID => $issue->id,
         ], [
-            User::JSON_EMAIL => WatcherRepository::SORT_ASC,
+            User::JSON_EMAIL => WatcherRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -310,10 +311,10 @@ class WatcherRepositoryTest extends WebTestCase
 
         [$issue] = $this->doctrine->getRepository(Issue::class)->findBy(['subject' => 'Support request 2'], ['id' => 'ASC']);
 
-        $collection = $this->repository->getCollection(0, WatcherRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, WatcherRepositoryInterface::MAX_LIMIT, null, [
             Issue::JSON_ID => $issue->id,
         ], [
-            User::JSON_FULLNAME => WatcherRepository::SORT_ASC,
+            User::JSON_FULLNAME => WatcherRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);

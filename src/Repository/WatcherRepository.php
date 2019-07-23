@@ -20,7 +20,7 @@ use eTraxis\Entity\User;
 use eTraxis\Entity\Watcher;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class WatcherRepository extends ServiceEntityRepository implements CollectionInterface
+class WatcherRepository extends ServiceEntityRepository implements Contracts\WatcherRepositoryInterface
 {
     /**
      * {@inheritdoc}

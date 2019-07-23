@@ -15,7 +15,7 @@ namespace eTraxis\Controller\API;
 
 use eTraxis\CommandBus\Command\Users as Command;
 use eTraxis\Entity\Template;
-use eTraxis\Repository\TemplateRepository;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -179,11 +179,11 @@ class ApiMyController extends AbstractController
      * ))
      * @API\Response(response=401, description="Client is not authenticated.")
      *
-     * @param TemplateRepository $repository
+     * @param TemplateRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function getProjects(TemplateRepository $repository): JsonResponse
+    public function getProjects(TemplateRepositoryInterface $repository): JsonResponse
     {
         $projects = array_map(function (Template $template) {
             return $template->project;
@@ -205,11 +205,11 @@ class ApiMyController extends AbstractController
      * ))
      * @API\Response(response=401, description="Client is not authenticated.")
      *
-     * @param TemplateRepository $repository
+     * @param TemplateRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function getTemplates(TemplateRepository $repository): JsonResponse
+    public function getTemplates(TemplateRepositoryInterface $repository): JsonResponse
     {
         return $this->json($repository->getTemplatesByUser($this->getUser()));
     }

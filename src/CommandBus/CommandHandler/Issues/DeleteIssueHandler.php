@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Issues;
 
 use eTraxis\CommandBus\Command\Issues\DeleteIssueCommand;
-use eTraxis\Repository\IssueRepository;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,9 +32,9 @@ class DeleteIssueHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param IssueRepository               $repository
+     * @param IssueRepositoryInterface      $repository
      */
-    public function __construct(AuthorizationCheckerInterface $security, IssueRepository $repository)
+    public function __construct(AuthorizationCheckerInterface $security, IssueRepositoryInterface $repository)
     {
         $this->security   = $security;
         $this->repository = $repository;

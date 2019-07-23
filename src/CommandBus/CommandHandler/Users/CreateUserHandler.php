@@ -15,7 +15,7 @@ namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\CreateUserCommand;
 use eTraxis\Entity\User;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\UserVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -41,13 +41,13 @@ class CreateUserHandler
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
      * @param UserPasswordEncoderInterface  $encoder
-     * @param UserRepository                $repository
+     * @param UserRepositoryInterface       $repository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
         UserPasswordEncoderInterface  $encoder,
-        UserRepository                $repository
+        UserRepositoryInterface       $repository
     )
     {
         $this->security   = $security;

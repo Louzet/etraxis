@@ -23,6 +23,7 @@ use eTraxis\Entity\StringValue;
 use eTraxis\Entity\Template;
 use eTraxis\Entity\TextValue;
 use eTraxis\ReflectionTrait;
+use eTraxis\Repository\Contracts\FieldRepositoryInterface;
 use eTraxis\WebTestCase;
 
 /**
@@ -32,7 +33,7 @@ class FieldRepositoryTest extends WebTestCase
 {
     use ReflectionTrait;
 
-    /** @var FieldRepository */
+    /** @var Contracts\FieldRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -93,7 +94,7 @@ class FieldRepositoryTest extends WebTestCase
         [$state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Duplicated'], ['id' => 'ASC']);
 
         /** @var Field $field */
-        $field = $this->repository->findOneBy(['state' => $state], ['name' => 'ASC']);
+        $field = $this->repository->findOneBy(['state' => $state]);
 
         self::assertSame('Issue ID', $field->name);
     }
@@ -136,9 +137,9 @@ class FieldRepositoryTest extends WebTestCase
             'Test coverage',
         ];
 
-        $collection = $this->repository->getCollection(35, FieldRepository::MAX_LIMIT, null, [], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(35, FieldRepositoryInterface::MAX_LIMIT, null, [], [
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(35, $collection->from);
@@ -166,8 +167,8 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 5, null, [], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -198,9 +199,9 @@ class FieldRepositoryTest extends WebTestCase
             ['Priority', 'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, 'oR', [], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, 'oR', [], [
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -235,11 +236,11 @@ class FieldRepositoryTest extends WebTestCase
 
         $project = $this->doctrine->getRepository(Project::class)->findOneBy(['name' => 'Distinctio']);
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_PROJECT => $project->id,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -259,11 +260,11 @@ class FieldRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByProjectNull()
     {
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_PROJECT => null,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -290,11 +291,11 @@ class FieldRepositoryTest extends WebTestCase
 
         [$template] = $this->doctrine->getRepository(Template::class)->findBy(['name' => 'Development']);
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_TEMPLATE => $template->id,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -314,11 +315,11 @@ class FieldRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByTemplateNull()
     {
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_TEMPLATE => null,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -339,11 +340,11 @@ class FieldRepositoryTest extends WebTestCase
 
         [$state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'New']);
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_STATE => $state->id,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -363,11 +364,11 @@ class FieldRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByStateNull()
     {
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_STATE => null,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -391,11 +392,11 @@ class FieldRepositoryTest extends WebTestCase
             ['New feature', 'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_NAME => 'aT',
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -415,11 +416,11 @@ class FieldRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByNameNull()
     {
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_NAME => null,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -443,11 +444,11 @@ class FieldRepositoryTest extends WebTestCase
             ['Details',     'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_TYPE => FieldType::TEXT,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -467,11 +468,11 @@ class FieldRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByTypeNull()
     {
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_TYPE => null,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -491,11 +492,11 @@ class FieldRepositoryTest extends WebTestCase
             ['Delta', 'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_DESCRIPTION => 'LoC',
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -550,11 +551,11 @@ class FieldRepositoryTest extends WebTestCase
             ['Test coverage', 'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_DESCRIPTION => null,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -585,11 +586,11 @@ class FieldRepositoryTest extends WebTestCase
             ['New feature', 'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_POSITION => 3,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -609,11 +610,11 @@ class FieldRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByPositionNull()
     {
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_POSITION => null,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -649,11 +650,11 @@ class FieldRepositoryTest extends WebTestCase
             ['Priority', 'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, FieldRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, FieldRepositoryInterface::MAX_LIMIT, null, [
             Field::JSON_REQUIRED => true,
         ], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -692,8 +693,8 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 15, null, [], [
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -732,9 +733,9 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 15, null, [], [
-            Field::JSON_TEMPLATE => FieldRepository::SORT_DESC,
-            Field::JSON_NAME     => FieldRepository::SORT_ASC,
-            Field::JSON_PROJECT  => FieldRepository::SORT_ASC,
+            Field::JSON_TEMPLATE => FieldRepositoryInterface::SORT_DESC,
+            Field::JSON_NAME     => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_PROJECT  => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -773,9 +774,9 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 15, null, [], [
-            Field::JSON_STATE   => FieldRepository::SORT_ASC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
+            Field::JSON_STATE   => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -814,8 +815,8 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 15, null, [], [
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -854,9 +855,9 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 15, null, [], [
-            Field::JSON_TYPE    => FieldRepository::SORT_DESC,
-            Field::JSON_NAME    => FieldRepository::SORT_ASC,
-            Field::JSON_PROJECT => FieldRepository::SORT_ASC,
+            Field::JSON_TYPE    => FieldRepositoryInterface::SORT_DESC,
+            Field::JSON_NAME    => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_PROJECT => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -895,9 +896,9 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 15, null, [], [
-            Field::JSON_DESCRIPTION => FieldRepository::SORT_DESC,
-            Field::JSON_NAME        => FieldRepository::SORT_ASC,
-            Field::JSON_PROJECT     => FieldRepository::SORT_ASC,
+            Field::JSON_DESCRIPTION => FieldRepositoryInterface::SORT_DESC,
+            Field::JSON_NAME        => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_PROJECT     => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -936,9 +937,9 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 15, null, [], [
-            Field::JSON_POSITION => FieldRepository::SORT_DESC,
-            Field::JSON_NAME     => FieldRepository::SORT_ASC,
-            Field::JSON_PROJECT  => FieldRepository::SORT_ASC,
+            Field::JSON_POSITION => FieldRepositoryInterface::SORT_DESC,
+            Field::JSON_NAME     => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_PROJECT  => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -977,9 +978,9 @@ class FieldRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 15, null, [], [
-            Field::JSON_REQUIRED => FieldRepository::SORT_ASC,
-            Field::JSON_NAME     => FieldRepository::SORT_ASC,
-            Field::JSON_PROJECT  => FieldRepository::SORT_ASC,
+            Field::JSON_REQUIRED => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_NAME     => FieldRepositoryInterface::SORT_ASC,
+            Field::JSON_PROJECT  => FieldRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);

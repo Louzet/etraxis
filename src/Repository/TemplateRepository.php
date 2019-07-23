@@ -22,7 +22,7 @@ use eTraxis\Entity\Template;
 use eTraxis\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class TemplateRepository extends ServiceEntityRepository implements CollectionInterface
+class TemplateRepository extends ServiceEntityRepository implements Contracts\TemplateRepositoryInterface
 {
     /**
      * {@inheritdoc}
@@ -53,11 +53,7 @@ class TemplateRepository extends ServiceEntityRepository implements CollectionIn
     }
 
     /**
-     * Returns list of templates which can be used by specified user to create new issues.
-     *
-     * @param User $user
-     *
-     * @return Template[]
+     * {@inheritdoc}
      */
     public function getTemplatesByUser(User $user): array
     {

@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Templates;
 
 use eTraxis\CommandBus\Command\Templates\DeleteTemplateCommand;
-use eTraxis\Repository\TemplateRepository;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use eTraxis\Voter\TemplateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -31,9 +31,9 @@ class DeleteTemplateHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param TemplateRepository            $repository
+     * @param TemplateRepositoryInterface   $repository
      */
-    public function __construct(AuthorizationCheckerInterface $security, TemplateRepository $repository)
+    public function __construct(AuthorizationCheckerInterface $security, TemplateRepositoryInterface $repository)
     {
         $this->security   = $security;
         $this->repository = $repository;

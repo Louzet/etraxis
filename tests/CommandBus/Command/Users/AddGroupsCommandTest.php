@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AddGroupsCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\UserRepository */
+    /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -51,7 +51,7 @@ class AddGroupsCommandTest extends TransactionalTestCase
             'Developers C',
         ];
 
-        /** @var \eTraxis\Repository\GroupRepository $groupRepository */
+        /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface $groupRepository */
         $groupRepository = $this->doctrine->getRepository(Group::class);
 
         /** @var Group $devB */

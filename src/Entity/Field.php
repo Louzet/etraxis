@@ -217,7 +217,7 @@ class Field implements \JsonSerializable
                 return $this->asDate();
 
             case FieldType::DECIMAL:
-                /** @var \eTraxis\Repository\DecimalValueRepository $repository */
+                /** @var \eTraxis\Repository\Contracts\DecimalValueRepositoryInterface $repository */
                 $repository = $manager->getRepository(DecimalValue::class);
 
                 return $this->asDecimal($repository);
@@ -229,7 +229,7 @@ class Field implements \JsonSerializable
                 return $this->asIssue();
 
             case FieldType::LIST:
-                /** @var \eTraxis\Repository\ListItemRepository $repository */
+                /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $repository */
                 $repository = $manager->getRepository(ListItem::class);
 
                 return $this->asList($repository);
@@ -238,13 +238,13 @@ class Field implements \JsonSerializable
                 return $this->asNumber();
 
             case FieldType::STRING:
-                /** @var \eTraxis\Repository\StringValueRepository $repository */
+                /** @var \eTraxis\Repository\Contracts\StringValueRepositoryInterface $repository */
                 $repository = $manager->getRepository(StringValue::class);
 
                 return $this->asString($repository);
 
             case FieldType::TEXT:
-                /** @var \eTraxis\Repository\TextValueRepository $repository */
+                /** @var \eTraxis\Repository\Contracts\TextValueRepositoryInterface $repository */
                 $repository = $manager->getRepository(TextValue::class);
 
                 return $this->asText($repository);

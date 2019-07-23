@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Projects;
 
 use eTraxis\CommandBus\Command\Projects\UpdateProjectCommand;
-use eTraxis\Repository\ProjectRepository;
+use eTraxis\Repository\Contracts\ProjectRepositoryInterface;
 use eTraxis\Voter\ProjectVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -36,12 +36,12 @@ class UpdateProjectHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
-     * @param ProjectRepository             $repository
+     * @param ProjectRepositoryInterface    $repository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
-        ProjectRepository             $repository
+        ProjectRepositoryInterface    $repository
     )
     {
         $this->security   = $security;

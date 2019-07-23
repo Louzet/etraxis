@@ -14,6 +14,7 @@
 namespace eTraxis\Repository;
 
 use eTraxis\Entity\Project;
+use eTraxis\Repository\Contracts\ProjectRepositoryInterface;
 use eTraxis\WebTestCase;
 
 /**
@@ -21,7 +22,7 @@ use eTraxis\WebTestCase;
  */
 class ProjectRepositoryTest extends WebTestCase
 {
-    /** @var ProjectRepository */
+    /** @var Contracts\ProjectRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -74,8 +75,8 @@ class ProjectRepositoryTest extends WebTestCase
             'Presto',
         ];
 
-        $collection = $this->repository->getCollection(2, ProjectRepository::MAX_LIMIT, null, [], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(2, ProjectRepositoryInterface::MAX_LIMIT, null, [], [
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(2, $collection->from);
@@ -101,7 +102,7 @@ class ProjectRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 3, null, [], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -126,8 +127,8 @@ class ProjectRepositoryTest extends WebTestCase
             'Presto',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, 'eSt', [], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, 'eSt', [], [
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -152,10 +153,10 @@ class ProjectRepositoryTest extends WebTestCase
             'Molestiae',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [
             Project::JSON_NAME => 'Ti',
         ], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -175,10 +176,10 @@ class ProjectRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByNameNull()
     {
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [
             Project::JSON_NAME => null,
         ], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -195,10 +196,10 @@ class ProjectRepositoryTest extends WebTestCase
             'Presto',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [
             Project::JSON_DESCRIPTION => ' d',
         ], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -218,10 +219,10 @@ class ProjectRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByDescriptionNull()
     {
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [
             Project::JSON_DESCRIPTION => null,
         ], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -240,10 +241,10 @@ class ProjectRepositoryTest extends WebTestCase
             'Presto',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [
             Project::JSON_SUSPENDED => false,
         ], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -268,11 +269,11 @@ class ProjectRepositoryTest extends WebTestCase
             'Presto',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [
             Project::JSON_NAME      => 'R',
             Project::JSON_SUSPENDED => false,
         ], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -299,8 +300,8 @@ class ProjectRepositoryTest extends WebTestCase
             'Presto',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [], [
-            Project::JSON_NAME => ProjectRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [], [
+            Project::JSON_NAME => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -327,8 +328,8 @@ class ProjectRepositoryTest extends WebTestCase
             'Presto',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [], [
-            Project::JSON_DESCRIPTION => ProjectRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [], [
+            Project::JSON_DESCRIPTION => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -355,8 +356,8 @@ class ProjectRepositoryTest extends WebTestCase
             'Presto',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [], [
-            Project::JSON_CREATED => ProjectRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [], [
+            Project::JSON_CREATED => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -383,9 +384,9 @@ class ProjectRepositoryTest extends WebTestCase
             'Distinctio',
         ];
 
-        $collection = $this->repository->getCollection(0, ProjectRepository::MAX_LIMIT, null, [], [
-            Project::JSON_SUSPENDED => ProjectRepository::SORT_ASC,
-            Project::JSON_NAME      => ProjectRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, ProjectRepositoryInterface::MAX_LIMIT, null, [], [
+            Project::JSON_SUSPENDED => ProjectRepositoryInterface::SORT_ASC,
+            Project::JSON_NAME      => ProjectRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);

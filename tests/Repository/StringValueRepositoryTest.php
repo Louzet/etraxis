@@ -21,7 +21,7 @@ use eTraxis\TransactionalTestCase;
  */
 class StringValueRepositoryTest extends TransactionalTestCase
 {
-    /** @var StringValueRepository */
+    /** @var Contracts\StringValueRepositoryInterface */
     protected $repository;
 
     protected function setUp()

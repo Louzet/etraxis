@@ -18,7 +18,7 @@ use Doctrine\ORM\QueryBuilder;
 use eTraxis\Entity\State;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class StateRepository extends ServiceEntityRepository implements CollectionInterface
+class StateRepository extends ServiceEntityRepository implements Contracts\StateRepositoryInterface
 {
     /**
      * {@inheritdoc}

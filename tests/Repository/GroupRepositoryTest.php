@@ -15,6 +15,7 @@ namespace eTraxis\Repository;
 
 use eTraxis\Entity\Group;
 use eTraxis\Entity\Project;
+use eTraxis\Repository\Contracts\GroupRepositoryInterface;
 use eTraxis\WebTestCase;
 
 /**
@@ -22,7 +23,7 @@ use eTraxis\WebTestCase;
  */
 class GroupRepositoryTest extends WebTestCase
 {
-    /** @var GroupRepository */
+    /** @var Contracts\GroupRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -81,9 +82,9 @@ class GroupRepositoryTest extends WebTestCase
             ['Support Engineers', 'Support Engineers D'],
         ];
 
-        $collection = $this->repository->getCollection(10, GroupRepository::MAX_LIMIT, null, [], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(10, GroupRepositoryInterface::MAX_LIMIT, null, [], [
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(10, $collection->from);
@@ -116,8 +117,8 @@ class GroupRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -145,9 +146,9 @@ class GroupRepositoryTest extends WebTestCase
             ['Company Clients', null],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, 'cliENTs', [], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, 'cliENTs', [], [
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -176,11 +177,11 @@ class GroupRepositoryTest extends WebTestCase
 
         $project = $this->doctrine->getRepository(Project::class)->findOneBy(['name' => 'Distinctio']);
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [
             Group::JSON_PROJECT => $project->id,
         ], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -205,11 +206,11 @@ class GroupRepositoryTest extends WebTestCase
             ['Company Staff',   null],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [
             Group::JSON_PROJECT => null,
         ], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -244,11 +245,11 @@ class GroupRepositoryTest extends WebTestCase
             ['Support Engineers', 'Support Engineers D'],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [
             Group::JSON_NAME => 'eRS',
         ], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -268,11 +269,11 @@ class GroupRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByNameNull()
     {
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [
             Group::JSON_NAME => null,
         ], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -291,11 +292,11 @@ class GroupRepositoryTest extends WebTestCase
             ['Support Engineers', 'Support Engineers A'],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [
             Group::JSON_DESCRIPTION => 'eRS a',
         ], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -320,11 +321,11 @@ class GroupRepositoryTest extends WebTestCase
             ['Company Staff',   null],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [
             Group::JSON_DESCRIPTION => null,
         ], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -363,11 +364,11 @@ class GroupRepositoryTest extends WebTestCase
             ['Support Engineers', 'Support Engineers D'],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [
             Group::JSON_GLOBAL => false,
         ], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -408,10 +409,10 @@ class GroupRepositoryTest extends WebTestCase
             ['Support Engineers', 'Support Engineers D'],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [], [
-            Group::JSON_PROJECT     => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [], [
+            Group::JSON_PROJECT     => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -452,9 +453,9 @@ class GroupRepositoryTest extends WebTestCase
             ['Support Engineers', 'Support Engineers D'],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [], [
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [], [
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -495,9 +496,9 @@ class GroupRepositoryTest extends WebTestCase
             ['Support Engineers', 'Support Engineers D'],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [], [
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [], [
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -538,10 +539,10 @@ class GroupRepositoryTest extends WebTestCase
             ['Support Engineers', 'Support Engineers D'],
         ];
 
-        $collection = $this->repository->getCollection(0, GroupRepository::MAX_LIMIT, null, [], [
-            Group::JSON_GLOBAL      => GroupRepository::SORT_ASC,
-            Group::JSON_NAME        => GroupRepository::SORT_ASC,
-            Group::JSON_DESCRIPTION => GroupRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, GroupRepositoryInterface::MAX_LIMIT, null, [], [
+            Group::JSON_GLOBAL      => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_NAME        => GroupRepositoryInterface::SORT_ASC,
+            Group::JSON_DESCRIPTION => GroupRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);

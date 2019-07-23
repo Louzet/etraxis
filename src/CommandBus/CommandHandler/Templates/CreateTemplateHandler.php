@@ -15,8 +15,8 @@ namespace eTraxis\CommandBus\CommandHandler\Templates;
 
 use eTraxis\CommandBus\Command\Templates\CreateTemplateCommand;
 use eTraxis\Entity\Template;
-use eTraxis\Repository\ProjectRepository;
-use eTraxis\Repository\TemplateRepository;
+use eTraxis\Repository\Contracts\ProjectRepositoryInterface;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use eTraxis\Voter\TemplateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -39,14 +39,14 @@ class CreateTemplateHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
-     * @param ProjectRepository             $projectRepository
-     * @param TemplateRepository            $templateRepository
+     * @param ProjectRepositoryInterface    $projectRepository
+     * @param TemplateRepositoryInterface   $templateRepository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
-        ProjectRepository             $projectRepository,
-        TemplateRepository            $templateRepository
+        ProjectRepositoryInterface    $projectRepository,
+        TemplateRepositoryInterface   $templateRepository
     )
     {
         $this->security           = $security;

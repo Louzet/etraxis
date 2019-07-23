@@ -17,11 +17,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use eTraxis\Dictionary\AccountProvider;
 use eTraxis\Entity\User;
-use LazySec\Repository\UserRepositoryInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserRepository extends ServiceEntityRepository implements CollectionInterface, UserRepositoryInterface
+class UserRepository extends ServiceEntityRepository implements Contracts\UserRepositoryInterface
 {
     /**
      * {@inheritdoc}

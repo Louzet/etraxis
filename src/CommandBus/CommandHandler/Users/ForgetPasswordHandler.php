@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\ForgetPasswordCommand;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Service\Contracts\MailerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -30,11 +30,15 @@ class ForgetPasswordHandler
     /**
      * @codeCoverageIgnore Dependency Injection constructor.
      *
-     * @param TranslatorInterface $translator
-     * @param MailerInterface     $mailer
-     * @param UserRepository      $repository
+     * @param TranslatorInterface     $translator
+     * @param MailerInterface         $mailer
+     * @param UserRepositoryInterface $repository
      */
-    public function __construct(TranslatorInterface $translator, MailerInterface $mailer, UserRepository $repository)
+    public function __construct(
+        TranslatorInterface     $translator,
+        MailerInterface         $mailer,
+        UserRepositoryInterface $repository
+    )
     {
         $this->translator = $translator;
         $this->mailer     = $mailer;

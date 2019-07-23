@@ -11,7 +11,9 @@
 //
 //----------------------------------------------------------------------
 
-namespace eTraxis\Repository;
+namespace eTraxis\Repository\Contracts;
+
+use eTraxis\Repository\Collection;
 
 /**
  * Interface to an entities collection.

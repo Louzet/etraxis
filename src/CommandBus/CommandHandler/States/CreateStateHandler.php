@@ -17,8 +17,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\States\CreateStateCommand;
 use eTraxis\Dictionary\StateType;
 use eTraxis\Entity\State;
-use eTraxis\Repository\StateRepository;
-use eTraxis\Repository\TemplateRepository;
+use eTraxis\Repository\Contracts\StateRepositoryInterface;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use eTraxis\Voter\StateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -42,15 +42,15 @@ class CreateStateHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
-     * @param TemplateRepository            $templateRepository
-     * @param StateRepository               $stateRepository
+     * @param TemplateRepositoryInterface   $templateRepository
+     * @param StateRepositoryInterface      $stateRepository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
-        TemplateRepository            $templateRepository,
-        StateRepository               $stateRepository,
+        TemplateRepositoryInterface   $templateRepository,
+        StateRepositoryInterface      $stateRepository,
         EntityManagerInterface        $manager
     )
     {

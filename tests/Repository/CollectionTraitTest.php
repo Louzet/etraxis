@@ -24,7 +24,7 @@ class CollectionTraitTest extends WebTestCase
 {
     use CollectionTrait;
 
-    /** @var UserRepository */
+    /** @var Contracts\UserRepositoryInterface */
     protected $repository;
 
     protected function setUp()

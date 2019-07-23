@@ -13,6 +13,7 @@
 
 namespace eTraxis\Repository;
 
+use eTraxis\Repository\Contracts\CollectionInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

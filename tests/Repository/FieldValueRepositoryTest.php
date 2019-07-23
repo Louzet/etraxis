@@ -29,7 +29,7 @@ use eTraxis\TransactionalTestCase;
  */
 class FieldValueRepositoryTest extends TransactionalTestCase
 {
-    /** @var FieldValueRepository */
+    /** @var Contracts\FieldValueRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -315,7 +315,7 @@ class FieldValueRepositoryTest extends TransactionalTestCase
      */
     public function testSetDecimalFieldValue()
     {
-        /** @var DecimalValueRepository $repository */
+        /** @var Contracts\DecimalValueRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(DecimalValue::class);
 
         /** @var Issue $issue */
@@ -438,7 +438,7 @@ class FieldValueRepositoryTest extends TransactionalTestCase
      */
     public function testSetListFieldValue()
     {
-        /** @var ListItemRepository $repository */
+        /** @var Contracts\ListItemRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var Issue $issue */
@@ -469,7 +469,7 @@ class FieldValueRepositoryTest extends TransactionalTestCase
      */
     public function testSetListFieldValueFailure()
     {
-        /** @var ListItemRepository $repository */
+        /** @var Contracts\ListItemRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var Issue $issue */
@@ -601,7 +601,7 @@ class FieldValueRepositoryTest extends TransactionalTestCase
      */
     public function testSetStringFieldValue()
     {
-        /** @var StringValueRepository $repository */
+        /** @var Contracts\StringValueRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(StringValue::class);
 
         /** @var Issue $issue */
@@ -632,7 +632,7 @@ class FieldValueRepositoryTest extends TransactionalTestCase
      */
     public function testSetTextFieldValue()
     {
-        /** @var TextValueRepository $repository */
+        /** @var Contracts\TextValueRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(TextValue::class);
 
         /** @var Issue $issue */

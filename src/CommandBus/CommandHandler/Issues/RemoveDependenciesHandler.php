@@ -20,7 +20,7 @@ use eTraxis\Dictionary\TemplatePermission;
 use eTraxis\Entity\Dependency;
 use eTraxis\Entity\Issue;
 use eTraxis\Entity\Template;
-use eTraxis\Repository\IssueRepository;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -42,13 +42,13 @@ class RemoveDependenciesHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param TokenStorageInterface         $tokens
-     * @param IssueRepository               $issueRepository
+     * @param IssueRepositoryInterface      $issueRepository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         TokenStorageInterface         $tokens,
-        IssueRepository               $issueRepository,
+        IssueRepositoryInterface      $issueRepository,
         EntityManagerInterface        $manager
     )
     {

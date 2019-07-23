@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class DeleteStateCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\StateRepository */
+    /** @var \eTraxis\Repository\Contracts\StateRepositoryInterface */
     protected $repository;
 
     protected function setUp()

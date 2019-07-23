@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CreateGroupCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\GroupRepository */
+    /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface */
     protected $repository;
 
     protected function setUp()

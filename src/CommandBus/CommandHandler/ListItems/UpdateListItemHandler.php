@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\ListItems;
 
 use eTraxis\CommandBus\Command\ListItems\UpdateListItemCommand;
-use eTraxis\Repository\ListItemRepository;
+use eTraxis\Repository\Contracts\ListItemRepositoryInterface;
 use eTraxis\Voter\ListItemVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -36,12 +36,12 @@ class UpdateListItemHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
-     * @param ListItemRepository            $repository
+     * @param ListItemRepositoryInterface   $repository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
-        ListItemRepository            $repository
+        ListItemRepositoryInterface   $repository
     )
     {
         $this->security   = $security;

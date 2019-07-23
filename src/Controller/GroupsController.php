@@ -15,8 +15,8 @@ namespace eTraxis\Controller;
 
 use eTraxis\Entity\Group;
 use eTraxis\Entity\Project;
-use eTraxis\Repository\CollectionInterface;
-use eTraxis\Repository\ProjectRepository;
+use eTraxis\Repository\Contracts\CollectionInterface;
+use eTraxis\Repository\Contracts\ProjectRepositoryInterface;
 use eTraxis\Voter\GroupVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,11 +36,11 @@ class GroupsController extends AbstractController
      *
      * @Route("", name="admin_groups", methods={"GET"})
      *
-     * @param ProjectRepository $repository
+     * @param ProjectRepositoryInterface $repository
      *
      * @return Response
      */
-    public function index(ProjectRepository $repository): Response
+    public function index(ProjectRepositoryInterface $repository): Response
     {
         $projects = $repository->findBy([], [
             Project::JSON_NAME => CollectionInterface::SORT_ASC,

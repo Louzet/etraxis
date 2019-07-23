@@ -20,8 +20,8 @@ use eTraxis\Dictionary\TemplatePermission;
 use eTraxis\Entity\Dependency;
 use eTraxis\Entity\Issue;
 use eTraxis\Entity\Template;
-use eTraxis\Repository\DependencyRepository;
-use eTraxis\Repository\IssueRepository;
+use eTraxis\Repository\Contracts\DependencyRepositoryInterface;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -44,15 +44,15 @@ class AddDependenciesHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param TokenStorageInterface         $tokens
-     * @param IssueRepository               $issueRepository
-     * @param DependencyRepository          $dependencyRepository
+     * @param IssueRepositoryInterface      $issueRepository
+     * @param DependencyRepositoryInterface $dependencyRepository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         TokenStorageInterface         $tokens,
-        IssueRepository               $issueRepository,
-        DependencyRepository          $dependencyRepository,
+        IssueRepositoryInterface      $issueRepository,
+        DependencyRepositoryInterface $dependencyRepository,
         EntityManagerInterface        $manager
     )
     {

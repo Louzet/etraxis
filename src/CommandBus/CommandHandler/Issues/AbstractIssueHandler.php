@@ -19,10 +19,10 @@ use eTraxis\Dictionary\EventType;
 use eTraxis\Dictionary\StateResponsible;
 use eTraxis\Entity\Event;
 use eTraxis\Entity\Issue;
-use eTraxis\Repository\EventRepository;
-use eTraxis\Repository\FieldValueRepository;
-use eTraxis\Repository\IssueRepository;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\EventRepositoryInterface;
+use eTraxis\Repository\Contracts\FieldValueRepositoryInterface;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use League\Tactician\Bundle\Middleware\InvalidCommandException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -55,10 +55,10 @@ abstract class AbstractIssueHandler
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
      * @param TokenStorageInterface         $tokens
-     * @param UserRepository                $userRepository
-     * @param IssueRepository               $issueRepository
-     * @param EventRepository               $eventRepository
-     * @param FieldValueRepository          $valueRepository
+     * @param UserRepositoryInterface       $userRepository
+     * @param IssueRepositoryInterface      $issueRepository
+     * @param EventRepositoryInterface      $eventRepository
+     * @param FieldValueRepositoryInterface $valueRepository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
@@ -66,10 +66,10 @@ abstract class AbstractIssueHandler
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
         TokenStorageInterface         $tokens,
-        UserRepository                $userRepository,
-        IssueRepository               $issueRepository,
-        EventRepository               $eventRepository,
-        FieldValueRepository          $valueRepository,
+        UserRepositoryInterface       $userRepository,
+        IssueRepositoryInterface      $issueRepository,
+        EventRepositoryInterface      $eventRepository,
+        FieldValueRepositoryInterface $valueRepository,
         EntityManagerInterface        $manager
     )
     {

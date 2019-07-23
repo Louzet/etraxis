@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class DeleteListItemCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\ListItemRepository */
+    /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface */
     protected $repository;
 
     protected function setUp()

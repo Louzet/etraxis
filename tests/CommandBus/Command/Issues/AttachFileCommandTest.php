@@ -30,7 +30,7 @@ class AttachFileCommandTest extends TransactionalTestCase
 {
     protected const MEGABYTE = 1024 * 1024;
 
-    /** @var \eTraxis\Repository\IssueRepository */
+    /** @var \eTraxis\Repository\Contracts\IssueRepositoryInterface */
     protected $repository;
 
     /** @var UploadedFile */

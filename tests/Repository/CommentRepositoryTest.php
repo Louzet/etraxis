@@ -22,7 +22,7 @@ use eTraxis\WebTestCase;
  */
 class CommentRepositoryTest extends WebTestCase
 {
-    /** @var CommentRepository */
+    /** @var Contracts\CommentRepositoryInterface */
     protected $repository;
 
     protected function setUp()

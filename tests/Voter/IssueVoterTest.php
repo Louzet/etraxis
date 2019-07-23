@@ -31,7 +31,7 @@ class IssueVoterTest extends TransactionalTestCase
     /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationChecker */
     protected $security;
 
-    /** @var \eTraxis\Repository\IssueRepository */
+    /** @var \eTraxis\Repository\Contracts\IssueRepositoryInterface */
     protected $repository;
 
     protected function setUp()

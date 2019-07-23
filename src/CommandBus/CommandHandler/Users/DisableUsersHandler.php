@@ -15,7 +15,7 @@ namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\Users\DisableUsersCommand;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\UserVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -34,10 +34,14 @@ class DisableUsersHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param UserRepository                $repository
+     * @param UserRepositoryInterface       $repository
      * @param EntityManagerInterface        $manager
      */
-    public function __construct(AuthorizationCheckerInterface $security, UserRepository $repository, EntityManagerInterface $manager)
+    public function __construct(
+        AuthorizationCheckerInterface $security,
+        UserRepositoryInterface       $repository,
+        EntityManagerInterface        $manager
+    )
     {
         $this->security   = $security;
         $this->repository = $repository;

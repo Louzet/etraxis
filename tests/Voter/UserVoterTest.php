@@ -28,7 +28,7 @@ class UserVoterTest extends TransactionalTestCase
     /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationChecker */
     protected $security;
 
-    /** @var \eTraxis\Repository\UserRepository */
+    /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface */
     protected $repository;
 
     protected function setUp()

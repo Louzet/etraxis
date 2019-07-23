@@ -17,7 +17,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use eTraxis\Entity\DecimalValue;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class DecimalValueRepository extends ServiceEntityRepository
+class DecimalValueRepository extends ServiceEntityRepository implements Contracts\DecimalValueRepositoryInterface
 {
     use CacheTrait;
 
@@ -42,15 +42,7 @@ class DecimalValueRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds specified decimal value entity.
-     * If the value doesn't exist yet, creates it.
-     *
-     * @param string $value Decimal value.
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @return DecimalValue
+     * {@inheritdoc}
      */
     public function get(string $value): DecimalValue
     {
@@ -72,13 +64,7 @@ class DecimalValueRepository extends ServiceEntityRepository
     }
 
     /**
-     * Warms up the cache with all entities specified by IDs.
-     *
-     * @param array $ids
-     *
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     *
-     * @return int Number of entities pushed to the cache.
+     * {@inheritdoc}
      */
     public function warmup(array $ids): int
     {

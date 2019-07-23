@@ -15,7 +15,7 @@ namespace eTraxis\Controller\API;
 
 use eTraxis\CommandBus\Command\Issues as Command;
 use eTraxis\Entity\File;
-use eTraxis\Repository\FileRepository;
+use eTraxis\Repository\Contracts\FileRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use League\Tactician\CommandBus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -48,12 +48,12 @@ class ApiFilesController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="File is not found.")
      *
-     * @param File           $file
-     * @param FileRepository $repository
+     * @param File                    $file
+     * @param FileRepositoryInterface $repository
      *
      * @return BinaryFileResponse
      */
-    public function downloadFile(File $file, FileRepository $repository): BinaryFileResponse
+    public function downloadFile(File $file, FileRepositoryInterface $repository): BinaryFileResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $file->issue);
 

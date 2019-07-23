@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ReassignIssueCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\IssueRepository */
+    /** @var \eTraxis\Repository\Contracts\IssueRepositoryInterface */
     protected $repository;
 
     protected function setUp()

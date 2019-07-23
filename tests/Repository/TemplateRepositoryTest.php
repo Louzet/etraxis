@@ -16,6 +16,7 @@ namespace eTraxis\Repository;
 use eTraxis\Entity\Project;
 use eTraxis\Entity\Template;
 use eTraxis\Entity\User;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use eTraxis\WebTestCase;
 
 /**
@@ -23,7 +24,7 @@ use eTraxis\WebTestCase;
  */
 class TemplateRepositoryTest extends WebTestCase
 {
-    /** @var TemplateRepository */
+    /** @var Contracts\TemplateRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -100,9 +101,9 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support', 'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(5, TemplateRepository::MAX_LIMIT, null, [], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(5, TemplateRepositoryInterface::MAX_LIMIT, null, [], [
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(5, $collection->from);
@@ -130,8 +131,8 @@ class TemplateRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 5, null, [], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -159,9 +160,9 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, 'd', [], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, 'd', [], [
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -188,11 +189,11 @@ class TemplateRepositoryTest extends WebTestCase
 
         $project = $this->doctrine->getRepository(Project::class)->findOneBy(['name' => 'Distinctio']);
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_PROJECT => $project->id,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -212,11 +213,11 @@ class TemplateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByProjectNull()
     {
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_PROJECT => null,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -236,11 +237,11 @@ class TemplateRepositoryTest extends WebTestCase
             ['Development', 'Development Task D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_NAME => 'eNT',
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -260,11 +261,11 @@ class TemplateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByNameNull()
     {
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_NAME => null,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -284,11 +285,11 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support', 'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_PREFIX => 'rEQ',
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -308,11 +309,11 @@ class TemplateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByPrefixNull()
     {
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_PREFIX => null,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -330,11 +331,11 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_DESCRIPTION => ' d',
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -354,11 +355,11 @@ class TemplateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByDescriptionNull()
     {
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_DESCRIPTION => null,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -378,11 +379,11 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support', 'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_CRITICAL => 3,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -409,11 +410,11 @@ class TemplateRepositoryTest extends WebTestCase
             ['Development', 'Development Task D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_CRITICAL => null,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -440,11 +441,11 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support', 'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_FROZEN => 7,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -471,11 +472,11 @@ class TemplateRepositoryTest extends WebTestCase
             ['Development', 'Development Task D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_FROZEN => null,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -502,11 +503,11 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request B'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [
             Template::JSON_LOCKED => true,
         ], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -537,9 +538,9 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [], [
-            Template::JSON_PROJECT => TemplateRepository::SORT_ASC,
-            Template::JSON_NAME    => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [], [
+            Template::JSON_PROJECT => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_NAME    => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -570,9 +571,9 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [], [
-            Template::JSON_NAME        => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [], [
+            Template::JSON_NAME        => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -603,9 +604,9 @@ class TemplateRepositoryTest extends WebTestCase
             ['Development', 'Development Task D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [], [
-            Template::JSON_PREFIX      => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [], [
+            Template::JSON_PREFIX      => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -636,8 +637,8 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [], [
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [], [
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -668,9 +669,9 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [], [
-            Template::JSON_CRITICAL    => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [], [
+            Template::JSON_CRITICAL    => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -701,9 +702,9 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request D'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [], [
-            Template::JSON_FROZEN      => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [], [
+            Template::JSON_FROZEN      => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -734,9 +735,9 @@ class TemplateRepositoryTest extends WebTestCase
             ['Support',     'Support Request B'],
         ];
 
-        $collection = $this->repository->getCollection(0, TemplateRepository::MAX_LIMIT, null, [], [
-            Template::JSON_LOCKED      => TemplateRepository::SORT_ASC,
-            Template::JSON_DESCRIPTION => TemplateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, TemplateRepositoryInterface::MAX_LIMIT, null, [], [
+            Template::JSON_LOCKED      => TemplateRepositoryInterface::SORT_ASC,
+            Template::JSON_DESCRIPTION => TemplateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);

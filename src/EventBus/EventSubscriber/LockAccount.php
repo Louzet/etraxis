@@ -14,7 +14,7 @@
 namespace eTraxis\EventBus\EventSubscriber;
 
 use eTraxis\EventBus\Event\LoginFailedEvent;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -31,16 +31,16 @@ class LockAccount implements EventSubscriberInterface
     /**
      * @codeCoverageIgnore Dependency Injection constructor.
      *
-     * @param LoggerInterface $logger
-     * @param UserRepository  $repository
-     * @param null|int        $authFailures
-     * @param null|int        $lockDuration
+     * @param LoggerInterface         $logger
+     * @param UserRepositoryInterface $repository
+     * @param null|int                $authFailures
+     * @param null|int                $lockDuration
      */
     public function __construct(
-        LoggerInterface $logger,
-        UserRepository  $repository,
-        ?int            $authFailures,
-        ?int            $lockDuration
+        LoggerInterface         $logger,
+        UserRepositoryInterface $repository,
+        ?int                    $authFailures,
+        ?int                    $lockDuration
     )
     {
         $this->logger       = $logger;

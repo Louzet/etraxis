@@ -28,7 +28,7 @@ class GroupVoterTest extends TransactionalTestCase
     /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationChecker */
     protected $security;
 
-    /** @var \eTraxis\Repository\GroupRepository */
+    /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface */
     protected $repository;
 
     protected function setUp()

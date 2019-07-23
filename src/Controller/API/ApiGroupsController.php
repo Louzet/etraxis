@@ -16,7 +16,7 @@ namespace eTraxis\Controller\API;
 use eTraxis\CommandBus\Command\Groups as Command;
 use eTraxis\Entity\Group;
 use eTraxis\Repository\CollectionTrait;
-use eTraxis\Repository\GroupRepository;
+use eTraxis\Repository\Contracts\GroupRepositoryInterface;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -81,12 +81,12 @@ class ApiGroupsController extends AbstractController
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      *
-     * @param Request         $request
-     * @param GroupRepository $repository
+     * @param Request                  $request
+     * @param GroupRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listGroups(Request $request, GroupRepository $repository): JsonResponse
+    public function listGroups(Request $request, GroupRepositoryInterface $repository): JsonResponse
     {
         $collection = $this->getCollection($request, $repository);
 

@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\ResetPasswordCommand;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -32,9 +32,9 @@ class ResetPasswordHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param UserPasswordEncoderInterface $encoder
-     * @param UserRepository               $repository
+     * @param UserRepositoryInterface      $repository
      */
-    public function __construct(UserPasswordEncoderInterface $encoder, UserRepository $repository)
+    public function __construct(UserPasswordEncoderInterface $encoder, UserRepositoryInterface $repository)
     {
         $this->encoder    = $encoder;
         $this->repository = $repository;

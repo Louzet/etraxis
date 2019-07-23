@@ -33,7 +33,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class UpdateIssueCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\IssueRepository */
+    /** @var \eTraxis\Repository\Contracts\IssueRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -58,16 +58,16 @@ class UpdateIssueCommandTest extends TransactionalTestCase
             'Test coverage' => 7,
         ];
 
-        /** @var \eTraxis\Repository\DecimalValueRepository $decimalRepository */
+        /** @var \eTraxis\Repository\Contracts\DecimalValueRepositoryInterface $decimalRepository */
         $decimalRepository = $this->doctrine->getRepository(DecimalValue::class);
 
-        /** @var \eTraxis\Repository\StringValueRepository $stringRepository */
+        /** @var \eTraxis\Repository\Contracts\StringValueRepositoryInterface $stringRepository */
         $stringRepository = $this->doctrine->getRepository(StringValue::class);
 
-        /** @var \eTraxis\Repository\TextValueRepository $textRepository */
+        /** @var \eTraxis\Repository\Contracts\TextValueRepositoryInterface $textRepository */
         $textRepository = $this->doctrine->getRepository(TextValue::class);
 
-        /** @var \eTraxis\Repository\ListItemRepository $listRepository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $listRepository */
         $listRepository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var User $user */
@@ -164,13 +164,13 @@ class UpdateIssueCommandTest extends TransactionalTestCase
             'Test coverage' => 7,
         ];
 
-        /** @var \eTraxis\Repository\DecimalValueRepository $decimalRepository */
+        /** @var \eTraxis\Repository\Contracts\DecimalValueRepositoryInterface $decimalRepository */
         $decimalRepository = $this->doctrine->getRepository(DecimalValue::class);
 
-        /** @var \eTraxis\Repository\TextValueRepository $textRepository */
+        /** @var \eTraxis\Repository\Contracts\TextValueRepositoryInterface $textRepository */
         $textRepository = $this->doctrine->getRepository(TextValue::class);
 
-        /** @var \eTraxis\Repository\ListItemRepository $listRepository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $listRepository */
         $listRepository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var User $user */
@@ -254,13 +254,13 @@ class UpdateIssueCommandTest extends TransactionalTestCase
             'Test coverage' => 7,
         ];
 
-        /** @var \eTraxis\Repository\DecimalValueRepository $decimalRepository */
+        /** @var \eTraxis\Repository\Contracts\DecimalValueRepositoryInterface $decimalRepository */
         $decimalRepository = $this->doctrine->getRepository(DecimalValue::class);
 
-        /** @var \eTraxis\Repository\TextValueRepository $textRepository */
+        /** @var \eTraxis\Repository\Contracts\TextValueRepositoryInterface $textRepository */
         $textRepository = $this->doctrine->getRepository(TextValue::class);
 
-        /** @var \eTraxis\Repository\ListItemRepository $listRepository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $listRepository */
         $listRepository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var User $user */

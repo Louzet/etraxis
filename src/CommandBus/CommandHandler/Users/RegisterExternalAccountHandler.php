@@ -15,7 +15,7 @@ namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\RegisterExternalAccountCommand;
 use eTraxis\Entity\User;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -34,12 +34,12 @@ class RegisterExternalAccountHandler
     /**
      * @codeCoverageIgnore Dependency Injection constructor.
      *
-     * @param LoggerInterface $logger
-     * @param UserRepository  $repository
-     * @param string          $locale
-     * @param string          $theme
+     * @param LoggerInterface         $logger
+     * @param UserRepositoryInterface $repository
+     * @param string                  $locale
+     * @param string                  $theme
      */
-    public function __construct(LoggerInterface $logger, UserRepository $repository, string $locale, string $theme)
+    public function __construct(LoggerInterface $logger, UserRepositoryInterface $repository, string $locale, string $theme)
     {
         $this->logger     = $logger;
         $this->repository = $repository;

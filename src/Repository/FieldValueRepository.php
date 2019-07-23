@@ -23,7 +23,7 @@ use eTraxis\Entity\Issue;
 use eTraxis\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class FieldValueRepository extends ServiceEntityRepository
+class FieldValueRepository extends ServiceEntityRepository implements Contracts\FieldValueRepositoryInterface
 {
     protected $changeRepository;
     protected $decimalRepository;
@@ -36,13 +36,13 @@ class FieldValueRepository extends ServiceEntityRepository
      * {@inheritdoc}
      */
     public function __construct(
-        RegistryInterface      $registry,
-        ChangeRepository       $changeRepository,
-        DecimalValueRepository $decimalRepository,
-        StringValueRepository  $stringRepository,
-        TextValueRepository    $textRepository,
-        ListItemRepository     $listRepository,
-        IssueRepository        $issueRepository
+        RegistryInterface                         $registry,
+        Contracts\ChangeRepositoryInterface       $changeRepository,
+        Contracts\DecimalValueRepositoryInterface $decimalRepository,
+        Contracts\StringValueRepositoryInterface  $stringRepository,
+        Contracts\TextValueRepositoryInterface    $textRepository,
+        Contracts\ListItemRepositoryInterface     $listRepository,
+        Contracts\IssueRepositoryInterface        $issueRepository
     )
     {
         parent::__construct($registry, FieldValue::class);
@@ -66,12 +66,7 @@ class FieldValueRepository extends ServiceEntityRepository
     }
 
     /**
-     * Returns human-readable version of the specified field value.
-     *
-     * @param FieldValue $fieldValue Field value.
-     * @param User       $user       Current user.
-     *
-     * @return null|mixed Human-readable value.
+     * {@inheritdoc}
      */
     public function getFieldValue(FieldValue $fieldValue, User $user)
     {
@@ -139,16 +134,7 @@ class FieldValueRepository extends ServiceEntityRepository
     }
 
     /**
-     * Sets value of the specified field in the specified issue.
-     *
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param Issue      $issue Issie whose field is being set.
-     * @param Event      $event Event related to this change.
-     * @param Field      $field Field to set.
-     * @param null|mixed $value Value to set.
-     *
-     * @return null|FieldValue In case of an error returns NULL.
+     * {@inheritdoc}
      */
     public function setFieldValue(Issue $issue, Event $event, Field $field, $value): ?FieldValue
     {

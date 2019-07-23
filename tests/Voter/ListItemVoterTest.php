@@ -29,7 +29,7 @@ class ListItemVoterTest extends TransactionalTestCase
     /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationChecker */
     protected $security;
 
-    /** @var \eTraxis\Repository\ListItemRepository */
+    /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -95,7 +95,7 @@ class ListItemVoterTest extends TransactionalTestCase
      */
     public function testCreate()
     {
-        /** @var \eTraxis\Repository\FieldRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(Field::class);
 
         [/* skipping */, $fieldB, $fieldC] = $repository->findBy(['name' => 'Priority'], ['id' => 'ASC']);

@@ -22,7 +22,7 @@ use eTraxis\TransactionalTestCase;
  */
 class ListItemRepositoryTest extends TransactionalTestCase
 {
-    /** @var ListItemRepository */
+    /** @var Contracts\ListItemRepositoryInterface */
     protected $repository;
 
     protected function setUp()

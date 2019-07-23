@@ -34,7 +34,7 @@ class DecimalHandlerTraitTest extends TransactionalTestCase
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $manager;
 
-    /** @var \eTraxis\Repository\FieldRepository */
+    /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface */
     protected $repository;
 
     /** @var DecimalHandlerTrait $handler */

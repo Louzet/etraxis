@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class DeleteFileCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\FileRepository */
+    /** @var \eTraxis\Repository\Contracts\FileRepositoryInterface */
     protected $repository;
 
     protected function setUp()

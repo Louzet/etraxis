@@ -20,7 +20,7 @@ use eTraxis\Dictionary\TemplatePermission;
 use eTraxis\Entity\Issue;
 use eTraxis\Entity\LastRead;
 use eTraxis\Entity\Template;
-use eTraxis\Repository\LastReadRepository;
+use eTraxis\Repository\Contracts\LastReadRepositoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -35,14 +35,14 @@ class MarkAsReadHandler
     /**
      * @codeCoverageIgnore Dependency Injection constructor.
      *
-     * @param TokenStorageInterface  $tokens
-     * @param LastReadRepository     $repository
-     * @param EntityManagerInterface $manager
+     * @param TokenStorageInterface       $tokens
+     * @param LastReadRepositoryInterface $repository
+     * @param EntityManagerInterface      $manager
      */
     public function __construct(
-        TokenStorageInterface  $tokens,
-        LastReadRepository     $repository,
-        EntityManagerInterface $manager
+        TokenStorageInterface       $tokens,
+        LastReadRepositoryInterface $repository,
+        EntityManagerInterface      $manager
     )
     {
         $this->tokens     = $tokens;

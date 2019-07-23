@@ -20,7 +20,7 @@ use eTraxis\Dictionary\TemplatePermission;
 use eTraxis\Entity\Issue;
 use eTraxis\Entity\Template;
 use eTraxis\Entity\Watcher;
-use eTraxis\Repository\WatcherRepository;
+use eTraxis\Repository\Contracts\WatcherRepositoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -35,14 +35,14 @@ class WatchIssuesHandler
     /**
      * @codeCoverageIgnore Dependency Injection constructor.
      *
-     * @param TokenStorageInterface  $tokens
-     * @param WatcherRepository      $repository
-     * @param EntityManagerInterface $manager
+     * @param TokenStorageInterface      $tokens
+     * @param WatcherRepositoryInterface $repository
+     * @param EntityManagerInterface     $manager
      */
     public function __construct(
-        TokenStorageInterface  $tokens,
-        WatcherRepository      $repository,
-        EntityManagerInterface $manager
+        TokenStorageInterface      $tokens,
+        WatcherRepositoryInterface $repository,
+        EntityManagerInterface     $manager
     )
     {
         $this->tokens     = $tokens;

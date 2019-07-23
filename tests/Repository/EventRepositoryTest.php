@@ -23,7 +23,7 @@ use eTraxis\WebTestCase;
  */
 class EventRepositoryTest extends WebTestCase
 {
-    /** @var EventRepository */
+    /** @var Contracts\EventRepositoryInterface */
     protected $repository;
 
     protected function setUp()

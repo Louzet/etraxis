@@ -44,7 +44,7 @@ class ListTraitTest extends TransactionalTestCase
         $this->translator = $this->client->getContainer()->get('translator');
         $this->validator  = $this->client->getContainer()->get('validator');
 
-        /** @var \eTraxis\Repository\FieldRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(Field::class);
 
         [$this->object] = $repository->findBy([
@@ -126,10 +126,10 @@ class ListTraitTest extends TransactionalTestCase
      */
     public function testDefaultValue()
     {
-        /** @var \eTraxis\Repository\FieldRepository $fieldRepository */
+        /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface $fieldRepository */
         $fieldRepository = $this->doctrine->getRepository(Field::class);
 
-        /** @var \eTraxis\Repository\ListItemRepository $itemRepository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $itemRepository */
         $itemRepository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var Field[] $fields */

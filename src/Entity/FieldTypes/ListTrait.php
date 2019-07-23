@@ -18,7 +18,7 @@ namespace eTraxis\Entity\FieldTypes;
 use eTraxis\Entity\Field;
 use eTraxis\Entity\FieldParameters;
 use eTraxis\Entity\ListItem;
-use eTraxis\Repository\ListItemRepository;
+use eTraxis\Repository\Contracts\ListItemRepositoryInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -30,11 +30,11 @@ trait ListTrait
     /**
      * Returns this field as a field of a "list" type.
      *
-     * @param ListItemRepository $repository
+     * @param ListItemRepositoryInterface $repository
      *
      * @return ListInterface
      */
-    protected function asList(ListItemRepository $repository): ListInterface
+    protected function asList(ListItemRepositoryInterface $repository): ListInterface
     {
         return new class($repository, $this, $this->parameters) implements ListInterface {
             protected $repository;
@@ -44,11 +44,11 @@ trait ListTrait
             /**
              * Passes original field's parameters as a reference so they can be modified inside the class.
              *
-             * @param ListItemRepository $repository
-             * @param Field              $field
-             * @param FieldParameters    $parameters
+             * @param ListItemRepositoryInterface $repository
+             * @param Field                       $field
+             * @param FieldParameters             $parameters
              */
-            public function __construct(ListItemRepository $repository, Field $field, FieldParameters &$parameters)
+            public function __construct(ListItemRepositoryInterface $repository, Field $field, FieldParameters &$parameters)
             {
                 $this->repository = $repository;
                 $this->field      = $field;

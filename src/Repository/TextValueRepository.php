@@ -17,7 +17,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use eTraxis\Entity\TextValue;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class TextValueRepository extends ServiceEntityRepository
+class TextValueRepository extends ServiceEntityRepository implements Contracts\TextValueRepositoryInterface
 {
     use CacheTrait;
 
@@ -42,15 +42,7 @@ class TextValueRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds specified text value entity.
-     * If the value doesn't exist yet, creates it.
-     *
-     * @param string $value Text value.
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @return TextValue
+     * {@inheritdoc}
      */
     public function get(string $value): TextValue
     {
@@ -72,13 +64,7 @@ class TextValueRepository extends ServiceEntityRepository
     }
 
     /**
-     * Warms up the cache with all entities specified by IDs.
-     *
-     * @param array $ids
-     *
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     *
-     * @return int Number of entities pushed to the cache.
+     * {@inheritdoc}
      */
     public function warmup(array $ids): int
     {

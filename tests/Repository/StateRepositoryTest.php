@@ -18,6 +18,7 @@ use eTraxis\Dictionary\StateType;
 use eTraxis\Entity\Project;
 use eTraxis\Entity\State;
 use eTraxis\Entity\Template;
+use eTraxis\Repository\Contracts\StateRepositoryInterface;
 use eTraxis\WebTestCase;
 
 /**
@@ -25,7 +26,7 @@ use eTraxis\WebTestCase;
  */
 class StateRepositoryTest extends WebTestCase
 {
-    /** @var StateRepository */
+    /** @var Contracts\StateRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -79,9 +80,9 @@ class StateRepositoryTest extends WebTestCase
             'Submitted',
         ];
 
-        $collection = $this->repository->getCollection(25, StateRepository::MAX_LIMIT, null, [], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(25, StateRepositoryInterface::MAX_LIMIT, null, [], [
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(25, $collection->from);
@@ -109,8 +110,8 @@ class StateRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 5, null, [], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -141,9 +142,9 @@ class StateRepositoryTest extends WebTestCase
             ['Opened',   'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, 'NEd', [], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, 'NEd', [], [
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -175,11 +176,11 @@ class StateRepositoryTest extends WebTestCase
 
         $project = $this->doctrine->getRepository(Project::class)->findOneBy(['name' => 'Distinctio']);
 
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_PROJECT => $project->id,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -199,11 +200,11 @@ class StateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByProjectNull()
     {
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_PROJECT => null,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -224,11 +225,11 @@ class StateRepositoryTest extends WebTestCase
 
         [$template] = $this->doctrine->getRepository(Template::class)->findBy(['name' => 'Support']);
 
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_TEMPLATE => $template->id,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -248,11 +249,11 @@ class StateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByTemplateNull()
     {
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_TEMPLATE => null,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -280,11 +281,11 @@ class StateRepositoryTest extends WebTestCase
             ['Opened',   'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_NAME => 'nE',
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -304,11 +305,11 @@ class StateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByNameNull()
     {
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_NAME => null,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -333,11 +334,11 @@ class StateRepositoryTest extends WebTestCase
             ['Resolved',   'Molestiae'],
         ];
 
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_TYPE => StateType::FINAL,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -357,11 +358,11 @@ class StateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByTypeNull()
     {
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_TYPE => null,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -381,11 +382,11 @@ class StateRepositoryTest extends WebTestCase
             ['Submitted', 'Presto'],
         ];
 
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_RESPONSIBLE => StateResponsible::KEEP,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -405,11 +406,11 @@ class StateRepositoryTest extends WebTestCase
      */
     public function testGetCollectionFilterByResponsibleNull()
     {
-        $collection = $this->repository->getCollection(0, StateRepository::MAX_LIMIT, null, [
+        $collection = $this->repository->getCollection(0, StateRepositoryInterface::MAX_LIMIT, null, [
             State::JSON_RESPONSIBLE => null,
         ], [
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->total);
@@ -436,9 +437,9 @@ class StateRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            State::JSON_PROJECT  => StateRepository::SORT_ASC,
-            State::JSON_TEMPLATE => StateRepository::SORT_ASC,
-            State::JSON_NAME     => StateRepository::SORT_ASC,
+            State::JSON_PROJECT  => StateRepositoryInterface::SORT_ASC,
+            State::JSON_TEMPLATE => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME     => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -472,9 +473,9 @@ class StateRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            State::JSON_TEMPLATE => StateRepository::SORT_ASC,
-            State::JSON_NAME     => StateRepository::SORT_ASC,
-            State::JSON_PROJECT  => StateRepository::SORT_ASC,
+            State::JSON_TEMPLATE => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME     => StateRepositoryInterface::SORT_ASC,
+            State::JSON_PROJECT  => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -508,8 +509,8 @@ class StateRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            State::JSON_NAME     => StateRepository::SORT_ASC,
-            State::JSON_PROJECT  => StateRepository::SORT_ASC,
+            State::JSON_NAME     => StateRepositoryInterface::SORT_ASC,
+            State::JSON_PROJECT  => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -543,9 +544,9 @@ class StateRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            State::JSON_TYPE    => StateRepository::SORT_ASC,
-            State::JSON_NAME    => StateRepository::SORT_ASC,
-            State::JSON_PROJECT => StateRepository::SORT_ASC,
+            State::JSON_TYPE    => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME    => StateRepositoryInterface::SORT_ASC,
+            State::JSON_PROJECT => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -579,9 +580,9 @@ class StateRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            State::JSON_RESPONSIBLE => StateRepository::SORT_ASC,
-            State::JSON_NAME        => StateRepository::SORT_ASC,
-            State::JSON_PROJECT     => StateRepository::SORT_ASC,
+            State::JSON_RESPONSIBLE => StateRepositoryInterface::SORT_ASC,
+            State::JSON_NAME        => StateRepositoryInterface::SORT_ASC,
+            State::JSON_PROJECT     => StateRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);

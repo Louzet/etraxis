@@ -18,7 +18,7 @@ namespace eTraxis\Entity\FieldTypes;
 use eTraxis\Entity\Field;
 use eTraxis\Entity\FieldParameters;
 use eTraxis\Entity\FieldPCRE;
-use eTraxis\Repository\TextValueRepository;
+use eTraxis\Repository\Contracts\TextValueRepositoryInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -30,11 +30,11 @@ trait TextTrait
     /**
      * Returns this field as a field of a "text" type.
      *
-     * @param TextValueRepository $repository
+     * @param TextValueRepositoryInterface $repository
      *
      * @return TextInterface
      */
-    protected function asText(TextValueRepository $repository): TextInterface
+    protected function asText(TextValueRepositoryInterface $repository): TextInterface
     {
         return new class($repository, $this, $this->pcre, $this->parameters) implements TextInterface {
             protected $repository;
@@ -45,12 +45,12 @@ trait TextTrait
             /**
              * Passes original field's parameters as a reference so they can be modified inside the class.
              *
-             * @param TextValueRepository $repository
-             * @param Field               $field
-             * @param FieldPCRE           $pcre
-             * @param FieldParameters     $parameters
+             * @param TextValueRepositoryInterface $repository
+             * @param Field                        $field
+             * @param FieldPCRE                    $pcre
+             * @param FieldParameters              $parameters
              */
-            public function __construct(TextValueRepository $repository, Field $field, FieldPCRE $pcre, FieldParameters &$parameters)
+            public function __construct(TextValueRepositoryInterface $repository, Field $field, FieldPCRE $pcre, FieldParameters &$parameters)
             {
                 $this->repository = $repository;
                 $this->field      = $field;

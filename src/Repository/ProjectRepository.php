@@ -18,7 +18,7 @@ use Doctrine\ORM\QueryBuilder;
 use eTraxis\Entity\Project;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class ProjectRepository extends ServiceEntityRepository implements CollectionInterface
+class ProjectRepository extends ServiceEntityRepository implements Contracts\ProjectRepositoryInterface
 {
     /**
      * {@inheritdoc}

@@ -17,7 +17,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use eTraxis\Entity\Dependency;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class DependencyRepository extends ServiceEntityRepository
+class DependencyRepository extends ServiceEntityRepository implements Contracts\DependencyRepositoryInterface
 {
     /**
      * {@inheritdoc}

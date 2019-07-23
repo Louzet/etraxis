@@ -23,7 +23,7 @@ use eTraxis\TransactionalTestCase;
  */
 class LastReadRepositoryTest extends TransactionalTestCase
 {
-    /** @var LastReadRepository */
+    /** @var Contracts\LastReadRepositoryInterface */
     protected $repository;
 
     protected function setUp()

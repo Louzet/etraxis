@@ -16,7 +16,7 @@ namespace eTraxis\Controller\API;
 use eTraxis\CommandBus\Command\Templates as Command;
 use eTraxis\Entity\Template;
 use eTraxis\Repository\CollectionTrait;
-use eTraxis\Repository\TemplateRepository;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -87,12 +87,12 @@ class ApiTemplatesController extends AbstractController
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      *
-     * @param Request            $request
-     * @param TemplateRepository $repository
+     * @param Request                     $request
+     * @param TemplateRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listTemplates(Request $request, TemplateRepository $repository): JsonResponse
+    public function listTemplates(Request $request, TemplateRepositoryInterface $repository): JsonResponse
     {
         $collection = $this->getCollection($request, $repository);
 

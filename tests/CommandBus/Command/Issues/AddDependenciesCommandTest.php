@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AddDependenciesCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\IssueRepository */
+    /** @var \eTraxis\Repository\Contracts\IssueRepositoryInterface */
     protected $repository;
 
     protected function setUp()

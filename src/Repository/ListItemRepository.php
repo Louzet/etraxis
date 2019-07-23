@@ -18,7 +18,7 @@ use eTraxis\Entity\Field;
 use eTraxis\Entity\ListItem;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class ListItemRepository extends ServiceEntityRepository
+class ListItemRepository extends ServiceEntityRepository implements Contracts\ListItemRepositoryInterface
 {
     use CacheTrait;
 
@@ -65,11 +65,7 @@ class ListItemRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds all list items of specified field.
-     *
-     * @param Field $field
-     *
-     * @return ListItem[]
+     * {@inheritdoc}
      */
     public function findAllByField(Field $field): array
     {
@@ -81,12 +77,7 @@ class ListItemRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds list item by value.
-     *
-     * @param Field $field
-     * @param int   $value
-     *
-     * @return null|ListItem
+     * {@inheritdoc}
      */
     public function findOneByValue(Field $field, int $value): ?ListItem
     {
@@ -100,12 +91,7 @@ class ListItemRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds list item by text.
-     *
-     * @param Field  $field
-     * @param string $text
-     *
-     * @return null|ListItem
+     * {@inheritdoc}
      */
     public function findOneByText(Field $field, string $text): ?ListItem
     {
@@ -119,13 +105,7 @@ class ListItemRepository extends ServiceEntityRepository
     }
 
     /**
-     * Warms up the cache with all entities specified by IDs.
-     *
-     * @param array $ids
-     *
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     *
-     * @return int Number of entities pushed to the cache.
+     * {@inheritdoc}
      */
     public function warmup(array $ids): int
     {

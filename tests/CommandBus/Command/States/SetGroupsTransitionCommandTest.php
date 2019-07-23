@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SetGroupsTransitionCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\StateRepository */
+    /** @var \eTraxis\Repository\Contracts\StateRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -49,7 +49,7 @@ class SetGroupsTransitionCommandTest extends TransactionalTestCase
             'Support Engineers',
         ];
 
-        /** @var \eTraxis\Repository\GroupRepository $groupRepository */
+        /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface $groupRepository */
         $groupRepository = $this->doctrine->getRepository(Group::class);
 
         /** @var State $fromState */
@@ -87,7 +87,7 @@ class SetGroupsTransitionCommandTest extends TransactionalTestCase
 
         $this->loginAs('artem@example.com');
 
-        /** @var \eTraxis\Repository\GroupRepository $groupRepository */
+        /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface $groupRepository */
         $groupRepository = $this->doctrine->getRepository(Group::class);
 
         /** @var State $fromState */
@@ -120,7 +120,7 @@ class SetGroupsTransitionCommandTest extends TransactionalTestCase
 
         $this->loginAs('admin@example.com');
 
-        /** @var \eTraxis\Repository\GroupRepository $groupRepository */
+        /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface $groupRepository */
         $groupRepository = $this->doctrine->getRepository(Group::class);
 
         /** @var State $fromState */
@@ -153,7 +153,7 @@ class SetGroupsTransitionCommandTest extends TransactionalTestCase
 
         $this->loginAs('admin@example.com');
 
-        /** @var \eTraxis\Repository\GroupRepository $groupRepository */
+        /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface $groupRepository */
         $groupRepository = $this->doctrine->getRepository(Group::class);
 
         /** @var State $toState */
@@ -183,7 +183,7 @@ class SetGroupsTransitionCommandTest extends TransactionalTestCase
 
         $this->loginAs('admin@example.com');
 
-        /** @var \eTraxis\Repository\GroupRepository $groupRepository */
+        /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface $groupRepository */
         $groupRepository = $this->doctrine->getRepository(Group::class);
 
         /** @var State $fromState */
@@ -214,7 +214,7 @@ class SetGroupsTransitionCommandTest extends TransactionalTestCase
 
         $this->loginAs('admin@example.com');
 
-        /** @var \eTraxis\Repository\GroupRepository $groupRepository */
+        /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface $groupRepository */
         $groupRepository = $this->doctrine->getRepository(Group::class);
 
         /** @var State $fromState */
@@ -248,7 +248,7 @@ class SetGroupsTransitionCommandTest extends TransactionalTestCase
 
         $this->loginAs('admin@example.com');
 
-        /** @var \eTraxis\Repository\GroupRepository $groupRepository */
+        /** @var \eTraxis\Repository\Contracts\GroupRepositoryInterface $groupRepository */
         $groupRepository = $this->doctrine->getRepository(Group::class);
 
         /** @var State $fromState */

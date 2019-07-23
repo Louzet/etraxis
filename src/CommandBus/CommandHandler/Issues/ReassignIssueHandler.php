@@ -16,9 +16,9 @@ namespace eTraxis\CommandBus\CommandHandler\Issues;
 use eTraxis\CommandBus\Command\Issues\ReassignIssueCommand;
 use eTraxis\Dictionary\EventType;
 use eTraxis\Entity\Event;
-use eTraxis\Repository\EventRepository;
-use eTraxis\Repository\IssueRepository;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\EventRepositoryInterface;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -41,16 +41,16 @@ class ReassignIssueHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param TokenStorageInterface         $tokens
-     * @param UserRepository                $userRepository
-     * @param IssueRepository               $issueRepository
-     * @param EventRepository               $eventRepository
+     * @param UserRepositoryInterface       $userRepository
+     * @param IssueRepositoryInterface      $issueRepository
+     * @param EventRepositoryInterface      $eventRepository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         TokenStorageInterface         $tokens,
-        UserRepository                $userRepository,
-        IssueRepository               $issueRepository,
-        EventRepository               $eventRepository
+        UserRepositoryInterface       $userRepository,
+        IssueRepositoryInterface      $issueRepository,
+        EventRepositoryInterface      $eventRepository
     )
     {
         $this->security        = $security;

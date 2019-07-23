@@ -233,7 +233,7 @@ class FieldValueFixtures extends Fixture implements DependentFixtureInterface
                                     break;
 
                                 case FieldType::DECIMAL:
-                                    /** @var \eTraxis\Repository\DecimalValueRepository $repository */
+                                    /** @var \eTraxis\Repository\Contracts\DecimalValueRepositoryInterface $repository */
                                     $repository = $manager->getRepository(DecimalValue::class);
                                     $value      = $repository->get($vref)->id;
                                     break;
@@ -249,7 +249,7 @@ class FieldValueFixtures extends Fixture implements DependentFixtureInterface
                                     break;
 
                                 case FieldType::LIST:
-                                    /** @var \eTraxis\Repository\ListItemRepository $repository */
+                                    /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $repository */
                                     $repository = $manager->getRepository(ListItem::class);
                                     $value      = $repository->findOneByValue($field, $vref)->id;
                                     break;
@@ -258,13 +258,13 @@ class FieldValueFixtures extends Fixture implements DependentFixtureInterface
                                     break;
 
                                 case FieldType::STRING:
-                                    /** @var \eTraxis\Repository\StringValueRepository $repository */
+                                    /** @var \eTraxis\Repository\Contracts\StringValueRepositoryInterface $repository */
                                     $repository = $manager->getRepository(StringValue::class);
                                     $value      = $repository->get($vref)->id;
                                     break;
 
                                 case FieldType::TEXT:
-                                    /** @var \eTraxis\Repository\TextValueRepository $repository */
+                                    /** @var \eTraxis\Repository\Contracts\TextValueRepositoryInterface $repository */
                                     $repository = $manager->getRepository(TextValue::class);
                                     $value      = $repository->get($vref)->id;
                                     break;

@@ -20,20 +20,20 @@ use eTraxis\Entity\Event;
 use eTraxis\Entity\Issue;
 use eTraxis\Entity\State;
 use eTraxis\Entity\User;
-use eTraxis\Repository\ChangeRepository;
 use eTraxis\Repository\CollectionTrait;
-use eTraxis\Repository\CommentRepository;
-use eTraxis\Repository\DecimalValueRepository;
-use eTraxis\Repository\EventRepository;
-use eTraxis\Repository\FileRepository;
-use eTraxis\Repository\IssueRepository;
-use eTraxis\Repository\LastReadRepository;
-use eTraxis\Repository\ListItemRepository;
-use eTraxis\Repository\StateRepository;
-use eTraxis\Repository\StringValueRepository;
-use eTraxis\Repository\TextValueRepository;
-use eTraxis\Repository\UserRepository;
-use eTraxis\Repository\WatcherRepository;
+use eTraxis\Repository\Contracts\ChangeRepositoryInterface;
+use eTraxis\Repository\Contracts\CommentRepositoryInterface;
+use eTraxis\Repository\Contracts\DecimalValueRepositoryInterface;
+use eTraxis\Repository\Contracts\EventRepositoryInterface;
+use eTraxis\Repository\Contracts\FileRepositoryInterface;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
+use eTraxis\Repository\Contracts\LastReadRepositoryInterface;
+use eTraxis\Repository\Contracts\ListItemRepositoryInterface;
+use eTraxis\Repository\Contracts\StateRepositoryInterface;
+use eTraxis\Repository\Contracts\StringValueRepositoryInterface;
+use eTraxis\Repository\Contracts\TextValueRepositoryInterface;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
+use eTraxis\Repository\Contracts\WatcherRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -117,13 +117,17 @@ class ApiIssuesController extends AbstractController
      * ))
      * @API\Response(response=401, description="Client is not authenticated.")
      *
-     * @param Request            $request
-     * @param IssueRepository    $repository
-     * @param LastReadRepository $lastReadRepository
+     * @param Request                     $request
+     * @param IssueRepositoryInterface    $repository
+     * @param LastReadRepositoryInterface $lastReadRepository
      *
      * @return JsonResponse
      */
-    public function listIssues(Request $request, IssueRepository $repository, LastReadRepository $lastReadRepository): JsonResponse
+    public function listIssues(
+        Request                     $request,
+        IssueRepositoryInterface    $repository,
+        LastReadRepositoryInterface $lastReadRepository
+    ): JsonResponse
     {
         $collection = $this->getCollection($request, $repository);
 
@@ -193,15 +197,15 @@ class ApiIssuesController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Issue is not found.")
      *
-     * @param Issue              $issue
-     * @param LastReadRepository $repository
+     * @param Issue                       $issue
+     * @param LastReadRepositoryInterface $repository
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      *
      * @return JsonResponse
      */
-    public function getIssue(Issue $issue, LastReadRepository $repository): JsonResponse
+    public function getIssue(Issue $issue, LastReadRepositoryInterface $repository): JsonResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
 
@@ -455,22 +459,22 @@ class ApiIssuesController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Issue is not found.")
      *
-     * @param Issue           $issue
-     * @param EventRepository $repository
-     * @param StateRepository $stateRepository
-     * @param UserRepository  $userRepository
-     * @param FileRepository  $fileRepository
-     * @param IssueRepository $issueRepository
+     * @param Issue                    $issue
+     * @param EventRepositoryInterface $repository
+     * @param StateRepositoryInterface $stateRepository
+     * @param UserRepositoryInterface  $userRepository
+     * @param FileRepositoryInterface  $fileRepository
+     * @param IssueRepositoryInterface $issueRepository
      *
      * @return JsonResponse
      */
     public function listEvents(
-        Issue           $issue,
-        EventRepository $repository,
-        StateRepository $stateRepository,
-        UserRepository  $userRepository,
-        FileRepository  $fileRepository,
-        IssueRepository $issueRepository
+        Issue                    $issue,
+        EventRepositoryInterface $repository,
+        StateRepositoryInterface $stateRepository,
+        UserRepositoryInterface  $userRepository,
+        FileRepositoryInterface  $fileRepository,
+        IssueRepositoryInterface $issueRepository
     ): JsonResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
@@ -516,21 +520,7 @@ class ApiIssuesController extends AbstractController
         $files = $fileRepository->findBy(['id' => array_unique($ids[Event::JSON_FILE])]);
 
         /** @var Issue[] $issues */
-        $issues = $issueRepository->createQueryBuilder('issue')
-            ->innerJoin('issue.state', 'state')
-            ->addSelect('state')
-            ->innerJoin('state.template', 'template')
-            ->addSelect('template')
-            ->innerJoin('template.project', 'project')
-            ->addSelect('project')
-            ->innerJoin('issue.author', 'author')
-            ->addSelect('author')
-            ->leftJoin('issue.responsible', 'responsible')
-            ->addSelect('responsible')
-            ->where('issue.id IN (:ids)')
-            ->setParameter('ids', array_unique($ids[Event::JSON_ISSUE]))
-            ->getQuery()
-            ->getResult();
+        $issues = $issueRepository->findByIds(array_unique($ids[Event::JSON_ISSUE]));
 
         // Convert states to JSON representation.
         foreach ($states as $state) {
@@ -594,24 +584,24 @@ class ApiIssuesController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Issue is not found.")
      *
-     * @param Issue                  $issue
-     * @param ChangeRepository       $repository
-     * @param DecimalValueRepository $decimalRepository
-     * @param StringValueRepository  $stringRepository
-     * @param TextValueRepository    $textRepository
-     * @param ListItemRepository     $listRepository
+     * @param Issue                           $issue
+     * @param ChangeRepositoryInterface       $repository
+     * @param DecimalValueRepositoryInterface $decimalRepository
+     * @param StringValueRepositoryInterface  $stringRepository
+     * @param TextValueRepositoryInterface    $textRepository
+     * @param ListItemRepositoryInterface     $listRepository
      *
      * @throws \Psr\SimpleCache\InvalidArgumentException
      *
      * @return JsonResponse
      */
     public function listChanges(
-        Issue                  $issue,
-        ChangeRepository       $repository,
-        DecimalValueRepository $decimalRepository,
-        StringValueRepository  $stringRepository,
-        TextValueRepository    $textRepository,
-        ListItemRepository     $listRepository
+        Issue                           $issue,
+        ChangeRepositoryInterface       $repository,
+        DecimalValueRepositoryInterface $decimalRepository,
+        StringValueRepositoryInterface  $stringRepository,
+        TextValueRepositoryInterface    $textRepository,
+        ListItemRepositoryInterface     $listRepository
     ): JsonResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
@@ -690,13 +680,13 @@ class ApiIssuesController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Issue is not found.")
      *
-     * @param Request           $request
-     * @param Issue             $issue
-     * @param WatcherRepository $repository
+     * @param Request                    $request
+     * @param Issue                      $issue
+     * @param WatcherRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listWatchers(Request $request, Issue $issue, WatcherRepository $repository): JsonResponse
+    public function listWatchers(Request $request, Issue $issue, WatcherRepositoryInterface $repository): JsonResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
 
@@ -727,12 +717,12 @@ class ApiIssuesController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Issue is not found.")
      *
-     * @param Issue             $issue
-     * @param CommentRepository $repository
+     * @param Issue                      $issue
+     * @param CommentRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listComments(Issue $issue, CommentRepository $repository): JsonResponse
+    public function listComments(Issue $issue, CommentRepositoryInterface $repository): JsonResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
 
@@ -789,12 +779,12 @@ class ApiIssuesController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Issue is not found.")
      *
-     * @param Issue          $issue
-     * @param FileRepository $repository
+     * @param Issue                   $issue
+     * @param FileRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listFiles(Issue $issue, FileRepository $repository): JsonResponse
+    public function listFiles(Issue $issue, FileRepositoryInterface $repository): JsonResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
 
@@ -906,14 +896,19 @@ class ApiIssuesController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Issue is not found.")
      *
-     * @param Request            $request
-     * @param Issue              $issue
-     * @param IssueRepository    $repository
-     * @param LastReadRepository $lastReadRepository
+     * @param Request                     $request
+     * @param Issue                       $issue
+     * @param IssueRepositoryInterface    $repository
+     * @param LastReadRepositoryInterface $lastReadRepository
      *
      * @return JsonResponse
      */
-    public function getDependencies(Request $request, Issue $issue, IssueRepository $repository, LastReadRepository $lastReadRepository): JsonResponse
+    public function getDependencies(
+        Request                     $request,
+        Issue                       $issue,
+        IssueRepositoryInterface    $repository,
+        LastReadRepositoryInterface $lastReadRepository
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
 

@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ResumeProjectCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\ProjectRepository */
+    /** @var \eTraxis\Repository\Contracts\ProjectRepositoryInterface */
     protected $repository;
 
     protected function setUp()

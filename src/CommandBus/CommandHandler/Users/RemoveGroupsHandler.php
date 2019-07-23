@@ -16,8 +16,8 @@ namespace eTraxis\CommandBus\CommandHandler\Users;
 use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\Users\RemoveGroupsCommand;
 use eTraxis\Entity\Group;
-use eTraxis\Repository\GroupRepository;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\GroupRepositoryInterface;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\GroupVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -37,14 +37,14 @@ class RemoveGroupsHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param UserRepository                $userRepository
-     * @param GroupRepository               $groupRepository
+     * @param UserRepositoryInterface       $userRepository
+     * @param GroupRepositoryInterface      $groupRepository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
-        UserRepository                $userRepository,
-        GroupRepository               $groupRepository,
+        UserRepositoryInterface       $userRepository,
+        GroupRepositoryInterface      $groupRepository,
         EntityManagerInterface        $manager
     )
     {

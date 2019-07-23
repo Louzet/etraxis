@@ -16,8 +16,8 @@ namespace eTraxis\CommandBus\CommandHandler\Issues;
 use eTraxis\CommandBus\Command\Issues\DeleteFileCommand;
 use eTraxis\Dictionary\EventType;
 use eTraxis\Entity\Event;
-use eTraxis\Repository\EventRepository;
-use eTraxis\Repository\FileRepository;
+use eTraxis\Repository\Contracts\EventRepositoryInterface;
+use eTraxis\Repository\Contracts\FileRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,14 +39,14 @@ class DeleteFileHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param TokenStorageInterface         $tokens
-     * @param EventRepository               $eventRepository
-     * @param FileRepository                $fileRepository
+     * @param EventRepositoryInterface      $eventRepository
+     * @param FileRepositoryInterface       $fileRepository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         TokenStorageInterface         $tokens,
-        EventRepository               $eventRepository,
-        FileRepository                $fileRepository
+        EventRepositoryInterface      $eventRepository,
+        FileRepositoryInterface       $fileRepository
     )
     {
         $this->security        = $security;

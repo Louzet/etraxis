@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\Templates\SetGroupsPermissionCommand;
 use eTraxis\Entity\Group;
 use eTraxis\Entity\TemplateGroupPermission;
-use eTraxis\Repository\TemplateRepository;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use eTraxis\Voter\TemplateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -36,12 +36,12 @@ class SetGroupsPermissionHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param TemplateRepository            $repository
+     * @param TemplateRepositoryInterface   $repository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
-        TemplateRepository            $repository,
+        TemplateRepositoryInterface   $repository,
         EntityManagerInterface        $manager
     )
     {

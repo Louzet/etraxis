@@ -38,7 +38,7 @@ class CloneIssueCommandTest extends TransactionalTestCase
 {
     use ReflectionTrait;
 
-    /** @var \eTraxis\Repository\IssueRepository */
+    /** @var \eTraxis\Repository\Contracts\IssueRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -119,11 +119,11 @@ class CloneIssueCommandTest extends TransactionalTestCase
         self::assertSame($field2, $values[1]->field);
         self::assertSame($field3, $values[2]->field);
 
-        /** @var \eTraxis\Repository\ListItemRepository $listRepository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $listRepository */
         $listRepository = $this->doctrine->getRepository(ListItem::class);
         $listValue      = $listRepository->findOneByValue($field1, 2);
 
-        /** @var \eTraxis\Repository\TextValueRepository $textRepository */
+        /** @var \eTraxis\Repository\Contracts\TextValueRepositoryInterface $textRepository */
         $textRepository = $this->doctrine->getRepository(TextValue::class);
         $textValue      = $textRepository->get('Est dolorum omnis accusantium hic veritatis ut.');
 
@@ -324,7 +324,7 @@ class CloneIssueCommandTest extends TransactionalTestCase
 
         self::assertSame($field1, $values[0]->field);
 
-        /** @var \eTraxis\Repository\ListItemRepository $listRepository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $listRepository */
         $listRepository = $this->doctrine->getRepository(ListItem::class);
         $listValue      = $listRepository->findOneByValue($field1, 2);
 

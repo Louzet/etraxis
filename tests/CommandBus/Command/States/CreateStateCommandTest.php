@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CreateStateCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\StateRepository */
+    /** @var \eTraxis\Repository\Contracts\StateRepositoryInterface */
     protected $repository;
 
     protected function setUp()

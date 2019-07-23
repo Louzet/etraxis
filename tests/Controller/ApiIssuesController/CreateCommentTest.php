@@ -28,7 +28,7 @@ class CreateCommentTest extends TransactionalTestCase
     {
         $this->loginAs('jmueller@example.com');
 
-        /** @var \eTraxis\Repository\CommentRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\CommentRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(Comment::class);
 
         /** @var Issue $issue */

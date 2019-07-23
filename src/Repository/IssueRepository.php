@@ -26,7 +26,7 @@ use eTraxis\Entity\Issue;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class IssueRepository extends ServiceEntityRepository implements CollectionInterface
+class IssueRepository extends ServiceEntityRepository implements Contracts\IssueRepositoryInterface
 {
     protected $tokens;
     protected $changeRepository;
@@ -39,13 +39,13 @@ class IssueRepository extends ServiceEntityRepository implements CollectionInter
      * {@inheritdoc}
      */
     public function __construct(
-        RegistryInterface      $registry,
-        TokenStorageInterface  $tokens,
-        ChangeRepository       $changeRepository,
-        DecimalValueRepository $decimalRepository,
-        StringValueRepository  $stringRepository,
-        TextValueRepository    $textRepository,
-        ListItemRepository     $listRepository
+        RegistryInterface                         $registry,
+        TokenStorageInterface                     $tokens,
+        Contracts\ChangeRepositoryInterface       $changeRepository,
+        Contracts\DecimalValueRepositoryInterface $decimalRepository,
+        Contracts\StringValueRepositoryInterface  $stringRepository,
+        Contracts\TextValueRepositoryInterface    $textRepository,
+        Contracts\ListItemRepositoryInterface     $listRepository
     )
     {
         parent::__construct($registry, Issue::class);
@@ -79,13 +79,31 @@ class IssueRepository extends ServiceEntityRepository implements CollectionInter
     }
 
     /**
-     * Sets new subject of the specified issue.
-     *
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param Issue  $issue   Issie whose subject is being set.
-     * @param Event  $event   Event related to this change.
-     * @param string $subject New subject.
+     * {@inheritdoc}
+     */
+    public function findByIds(array $ids): array
+    {
+        $query = $this->createQueryBuilder('issue');
+
+        $query
+            ->innerJoin('issue.state', 'state')
+            ->addSelect('state')
+            ->innerJoin('state.template', 'template')
+            ->addSelect('template')
+            ->innerJoin('template.project', 'project')
+            ->addSelect('project')
+            ->innerJoin('issue.author', 'author')
+            ->addSelect('author')
+            ->leftJoin('issue.responsible', 'responsible')
+            ->addSelect('responsible')
+            ->where('issue.id IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function changeSubject(Issue $issue, Event $event, string $subject): void
     {

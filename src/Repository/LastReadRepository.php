@@ -19,7 +19,7 @@ use eTraxis\Entity\LastRead;
 use eTraxis\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class LastReadRepository extends ServiceEntityRepository
+class LastReadRepository extends ServiceEntityRepository implements Contracts\LastReadRepositoryInterface
 {
     /**
      * {@inheritdoc}
@@ -40,13 +40,7 @@ class LastReadRepository extends ServiceEntityRepository
     }
 
     /**
-     * Marks specified issue as read by specified user.
-     *
-     * @param Issue $issue
-     * @param User  $user
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * {@inheritdoc}
      */
     public function markAsRead(Issue $issue, User $user): void
     {

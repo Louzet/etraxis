@@ -16,7 +16,7 @@ namespace eTraxis\Controller\API;
 use eTraxis\CommandBus\Command\Users as Command;
 use eTraxis\Entity\User;
 use eTraxis\Repository\CollectionTrait;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -85,12 +85,12 @@ class ApiUsersController extends AbstractController
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      *
-     * @param Request        $request
-     * @param UserRepository $repository
+     * @param Request                 $request
+     * @param UserRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listUsers(Request $request, UserRepository $repository): JsonResponse
+    public function listUsers(Request $request, UserRepositoryInterface $repository): JsonResponse
     {
         $collection = $this->getCollection($request, $repository);
 

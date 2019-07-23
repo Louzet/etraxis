@@ -65,7 +65,7 @@ class WebTestCase extends SymfonyWebTestCase
         /** @var \Symfony\Component\HttpFoundation\Session\SessionInterface $session */
         $session = $this->client->getContainer()->get('session');
 
-        /** @var \eTraxis\Repository\UserRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface $repository */
         $repository = $this->client->getContainer()->get('doctrine')->getRepository(User::class);
 
         /** @var User $user */

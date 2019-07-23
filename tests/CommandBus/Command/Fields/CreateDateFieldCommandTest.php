@@ -26,7 +26,7 @@ class CreateDateFieldCommandTest extends TransactionalTestCase
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $manager;
 
-    /** @var \eTraxis\Repository\FieldRepository */
+    /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface */
     protected $repository;
 
     protected function setUp()

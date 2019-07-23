@@ -15,6 +15,7 @@ namespace eTraxis\Repository;
 
 use eTraxis\Dictionary\AccountProvider;
 use eTraxis\Entity\User;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\WebTestCase;
 
 /**
@@ -22,7 +23,7 @@ use eTraxis\WebTestCase;
  */
 class UserRepositoryTest extends WebTestCase
 {
-    /** @var UserRepository */
+    /** @var Contracts\UserRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -101,8 +102,8 @@ class UserRepositoryTest extends WebTestCase
             'Vida Parker',
         ];
 
-        $collection = $this->repository->getCollection(30, UserRepository::MAX_LIMIT, null, [], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(30, UserRepositoryInterface::MAX_LIMIT, null, [], [
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(30, $collection->from);
@@ -135,7 +136,7 @@ class UserRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 10, null, [], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -169,8 +170,8 @@ class UserRepositoryTest extends WebTestCase
             'Leland Doyle',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, 'mAn', [], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, 'mAn', [], [
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -195,10 +196,10 @@ class UserRepositoryTest extends WebTestCase
             'Lucas O\'Connell',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_EMAIL => 'oCoNNel',
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -223,10 +224,10 @@ class UserRepositoryTest extends WebTestCase
             'Lucas O\'Connell',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_FULLNAME => 'o\'cONneL',
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -258,10 +259,10 @@ class UserRepositoryTest extends WebTestCase
             'Vida Parker',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_DESCRIPTION => 'sUPpOrT',
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -285,10 +286,10 @@ class UserRepositoryTest extends WebTestCase
             'eTraxis Admin',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_ADMIN => User::ROLE_ADMIN,
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -312,10 +313,10 @@ class UserRepositoryTest extends WebTestCase
             'Ted Berge',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_DISABLED => true,
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -339,10 +340,10 @@ class UserRepositoryTest extends WebTestCase
             'Joe Gutmann',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_LOCKED => true,
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -400,10 +401,10 @@ class UserRepositoryTest extends WebTestCase
             'Vida Parker',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_LOCKED => false,
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -427,10 +428,10 @@ class UserRepositoryTest extends WebTestCase
             'Albert Einstein',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_PROVIDER => AccountProvider::LDAP,
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -457,12 +458,12 @@ class UserRepositoryTest extends WebTestCase
             'Jeramy Mueller',
         ];
 
-        $collection = $this->repository->getCollection(0, UserRepository::MAX_LIMIT, '', [
+        $collection = $this->repository->getCollection(0, UserRepositoryInterface::MAX_LIMIT, '', [
             User::JSON_EMAIL       => 'eR',
             User::JSON_FULLNAME    => '',
             User::JSON_DESCRIPTION => 'a+',
         ], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -511,7 +512,7 @@ class UserRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 25, '', [], [
-            User::JSON_EMAIL => UserRepository::SORT_ASC,
+            User::JSON_EMAIL => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -560,7 +561,7 @@ class UserRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 25, '', [], [
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -609,8 +610,8 @@ class UserRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 25, '', [], [
-            User::JSON_DESCRIPTION => UserRepository::SORT_ASC,
-            User::JSON_FULLNAME    => UserRepository::SORT_DESC,
+            User::JSON_DESCRIPTION => UserRepositoryInterface::SORT_ASC,
+            User::JSON_FULLNAME    => UserRepositoryInterface::SORT_DESC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -659,8 +660,8 @@ class UserRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 25, '', [], [
-            User::JSON_ADMIN    => UserRepository::SORT_ASC,
-            User::JSON_FULLNAME => UserRepository::SORT_ASC,
+            User::JSON_ADMIN    => UserRepositoryInterface::SORT_ASC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_ASC,
         ]);
 
         self::assertSame(0, $collection->from);
@@ -709,8 +710,8 @@ class UserRepositoryTest extends WebTestCase
         ];
 
         $collection = $this->repository->getCollection(0, 25, '', [], [
-            User::JSON_PROVIDER => UserRepository::SORT_DESC,
-            User::JSON_FULLNAME => UserRepository::SORT_DESC,
+            User::JSON_PROVIDER => UserRepositoryInterface::SORT_DESC,
+            User::JSON_FULLNAME => UserRepositoryInterface::SORT_DESC,
         ]);
 
         self::assertSame(0, $collection->from);

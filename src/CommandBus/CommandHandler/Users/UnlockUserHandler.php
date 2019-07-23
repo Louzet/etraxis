@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\UnlockUserCommand;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use eTraxis\Voter\UserVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,9 +32,9 @@ class UnlockUserHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param UserRepository                $repository
+     * @param UserRepositoryInterface       $repository
      */
-    public function __construct(AuthorizationCheckerInterface $security, UserRepository $repository)
+    public function __construct(AuthorizationCheckerInterface $security, UserRepositoryInterface $repository)
     {
         $this->security   = $security;
         $this->repository = $repository;

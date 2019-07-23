@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Encoder\BasePasswordEncoder;
  */
 class ResetPasswordCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\UserRepository */
+    /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface */
     protected $repository;
 
     protected function setUp()

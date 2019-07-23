@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\States\SetGroupsTransitionCommand;
 use eTraxis\Entity\Group;
 use eTraxis\Entity\StateGroupTransition;
-use eTraxis\Repository\StateRepository;
+use eTraxis\Repository\Contracts\StateRepositoryInterface;
 use eTraxis\Voter\StateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -36,12 +36,12 @@ class SetGroupsTransitionHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param StateRepository               $repository
+     * @param StateRepositoryInterface      $repository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
-        StateRepository               $repository,
+        StateRepositoryInterface      $repository,
         EntityManagerInterface        $manager
     )
     {

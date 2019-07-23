@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\UpdateProfileCommand;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -32,14 +32,14 @@ class UpdateProfileHandler
     /**
      * @codeCoverageIgnore Dependency Injection constructor.
      *
-     * @param ValidatorInterface    $validator
-     * @param TokenStorageInterface $tokens
-     * @param UserRepository        $repository
+     * @param ValidatorInterface      $validator
+     * @param TokenStorageInterface   $tokens
+     * @param UserRepositoryInterface $repository
      */
     public function __construct(
-        ValidatorInterface    $validator,
-        TokenStorageInterface $tokens,
-        UserRepository        $repository
+        ValidatorInterface      $validator,
+        TokenStorageInterface   $tokens,
+        UserRepositoryInterface $repository
     )
     {
         $this->validator  = $validator;

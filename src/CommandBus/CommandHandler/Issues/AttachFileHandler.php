@@ -19,9 +19,9 @@ use eTraxis\Dictionary\EventType;
 use eTraxis\Dictionary\MimeType;
 use eTraxis\Entity\Event;
 use eTraxis\Entity\File;
-use eTraxis\Repository\EventRepository;
-use eTraxis\Repository\FileRepository;
-use eTraxis\Repository\IssueRepository;
+use eTraxis\Repository\Contracts\EventRepositoryInterface;
+use eTraxis\Repository\Contracts\FileRepositoryInterface;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -51,18 +51,18 @@ class AttachFileHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param TokenStorageInterface         $tokens
-     * @param IssueRepository               $issueRepository
-     * @param EventRepository               $eventRepository
-     * @param FileRepository                $fileRepository
+     * @param IssueRepositoryInterface      $issueRepository
+     * @param EventRepositoryInterface      $eventRepository
+     * @param FileRepositoryInterface       $fileRepository
      * @param EntityManagerInterface        $manager
      * @param int                           $maxsize
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         TokenStorageInterface         $tokens,
-        IssueRepository               $issueRepository,
-        EventRepository               $eventRepository,
-        FileRepository                $fileRepository,
+        IssueRepositoryInterface      $issueRepository,
+        EventRepositoryInterface      $eventRepository,
+        FileRepositoryInterface       $fileRepository,
         EntityManagerInterface        $manager,
         int                           $maxsize
     )

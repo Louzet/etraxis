@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Templates;
 
 use eTraxis\CommandBus\Command\Templates\UpdateTemplateCommand;
-use eTraxis\Repository\TemplateRepository;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use eTraxis\Voter\TemplateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -36,12 +36,12 @@ class UpdateTemplateHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
-     * @param TemplateRepository            $repository
+     * @param TemplateRepositoryInterface   $repository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
-        TemplateRepository            $repository
+        TemplateRepositoryInterface   $repository
     )
     {
         $this->security   = $security;

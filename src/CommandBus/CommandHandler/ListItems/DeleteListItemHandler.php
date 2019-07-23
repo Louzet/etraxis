@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\ListItems;
 
 use eTraxis\CommandBus\Command\ListItems\DeleteListItemCommand;
-use eTraxis\Repository\ListItemRepository;
+use eTraxis\Repository\Contracts\ListItemRepositoryInterface;
 use eTraxis\Voter\ListItemVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -31,9 +31,9 @@ class DeleteListItemHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param ListItemRepository            $repository
+     * @param ListItemRepositoryInterface   $repository
      */
-    public function __construct(AuthorizationCheckerInterface $security, ListItemRepository $repository)
+    public function __construct(AuthorizationCheckerInterface $security, ListItemRepositoryInterface $repository)
     {
         $this->security   = $security;
         $this->repository = $repository;

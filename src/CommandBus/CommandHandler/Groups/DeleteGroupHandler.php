@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Groups;
 
 use eTraxis\CommandBus\Command\Groups\DeleteGroupCommand;
-use eTraxis\Repository\GroupRepository;
+use eTraxis\Repository\Contracts\GroupRepositoryInterface;
 use eTraxis\Voter\GroupVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -31,9 +31,9 @@ class DeleteGroupHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param GroupRepository               $repository
+     * @param GroupRepositoryInterface      $repository
      */
-    public function __construct(AuthorizationCheckerInterface $security, GroupRepository $repository)
+    public function __construct(AuthorizationCheckerInterface $security, GroupRepositoryInterface $repository)
     {
         $this->security   = $security;
         $this->repository = $repository;

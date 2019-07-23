@@ -21,7 +21,7 @@ use eTraxis\TransactionalTestCase;
  */
 class DependencyRepositoryTest extends TransactionalTestCase
 {
-    /** @var DependencyRepository */
+    /** @var Contracts\DependencyRepositoryInterface */
     protected $repository;
 
     protected function setUp()

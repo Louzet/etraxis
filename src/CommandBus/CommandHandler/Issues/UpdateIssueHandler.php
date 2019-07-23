@@ -17,9 +17,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\Issues\UpdateIssueCommand;
 use eTraxis\Dictionary\EventType;
 use eTraxis\Entity\Event;
-use eTraxis\Repository\EventRepository;
-use eTraxis\Repository\FieldValueRepository;
-use eTraxis\Repository\IssueRepository;
+use eTraxis\Repository\Contracts\EventRepositoryInterface;
+use eTraxis\Repository\Contracts\FieldValueRepositoryInterface;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use League\Tactician\Bundle\Middleware\InvalidCommandException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -51,9 +51,9 @@ class UpdateIssueHandler
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
      * @param TokenStorageInterface         $tokens
-     * @param IssueRepository               $issueRepository
-     * @param EventRepository               $eventRepository
-     * @param FieldValueRepository          $valueRepository
+     * @param IssueRepositoryInterface      $issueRepository
+     * @param EventRepositoryInterface      $eventRepository
+     * @param FieldValueRepositoryInterface $valueRepository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
@@ -61,9 +61,9 @@ class UpdateIssueHandler
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
         TokenStorageInterface         $tokens,
-        IssueRepository               $issueRepository,
-        EventRepository               $eventRepository,
-        FieldValueRepository          $valueRepository,
+        IssueRepositoryInterface      $issueRepository,
+        EventRepositoryInterface      $eventRepository,
+        FieldValueRepositoryInterface $valueRepository,
         EntityManagerInterface        $manager
     )
     {

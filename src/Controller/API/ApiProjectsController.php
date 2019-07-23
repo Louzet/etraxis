@@ -16,7 +16,7 @@ namespace eTraxis\Controller\API;
 use eTraxis\CommandBus\Command\Projects as Command;
 use eTraxis\Entity\Project;
 use eTraxis\Repository\CollectionTrait;
-use eTraxis\Repository\ProjectRepository;
+use eTraxis\Repository\Contracts\ProjectRepositoryInterface;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -80,12 +80,12 @@ class ApiProjectsController extends AbstractController
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      *
-     * @param Request           $request
-     * @param ProjectRepository $repository
+     * @param Request                    $request
+     * @param ProjectRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listProjects(Request $request, ProjectRepository $repository): JsonResponse
+    public function listProjects(Request $request, ProjectRepositoryInterface $repository): JsonResponse
     {
         $collection = $this->getCollection($request, $repository);
 

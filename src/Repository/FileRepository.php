@@ -18,7 +18,7 @@ use eTraxis\Entity\File;
 use eTraxis\Entity\Issue;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class FileRepository extends ServiceEntityRepository
+class FileRepository extends ServiceEntityRepository implements Contracts\FileRepositoryInterface
 {
     /** @var string Path to files storage directory. */
     protected $storage;
@@ -44,11 +44,7 @@ class FileRepository extends ServiceEntityRepository
     }
 
     /**
-     * Returns absolute path including filename to the specified attachment.
-     *
-     * @param File $entity
-     *
-     * @return null|string
+     * {@inheritdoc}
      */
     public function getFullPath(File $entity): ?string
     {
@@ -56,12 +52,7 @@ class FileRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds all files of specified issue.
-     *
-     * @param Issue $issue
-     * @param bool  $showRemoved
-     *
-     * @return File[]
+     * {@inheritdoc}
      */
     public function findAllByIssue(Issue $issue, bool $showRemoved = false): array
     {

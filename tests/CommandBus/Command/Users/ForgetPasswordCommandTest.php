@@ -21,7 +21,7 @@ use eTraxis\TransactionalTestCase;
  */
 class ForgetPasswordCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\UserRepository */
+    /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface */
     protected $repository;
 
     protected function setUp()

@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CreateTemplateCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\TemplateRepository */
+    /** @var \eTraxis\Repository\Contracts\TemplateRepositoryInterface */
     protected $repository;
 
     protected function setUp()

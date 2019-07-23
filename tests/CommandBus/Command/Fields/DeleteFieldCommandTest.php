@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class DeleteFieldCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\FieldRepository */
+    /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface */
     protected $repository;
 
     protected function setUp()

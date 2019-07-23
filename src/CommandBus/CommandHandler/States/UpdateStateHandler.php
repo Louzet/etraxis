@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\States;
 
 use eTraxis\CommandBus\Command\States\UpdateStateCommand;
-use eTraxis\Repository\StateRepository;
+use eTraxis\Repository\Contracts\StateRepositoryInterface;
 use eTraxis\Voter\StateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -36,12 +36,12 @@ class UpdateStateHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
-     * @param StateRepository               $repository
+     * @param StateRepositoryInterface      $repository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
-        StateRepository               $repository
+        StateRepositoryInterface      $repository
     )
     {
         $this->security   = $security;

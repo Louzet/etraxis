@@ -23,7 +23,7 @@ use eTraxis\Entity\Issue;
 use eTraxis\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class ChangeRepository extends ServiceEntityRepository
+class ChangeRepository extends ServiceEntityRepository implements Contracts\ChangeRepositoryInterface
 {
     protected $decimalRepository;
     protected $stringRepository;
@@ -34,11 +34,11 @@ class ChangeRepository extends ServiceEntityRepository
      * {@inheritdoc}
      */
     public function __construct(
-        RegistryInterface      $registry,
-        DecimalValueRepository $decimalRepository,
-        StringValueRepository  $stringRepository,
-        TextValueRepository    $textRepository,
-        ListItemRepository     $listRepository
+        RegistryInterface                         $registry,
+        Contracts\DecimalValueRepositoryInterface $decimalRepository,
+        Contracts\StringValueRepositoryInterface  $stringRepository,
+        Contracts\TextValueRepositoryInterface    $textRepository,
+        Contracts\ListItemRepositoryInterface     $listRepository
     )
     {
         parent::__construct($registry, Change::class);
@@ -60,14 +60,7 @@ class ChangeRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds all issue changes, visible to specified user.
-     *
-     * @param Issue $issue
-     * @param User  $user
-     *
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     *
-     * @return Change[]
+     * {@inheritdoc}
      */
     public function findAllByIssue(Issue $issue, User $user): array
     {

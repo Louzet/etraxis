@@ -16,8 +16,8 @@ namespace eTraxis\CommandBus\CommandHandler\ListItems;
 use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\ListItems\CreateListItemCommand;
 use eTraxis\Entity\ListItem;
-use eTraxis\Repository\FieldRepository;
-use eTraxis\Repository\ListItemRepository;
+use eTraxis\Repository\Contracts\FieldRepositoryInterface;
+use eTraxis\Repository\Contracts\ListItemRepositoryInterface;
 use eTraxis\Voter\ListItemVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -42,15 +42,15 @@ class CreateListItemHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param ValidatorInterface            $validator
-     * @param FieldRepository               $fieldRepository
-     * @param ListItemRepository            $itemRepository
+     * @param FieldRepositoryInterface      $fieldRepository
+     * @param ListItemRepositoryInterface   $itemRepository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         ValidatorInterface            $validator,
-        FieldRepository               $fieldRepository,
-        ListItemRepository            $itemRepository,
+        FieldRepositoryInterface      $fieldRepository,
+        ListItemRepositoryInterface   $itemRepository,
         EntityManagerInterface        $manager
     )
     {

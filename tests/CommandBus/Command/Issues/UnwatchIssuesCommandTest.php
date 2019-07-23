@@ -22,7 +22,7 @@ use eTraxis\TransactionalTestCase;
  */
 class UnwatchIssuesCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\IssueRepository */
+    /** @var \eTraxis\Repository\Contracts\IssueRepositoryInterface */
     protected $repository;
 
     protected function setUp()

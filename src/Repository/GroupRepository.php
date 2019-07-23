@@ -18,7 +18,7 @@ use Doctrine\ORM\QueryBuilder;
 use eTraxis\Entity\Group;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class GroupRepository extends ServiceEntityRepository implements CollectionInterface
+class GroupRepository extends ServiceEntityRepository implements Contracts\GroupRepositoryInterface
 {
     /**
      * {@inheritdoc}

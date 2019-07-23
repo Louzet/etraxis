@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\States;
 
 use eTraxis\CommandBus\Command\States\DeleteStateCommand;
-use eTraxis\Repository\StateRepository;
+use eTraxis\Repository\Contracts\StateRepositoryInterface;
 use eTraxis\Voter\StateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -31,9 +31,9 @@ class DeleteStateHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param StateRepository               $repository
+     * @param StateRepositoryInterface      $repository
      */
-    public function __construct(AuthorizationCheckerInterface $security, StateRepository $repository)
+    public function __construct(AuthorizationCheckerInterface $security, StateRepositoryInterface $repository)
     {
         $this->security   = $security;
         $this->repository = $repository;

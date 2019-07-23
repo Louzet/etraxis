@@ -35,7 +35,7 @@ class ListHandlerTraitTest extends TransactionalTestCase
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $manager;
 
-    /** @var \eTraxis\Repository\FieldRepository */
+    /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface */
     protected $repository;
 
     /** @var ListHandlerTrait $handler */
@@ -67,7 +67,7 @@ class ListHandlerTraitTest extends TransactionalTestCase
      */
     public function testCopyCommandToFieldSuccess()
     {
-        /** @var \eTraxis\Repository\ListItemRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var Field $field */
@@ -122,7 +122,7 @@ class ListHandlerTraitTest extends TransactionalTestCase
     {
         $this->expectException(NotFoundHttpException::class);
 
-        /** @var \eTraxis\Repository\ListItemRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var Field $field */
@@ -162,7 +162,7 @@ class ListHandlerTraitTest extends TransactionalTestCase
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Unsupported field type.');
 
-        /** @var \eTraxis\Repository\ListItemRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(ListItem::class);
 
         /** @var Field $field */

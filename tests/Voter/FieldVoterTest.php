@@ -29,7 +29,7 @@ class FieldVoterTest extends TransactionalTestCase
     /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationChecker */
     protected $security;
 
-    /** @var \eTraxis\Repository\FieldRepository */
+    /** @var \eTraxis\Repository\Contracts\FieldRepositoryInterface */
     protected $repository;
 
     protected function setUp()
@@ -97,7 +97,7 @@ class FieldVoterTest extends TransactionalTestCase
      */
     public function testCreate()
     {
-        /** @var \eTraxis\Repository\StateRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\StateRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(State::class);
 
         [/* skipping */, $stateB, $stateC] = $repository->findBy(['name' => 'New'], ['id' => 'ASC']);

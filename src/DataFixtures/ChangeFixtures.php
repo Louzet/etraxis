@@ -110,7 +110,7 @@ class ChangeFixtures extends Fixture implements DependentFixtureInterface
 
                         if ($fref === 'subject') {
 
-                            /** @var \eTraxis\Repository\StringValueRepository $repository */
+                            /** @var \eTraxis\Repository\Contracts\StringValueRepositoryInterface $repository */
                             $repository = $manager->getRepository(StringValue::class);
 
                             $oldValue = $repository->get($values[0])->id;
@@ -125,7 +125,7 @@ class ChangeFixtures extends Fixture implements DependentFixtureInterface
 
                                 case FieldType::TEXT:
 
-                                    /** @var \eTraxis\Repository\TextValueRepository $repository */
+                                    /** @var \eTraxis\Repository\Contracts\TextValueRepositoryInterface $repository */
                                     $repository = $manager->getRepository(TextValue::class);
 
                                     $oldValue = $repository->get($values[0])->id;
@@ -135,7 +135,7 @@ class ChangeFixtures extends Fixture implements DependentFixtureInterface
 
                                 case FieldType::LIST:
 
-                                    /** @var \eTraxis\Repository\ListItemRepository $repository */
+                                    /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface $repository */
                                     $repository = $manager->getRepository(ListItem::class);
 
                                     $oldValue = $repository->findOneByValue($field, $values[0])->id;

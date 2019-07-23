@@ -17,9 +17,9 @@ use eTraxis\CommandBus\Command\Issues\AddCommentCommand;
 use eTraxis\Dictionary\EventType;
 use eTraxis\Entity\Comment;
 use eTraxis\Entity\Event;
-use eTraxis\Repository\CommentRepository;
-use eTraxis\Repository\EventRepository;
-use eTraxis\Repository\IssueRepository;
+use eTraxis\Repository\Contracts\CommentRepositoryInterface;
+use eTraxis\Repository\Contracts\EventRepositoryInterface;
+use eTraxis\Repository\Contracts\IssueRepositoryInterface;
 use eTraxis\Voter\IssueVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -42,16 +42,16 @@ class AddCommentHandler
      *
      * @param AuthorizationCheckerInterface $security
      * @param TokenStorageInterface         $tokens
-     * @param IssueRepository               $issueRepository
-     * @param EventRepository               $eventRepository
-     * @param CommentRepository             $commentRepository
+     * @param IssueRepositoryInterface      $issueRepository
+     * @param EventRepositoryInterface      $eventRepository
+     * @param CommentRepositoryInterface    $commentRepository
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
         TokenStorageInterface         $tokens,
-        IssueRepository               $issueRepository,
-        EventRepository               $eventRepository,
-        CommentRepository             $commentRepository
+        IssueRepositoryInterface      $issueRepository,
+        EventRepositoryInterface      $eventRepository,
+        CommentRepositoryInterface    $commentRepository
     )
     {
         $this->security          = $security;

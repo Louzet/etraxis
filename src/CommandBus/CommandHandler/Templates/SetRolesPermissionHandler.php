@@ -16,7 +16,7 @@ namespace eTraxis\CommandBus\CommandHandler\Templates;
 use Doctrine\ORM\EntityManagerInterface;
 use eTraxis\CommandBus\Command\Templates\SetRolesPermissionCommand;
 use eTraxis\Entity\TemplateRolePermission;
-use eTraxis\Repository\TemplateRepository;
+use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
 use eTraxis\Voter\TemplateVoter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -35,12 +35,12 @@ class SetRolesPermissionHandler
      * @codeCoverageIgnore Dependency Injection constructor.
      *
      * @param AuthorizationCheckerInterface $security
-     * @param TemplateRepository            $repository
+     * @param TemplateRepositoryInterface   $repository
      * @param EntityManagerInterface        $manager
      */
     public function __construct(
         AuthorizationCheckerInterface $security,
-        TemplateRepository            $repository,
+        TemplateRepositoryInterface   $repository,
         EntityManagerInterface        $manager
     )
     {

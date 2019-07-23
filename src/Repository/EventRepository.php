@@ -19,7 +19,7 @@ use eTraxis\Entity\Event;
 use eTraxis\Entity\Issue;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class EventRepository extends ServiceEntityRepository
+class EventRepository extends ServiceEntityRepository implements Contracts\EventRepositoryInterface
 {
     /**
      * {@inheritdoc}
@@ -40,12 +40,7 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds all events of specified issue.
-     *
-     * @param Issue $issue
-     * @param bool  $showPrivate
-     *
-     * @return Event[]
+     * {@inheritdoc}
      */
     public function findAllByIssue(Issue $issue, bool $showPrivate): array
     {

@@ -22,7 +22,7 @@ use eTraxis\WebTestCase;
  */
 class FileRepositoryTest extends WebTestCase
 {
-    /** @var FileRepository */
+    /** @var Contracts\FileRepositoryInterface */
     protected $repository;
 
     protected function setUp()

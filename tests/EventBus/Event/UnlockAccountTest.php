@@ -36,7 +36,7 @@ class UnlockAccountTest extends TransactionalTestCase
      */
     public function testUnlockUser()
     {
-        /** @var \eTraxis\Repository\UserRepository $repository */
+        /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface $repository */
         $repository = $this->doctrine->getRepository(User::class);
 
         /** @var User $user */

@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
  */
 class UpdateProfileCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\UserRepository */
+    /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface */
     protected $repository;
 
     protected function setUp()

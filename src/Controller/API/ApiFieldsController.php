@@ -18,8 +18,8 @@ use eTraxis\CommandBus\Command\ListItems\CreateListItemCommand;
 use eTraxis\Dictionary\FieldType;
 use eTraxis\Entity\Field;
 use eTraxis\Repository\CollectionTrait;
-use eTraxis\Repository\FieldRepository;
-use eTraxis\Repository\ListItemRepository;
+use eTraxis\Repository\Contracts\FieldRepositoryInterface;
+use eTraxis\Repository\Contracts\ListItemRepositoryInterface;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -92,12 +92,12 @@ class ApiFieldsController extends AbstractController
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      *
-     * @param Request         $request
-     * @param FieldRepository $repository
+     * @param Request                  $request
+     * @param FieldRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listFields(Request $request, FieldRepository $repository): JsonResponse
+    public function listFields(Request $request, FieldRepositoryInterface $repository): JsonResponse
     {
         /** @var \Doctrine\ORM\EntityManagerInterface $manager */
         $manager = $this->getDoctrine()->getManager();
@@ -400,12 +400,12 @@ class ApiFieldsController extends AbstractController
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Field is not found.")
      *
-     * @param Field              $field
-     * @param ListItemRepository $repository
+     * @param Field                       $field
+     * @param ListItemRepositoryInterface $repository
      *
      * @return JsonResponse
      */
-    public function listItems(Field $field, ListItemRepository $repository): JsonResponse
+    public function listItems(Field $field, ListItemRepositoryInterface $repository): JsonResponse
     {
         $items = $repository->findAllByField($field);
 

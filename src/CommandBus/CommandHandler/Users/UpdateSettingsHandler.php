@@ -14,7 +14,7 @@
 namespace eTraxis\CommandBus\CommandHandler\Users;
 
 use eTraxis\CommandBus\Command\Users\UpdateSettingsCommand;
-use eTraxis\Repository\UserRepository;
+use eTraxis\Repository\Contracts\UserRepositoryInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -31,11 +31,15 @@ class UpdateSettingsHandler
     /**
      * @codeCoverageIgnore Dependency Injection constructor.
      *
-     * @param TokenStorageInterface $tokens
-     * @param SessionInterface      $session
-     * @param UserRepository        $repository
+     * @param TokenStorageInterface   $tokens
+     * @param SessionInterface        $session
+     * @param UserRepositoryInterface $repository
      */
-    public function __construct(TokenStorageInterface $tokens, SessionInterface $session, UserRepository $repository)
+    public function __construct(
+        TokenStorageInterface   $tokens,
+        SessionInterface        $session,
+        UserRepositoryInterface $repository
+    )
     {
         $this->tokens     = $tokens;
         $this->session    = $session;

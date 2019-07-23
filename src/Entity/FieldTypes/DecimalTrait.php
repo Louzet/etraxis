@@ -18,7 +18,7 @@ namespace eTraxis\Entity\FieldTypes;
 use eTraxis\Entity\DecimalValue;
 use eTraxis\Entity\Field;
 use eTraxis\Entity\FieldParameters;
-use eTraxis\Repository\DecimalValueRepository;
+use eTraxis\Repository\Contracts\DecimalValueRepositoryInterface;
 use eTraxis\Validator\Constraints\DecimalRange;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -31,11 +31,11 @@ trait DecimalTrait
     /**
      * Returns this field as a field of a "decimal" type.
      *
-     * @param DecimalValueRepository $repository
+     * @param DecimalValueRepositoryInterface $repository
      *
      * @return DecimalInterface
      */
-    protected function asDecimal(DecimalValueRepository $repository): DecimalInterface
+    protected function asDecimal(DecimalValueRepositoryInterface $repository): DecimalInterface
     {
         return new class($repository, $this, $this->parameters) implements DecimalInterface {
             protected $repository;
@@ -45,11 +45,11 @@ trait DecimalTrait
             /**
              * Passes original field's parameters as a reference so they can be modified inside the class.
              *
-             * @param DecimalValueRepository $repository
-             * @param Field                  $field
-             * @param FieldParameters        $parameters
+             * @param DecimalValueRepositoryInterface $repository
+             * @param Field                           $field
+             * @param FieldParameters                 $parameters
              */
-            public function __construct(DecimalValueRepository $repository, Field $field, FieldParameters &$parameters)
+            public function __construct(DecimalValueRepositoryInterface $repository, Field $field, FieldParameters &$parameters)
             {
                 $this->repository = $repository;
                 $this->field      = $field;

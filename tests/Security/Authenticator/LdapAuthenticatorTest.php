@@ -38,7 +38,7 @@ class LdapAuthenticatorTest extends TransactionalTestCase
 {
     use ReflectionTrait;
 
-    /** @var \eTraxis\Repository\UserRepository */
+    /** @var \eTraxis\Repository\Contracts\UserRepositoryInterface */
     protected $repository;
 
     /** @var \Symfony\Component\Security\Core\User\UserProviderInterface */

@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CreateListItemCommandTest extends TransactionalTestCase
 {
-    /** @var \eTraxis\Repository\ListItemRepository */
+    /** @var \eTraxis\Repository\Contracts\ListItemRepositoryInterface */
     protected $repository;
 
     protected function setUp()
