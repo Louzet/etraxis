@@ -94,7 +94,7 @@ class FieldRepositoryTest extends WebTestCase
         [$state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Duplicated'], ['id' => 'ASC']);
 
         /** @var Field $field */
-        $field = $this->repository->findOneBy(['state' => $state]);
+        $field = $this->repository->findOneBy(['name' => 'Issue ID', 'state' => $state]);
 
         self::assertSame('Issue ID', $field->name);
     }
