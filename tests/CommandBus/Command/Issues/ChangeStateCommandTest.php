@@ -453,12 +453,16 @@ class ChangeStateCommandTest extends TransactionalTestCase
 
         $this->loginAs('ldoyle@example.com');
 
+        /** @var User $assignee */
+        $assignee = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'nhills@example.com']);
+
         /** @var State $state */
         [/* skipping */, /* skipping */, $state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Assigned'], ['id' => 'ASC']);
 
         $command = new ChangeStateCommand([
-            'issue' => self::UNKNOWN_ENTITY_ID,
-            'state' => $state->id,
+            'issue'       => self::UNKNOWN_ENTITY_ID,
+            'state'       => $state->id,
+            'responsible' => $assignee->id,
         ]);
 
         $this->commandBus->handle($command);
@@ -529,12 +533,15 @@ class ChangeStateCommandTest extends TransactionalTestCase
         $this->commandBus->handle($command);
     }
 
-    public function testAccessDenied()
+    public function testAccessDeniedByUser()
     {
         $this->expectException(AccessDeniedHttpException::class);
-        $this->expectExceptionMessage('You are not allowed to change the state.');
+        $this->expectExceptionMessage('You are not allowed to change the current state.');
 
         $this->loginAs('labshire@example.com');
+
+        /** @var User $assignee */
+        $assignee = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'nhills@example.com']);
 
         /** @var State $state */
         [/* skipping */, /* skipping */, $state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Assigned'], ['id' => 'ASC']);
@@ -543,8 +550,39 @@ class ChangeStateCommandTest extends TransactionalTestCase
         [/* skipping */, /* skipping */, $issue] = $this->repository->findBy(['subject' => 'Development task 6'], ['id' => 'ASC']);
 
         $command = new ChangeStateCommand([
-            'issue' => $issue->id,
-            'state' => $state->id,
+            'issue'       => $issue->id,
+            'state'       => $state->id,
+            'responsible' => $assignee->id,
+        ]);
+
+        $this->commandBus->handle($command);
+    }
+
+    public function testAccessDeniedByState()
+    {
+        $this->expectException(AccessDeniedHttpException::class);
+        $this->expectExceptionMessage('You are not allowed to change the current state to specified one.');
+
+        $this->loginAs('ldoyle@example.com');
+
+        /** @var State $state */
+        [/* skipping */, /* skipping */, $state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Duplicated'], ['id' => 'ASC']);
+
+        /** @var Field $field */
+        [/* skipping */, /* skipping */, $field] = $this->doctrine->getRepository(Field::class)->findBy(['name' => 'Issue ID'], ['id' => 'ASC']);
+
+        /** @var Issue $duplicate */
+        [/* skipping */, /* skipping */, $duplicate] = $this->repository->findBy(['subject' => 'Development task 1'], ['id' => 'ASC']);
+
+        /** @var Issue $issue */
+        [/* skipping */, /* skipping */, $issue] = $this->repository->findBy(['subject' => 'Development task 6'], ['id' => 'ASC']);
+
+        $command = new ChangeStateCommand([
+            'issue'  => $issue->id,
+            'state'  => $state->id,
+            'fields' => [
+                $field->id => $duplicate->id,
+            ],
         ]);
 
         $this->commandBus->handle($command);
@@ -556,6 +594,9 @@ class ChangeStateCommandTest extends TransactionalTestCase
 
         $this->loginAs('ldoyle@example.com');
 
+        /** @var User $assignee */
+        $assignee = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'fdooley@example.com']);
+
         /** @var State $state */
         [$state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Assigned'], ['id' => 'ASC']);
 
@@ -563,8 +604,9 @@ class ChangeStateCommandTest extends TransactionalTestCase
         [$issue] = $this->repository->findBy(['subject' => 'Development task 6'], ['id' => 'ASC']);
 
         $command = new ChangeStateCommand([
-            'issue' => $issue->id,
-            'state' => $state->id,
+            'issue'       => $issue->id,
+            'state'       => $state->id,
+            'responsible' => $assignee->id,
         ]);
 
         $this->commandBus->handle($command);
@@ -576,6 +618,9 @@ class ChangeStateCommandTest extends TransactionalTestCase
 
         $this->loginAs('ldoyle@example.com');
 
+        /** @var User $assignee */
+        $assignee = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'fdooley@example.com']);
+
         /** @var State $state */
         [/* skipping */, $state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Assigned'], ['id' => 'ASC']);
 
@@ -583,8 +628,9 @@ class ChangeStateCommandTest extends TransactionalTestCase
         [/* skipping */, $issue] = $this->repository->findBy(['subject' => 'Development task 6'], ['id' => 'ASC']);
 
         $command = new ChangeStateCommand([
-            'issue' => $issue->id,
-            'state' => $state->id,
+            'issue'       => $issue->id,
+            'state'       => $state->id,
+            'responsible' => $assignee->id,
         ]);
 
         $this->commandBus->handle($command);
@@ -596,6 +642,9 @@ class ChangeStateCommandTest extends TransactionalTestCase
 
         $this->loginAs('ldoyle@example.com');
 
+        /** @var User $assignee */
+        $assignee = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'nhills@example.com']);
+
         /** @var State $state */
         [/* skipping */, /* skipping */, $state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Assigned'], ['id' => 'ASC']);
 
@@ -603,8 +652,9 @@ class ChangeStateCommandTest extends TransactionalTestCase
         [/* skipping */, /* skipping */, $issue] = $this->repository->findBy(['subject' => 'Development task 5'], ['id' => 'ASC']);
 
         $command = new ChangeStateCommand([
-            'issue' => $issue->id,
-            'state' => $state->id,
+            'issue'       => $issue->id,
+            'state'       => $state->id,
+            'responsible' => $assignee->id,
         ]);
 
         $this->commandBus->handle($command);

@@ -17,14 +17,14 @@ namespace eTraxis\Voter;
  * A trait for supported attributes.
  *
  * The trait requires an array which must be declared as property named '$attributes'.
- * Each key of the array is an attribute name, value - class of the subject (use 'null' if subject is not required), or array of such classes.
+ * Each key of the array is an attribute name, value - class of the subject (use 'null' if subject is not required).
  *
  * Example:
  *
  * protected $attributes = [
  *     'create' => null,
  *     'update' => MyEntity::class,
- *     'delete' => [MyEntity::class, AnotherEntity::class],
+ *     'delete' => AnotherEntity::class,
  * ];
  */
 trait VoterTrait
@@ -39,39 +39,8 @@ trait VoterTrait
             return false;
         }
 
-        $classes = is_array($this->attributes[$attribute])
-            ? array_values($this->attributes[$attribute])
-            : [$this->attributes[$attribute]];
+        $expectedClass = $this->attributes[$attribute];
 
-        $subjects = is_array($subject)
-            ? array_values($subject)
-            : [$subject];
-
-        $count = count($classes);
-
-        if ($count !== count($subjects)) {
-            return false;
-        }
-
-        for ($i = 0; $i < $count; $i++) {
-            if (!$this->isValid($subjects[$i], $classes[$i])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks whether the specified subject is of expected class.
-     *
-     * @param mixed  $subject
-     * @param string $expectedClass
-     *
-     * @return bool
-     */
-    private function isValid($subject, ?string $expectedClass): bool
-    {
         // Whether the subject is not required.
         if ($subject === null && $expectedClass === null) {
             return true;

@@ -16,6 +16,7 @@ namespace eTraxis\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use eTraxis\Dictionary\StateType;
 use eTraxis\Dictionary\SystemRole;
 use eTraxis\Dictionary\TemplatePermission;
 use eTraxis\Entity\Change;
@@ -23,6 +24,10 @@ use eTraxis\Entity\Comment;
 use eTraxis\Entity\Dependency;
 use eTraxis\Entity\Event;
 use eTraxis\Entity\Issue;
+use eTraxis\Entity\StateGroupTransition;
+use eTraxis\Entity\StateResponsibleGroup;
+use eTraxis\Entity\StateRoleTransition;
+use eTraxis\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -105,6 +110,103 @@ class IssueRepository extends ServiceEntityRepository implements Contracts\Issue
     /**
      * {@inheritdoc}
      */
+    public function getTransitionsByUser(Issue $issue, User $user): array
+    {
+        // List opened dependencies of the issue.
+        $dependencies = array_filter($issue->dependencies, function (Issue $dependency) {
+            return !$dependency->isClosed;
+        });
+
+        // List user's roles.
+        $roles = [SystemRole::ANYONE];
+
+        if ($issue->author === $user) {
+            $roles[] = SystemRole::AUTHOR;
+        }
+
+        if ($issue->responsible === $user) {
+            $roles[] = SystemRole::RESPONSIBLE;
+        }
+
+        // Check whether the user has required permissions by role.
+        $query = $this->getEntityManager()->createQueryBuilder();
+
+        $query
+            ->select('st')
+            ->from(StateRoleTransition::class, 'st')
+            ->innerJoin('st.toState', 'toState')
+            ->where('st.fromState = :from')
+            ->andWhere($query->expr()->in('st.role', ':roles'))
+            ->setParameters([
+                'from'  => $issue->state,
+                'roles' => $roles,
+            ]);
+
+        if (count($dependencies) !== 0) {
+            $query
+                ->andWhere('toState.type != :type')
+                ->setParameter('type', StateType::FINAL);
+        }
+
+        $statesByRole = array_map(function (StateRoleTransition $transition) {
+            return $transition->toState;
+        }, $query->getQuery()->getResult());
+
+        // Check whether the user has required permissions by group.
+        $query = $this->getEntityManager()->createQueryBuilder();
+
+        $query
+            ->select('st')
+            ->from(StateGroupTransition::class, 'st')
+            ->innerJoin('st.toState', 'toState')
+            ->where('st.fromState = :from')
+            ->andWhere($query->expr()->in('st.group', ':groups'))
+            ->setParameters([
+                'from'   => $issue->state,
+                'groups' => $user->groups,
+            ]);
+
+        if (count($dependencies) !== 0) {
+            $query
+                ->andWhere('toState.type != :type')
+                ->setParameter('type', StateType::FINAL);
+        }
+
+        $statesByGroup = array_map(function (StateGroupTransition $transition) {
+            return $transition->toState;
+        }, $query->getQuery()->getResult());
+
+        $states = array_merge($statesByRole, $statesByGroup);
+        $states = array_unique($states);
+
+        return $states;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getResponsiblesByUser(Issue $issue, User $user): array
+    {
+        $query = $this->getEntityManager()->createQueryBuilder();
+
+        $query
+            ->select('user')
+            ->from(User::class, 'user')
+            ->from(StateResponsibleGroup::class, 'sr')
+            ->innerJoin('user.groupsCollection', 'grp')
+            ->where('sr.group = grp')
+            ->andWhere('sr.state = :state')
+            ->orderBy('user.fullname')
+            ->setParameter('state', $issue->state);
+
+        $result = $query->getQuery()->getResult();
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function changeSubject(Issue $issue, Event $event, string $subject): void
     {
         if ($issue->subject !== $subject) {
@@ -127,7 +229,7 @@ class IssueRepository extends ServiceEntityRepository implements Contracts\Issue
      */
     public function getCollection(int $offset = 0, int $limit = self::MAX_LIMIT, ?string $search = null, array $filter = [], array $sort = []): Collection
     {
-        /** @var \eTraxis\Entity\User $user */
+        /** @var User $user */
         $user = $this->tokens->getToken()->getUser();
 
         $collection = new Collection();

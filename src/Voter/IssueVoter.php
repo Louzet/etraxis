@@ -18,9 +18,7 @@ use eTraxis\Dictionary\StateType;
 use eTraxis\Dictionary\SystemRole;
 use eTraxis\Dictionary\TemplatePermission;
 use eTraxis\Entity\Issue;
-use eTraxis\Entity\State;
 use eTraxis\Entity\StateGroupTransition;
-use eTraxis\Entity\StateResponsibleGroup;
 use eTraxis\Entity\StateRoleTransition;
 use eTraxis\Entity\Template;
 use eTraxis\Entity\TemplateGroupPermission;
@@ -41,7 +39,6 @@ class IssueVoter extends Voter
     public const UPDATE_ISSUE         = 'issue.update';
     public const DELETE_ISSUE         = 'issue.delete';
     public const CHANGE_STATE         = 'state.change';
-    public const ASSIGN_ISSUE         = 'issue.assign';
     public const REASSIGN_ISSUE       = 'issue.reassign';
     public const SUSPEND_ISSUE        = 'issue.suspend';
     public const RESUME_ISSUE         = 'issue.resume';
@@ -58,9 +55,8 @@ class IssueVoter extends Voter
         self::CREATE_ISSUE         => Template::class,
         self::UPDATE_ISSUE         => Issue::class,
         self::DELETE_ISSUE         => Issue::class,
-        self::CHANGE_STATE         => [Issue::class, State::class],
-        self::ASSIGN_ISSUE         => [State::class, User::class],
-        self::REASSIGN_ISSUE       => [Issue::class, User::class],
+        self::CHANGE_STATE         => Issue::class,
+        self::REASSIGN_ISSUE       => Issue::class,
         self::SUSPEND_ISSUE        => Issue::class,
         self::RESUME_ISSUE         => Issue::class,
         self::ADD_PUBLIC_COMMENT   => Issue::class,
@@ -117,13 +113,10 @@ class IssueVoter extends Voter
                 return $this->isDeleteGranted($subject, $user);
 
             case self::CHANGE_STATE:
-                return $this->isChangeStateGranted($subject[0], $subject[1], $user);
-
-            case self::ASSIGN_ISSUE:
-                return $this->isAssignGranted($subject[0], $subject[1], $user);
+                return $this->isChangeStateGranted($subject, $user);
 
             case self::REASSIGN_ISSUE:
-                return $this->isReassignGranted($subject[0], $subject[1], $user);
+                return $this->isReassignGranted($subject, $user);
 
             case self::SUSPEND_ISSUE:
                 return $this->isSuspendGranted($subject, $user);
@@ -247,14 +240,13 @@ class IssueVoter extends Voter
      * Whether the current state of the specified issue can be changed to the specified state.
      *
      * @param Issue $subject Subject issue.
-     * @param State $state   New state of the issue.
      * @param User  $user    Current user.
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      *
      * @return bool
      */
-    protected function isChangeStateGranted(Issue $subject, State $state, User $user): bool
+    protected function isChangeStateGranted(Issue $subject, User $user): bool
     {
         // Issue must not be suspended or frozen.
         if ($subject->isSuspended || $subject->isFrozen) {
@@ -267,13 +259,9 @@ class IssueVoter extends Voter
         }
 
         // Check whether the issue has opened dependencies.
-        if ($state->type === StateType::FINAL) {
-            foreach ($subject->dependencies as $dependency) {
-                if (!$dependency->isClosed) {
-                    return false;
-                }
-            }
-        }
+        $dependencies = array_filter($subject->dependencies, function (Issue $dependency) {
+            return !$dependency->isClosed;
+        });
 
         // Check whether the user has required permissions by role.
         $roles = [SystemRole::ANYONE];
@@ -292,13 +280,18 @@ class IssueVoter extends Voter
             ->select('COUNT(st.role)')
             ->from(StateRoleTransition::class, 'st')
             ->where('st.fromState = :from')
-            ->andWhere('st.toState = :to')
             ->andWhere($query->expr()->in('st.role', ':roles'))
             ->setParameters([
                 'from'  => $subject->state,
-                'to'    => $state,
                 'roles' => $roles,
             ]);
+
+        if (count($dependencies) !== 0) {
+            $query
+                ->innerJoin('st.toState', 'toState')
+                ->andWhere('toState.type != :type')
+                ->setParameter('type', StateType::FINAL);
+        }
 
         $result = (int) $query->getQuery()->getSingleScalarResult();
 
@@ -313,13 +306,18 @@ class IssueVoter extends Voter
             ->select('COUNT(st.group)')
             ->from(StateGroupTransition::class, 'st')
             ->where('st.fromState = :from')
-            ->andWhere('st.toState = :to')
             ->andWhere($query->expr()->in('st.group', ':groups'))
             ->setParameters([
                 'from'   => $subject->state,
-                'to'     => $state,
                 'groups' => $user->groups,
             ]);
+
+        if (count($dependencies) !== 0) {
+            $query
+                ->innerJoin('st.toState', 'toState')
+                ->andWhere('toState.type != :type')
+                ->setParameter('type', StateType::FINAL);
+        }
 
         $result = (int) $query->getQuery()->getSingleScalarResult();
 
@@ -331,45 +329,14 @@ class IssueVoter extends Voter
     }
 
     /**
-     * Whether the specified user can be assigned to an issue if it's in the specified state.
+     * Whether the specified user can reassign specified issue.
      *
-     * @param State $subject  Subject state.
-     * @param User  $assignee User to be assigned.
-     * @param User  $user     Current user.
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @param Issue $subject Subject issue.
+     * @param User  $user    Current user.
      *
      * @return bool
      */
-    protected function isAssignGranted(State $subject, User $assignee, User $user): bool
-    {
-        $query = $this->manager->createQueryBuilder();
-
-        $query
-            ->select('COUNT(sr.group)')
-            ->from(StateResponsibleGroup::class, 'sr')
-            ->where('sr.state = :state')
-            ->andWhere($query->expr()->in('sr.group', ':groups'))
-            ->setParameter('state', $subject)
-            ->setParameter('groups', $assignee->groups);
-
-        $result = (int) $query->getQuery()->getSingleScalarResult();
-
-        return $result !== 0;
-    }
-
-    /**
-     * Whether the specified user can reassign specified issue to another specified user.
-     *
-     * @param Issue $subject  Subject issue.
-     * @param User  $assignee User to be assigned.
-     * @param User  $user     Current user.
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @return bool
-     */
-    protected function isReassignGranted(Issue $subject, User $assignee, User $user): bool
+    protected function isReassignGranted(Issue $subject, User $user): bool
     {
         // Issue must not be suspended or closed.
         if ($subject->isSuspended || $subject->isClosed) {
@@ -378,11 +345,6 @@ class IssueVoter extends Voter
 
         // Issue must be assigned.
         if ($subject->responsible === null) {
-            return false;
-        }
-
-        // Issue must be assignable to the specified user.
-        if (!$this->isAssignGranted($subject->state, $assignee, $user)) {
             return false;
         }
 

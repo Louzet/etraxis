@@ -158,7 +158,7 @@ class ReassignIssueCommandTest extends TransactionalTestCase
     public function testResponsibleDenied()
     {
         $this->expectException(AccessDeniedHttpException::class);
-        $this->expectExceptionMessage('You are not allowed to reassign this issue.');
+        $this->expectExceptionMessage('The issue cannot be assigned to specified user.');
 
         $this->loginAs('ldoyle@example.com');
 

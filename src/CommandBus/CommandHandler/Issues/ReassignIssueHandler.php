@@ -86,8 +86,14 @@ class ReassignIssueHandler
             throw new NotFoundHttpException('Unknown user.');
         }
 
-        if (!$this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$issue, $responsible])) {
+        if (!$this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $issue)) {
             throw new AccessDeniedHttpException('You are not allowed to reassign this issue.');
+        }
+
+        $responsibles = $this->issueRepository->getResponsiblesByUser($issue, $user);
+
+        if (!in_array($responsible, $responsibles, true)) {
+            throw new AccessDeniedHttpException('The issue cannot be assigned to specified user.');
         }
 
         if ($issue->responsible !== $responsible) {

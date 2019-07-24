@@ -14,9 +14,7 @@
 namespace eTraxis\Voter;
 
 use eTraxis\Entity\Issue;
-use eTraxis\Entity\State;
 use eTraxis\Entity\Template;
-use eTraxis\Entity\User;
 use eTraxis\ReflectionTrait;
 use eTraxis\TransactionalTestCase;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
@@ -82,9 +80,7 @@ class IssueVoterTest extends TransactionalTestCase
         $voter = new IssueVoter($manager, 10);
         $token = new AnonymousToken('', 'anon.');
 
-        $developer  = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'fdooley@example.com']);
         [$template] = $this->doctrine->getRepository(Template::class)->findBy(['name' => 'Development'], ['id' => 'ASC']);
-        [$state]    = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Assigned'], ['id' => 'ASC']);
 
         [$issue1] = $this->repository->findBy(['subject' => 'Support request 1'], ['id' => 'ASC']);
         [$issue2] = $this->repository->findBy(['subject' => 'Support request 2'], ['id' => 'ASC']);
@@ -95,9 +91,8 @@ class IssueVoterTest extends TransactionalTestCase
         self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, $template, [IssueVoter::CREATE_ISSUE]));
         self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, $issue1, [IssueVoter::UPDATE_ISSUE]));
         self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, $issue1, [IssueVoter::DELETE_ISSUE]));
-        self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, [$issue6, $state], [IssueVoter::CHANGE_STATE]));
-        self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, [$state, $developer], [IssueVoter::ASSIGN_ISSUE]));
-        self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, [$issue2, $developer], [IssueVoter::REASSIGN_ISSUE]));
+        self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, $issue6, [IssueVoter::CHANGE_STATE]));
+        self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, $issue2, [IssueVoter::REASSIGN_ISSUE]));
         self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, $issue6, [IssueVoter::SUSPEND_ISSUE]));
         self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, $issue5, [IssueVoter::RESUME_ISSUE]));
         self::assertSame(IssueVoter::ACCESS_DENIED, $voter->vote($token, $issue2, [IssueVoter::ADD_PUBLIC_COMMENT]));
@@ -275,11 +270,6 @@ class IssueVoterTest extends TransactionalTestCase
      */
     public function testChangeState()
     {
-        [$stateA, $stateB, $stateC] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Resolved'], ['id' => 'ASC']);
-
-        [/* skipping */, /* skipping */, $opened]   = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Opened'], ['id' => 'ASC']);
-        [/* skipping */, /* skipping */, $resolved] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Resolved'], ['id' => 'ASC']);
-
         // Template B is locked, template C is not.
         // Project A is suspended.
         /** @var Issue $issueC */
@@ -295,58 +285,42 @@ class IssueVoterTest extends TransactionalTestCase
         // Logging as a manager of all projects (A, B, C, D).
         $this->loginAs('ldoyle@example.com');
         // Project is suspended.
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueA, $stateA]));
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, $issueA));
         // Template is locked.
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueB, $stateB]));
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, $issueB));
         // Everything is OK.
-        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueC, $stateC]));
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, $issueC));
         // Issue is suspended.
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$suspended, $stateC]));
-        // The issue has unclosed dependencies, but it's being moved to an intermediate state, so it's OK.
-        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$dependant, $opened]));
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, $suspended));
+        // The issue has unclosed dependencies, but it can be moved to an intermediate state, so it's OK.
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, $dependant));
 
         // Logging as a client of projects B and C.
         $this->loginAs('dtillman@example.com');
         // Everything is OK, but the user doesn't have permissions.
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueC, $stateC]));
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, $issueC));
         // Everything is OK, the user is the author.
-        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$createdByClient, $stateC]));
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, $createdByClient));
 
         // Logging as a support engineer of projects A and C.
         $this->loginAs('cbatz@example.com');
         // Everything is OK, but the user doesn't have permissions.
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueC, $stateC]));
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, $issueC));
         // Everything is OK, the user is the current responsible.
-        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$assignedToSupport, $stateC]));
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, $assignedToSupport));
 
         // Logging as a client of projects A, B, and C.
         $this->loginAs('lucas.oconnell@example.com');
         // Everything is OK, but the user doesn't have permissions.
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$issueC, $stateC]));
-        // The issue has unclosed dependencies, so it can't be moved to a final state.
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$dependant, $resolved]));
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, $issueC));
+        // The issue has unclosed dependencies, so it can't be moved to a final state
+        // (this is the only state this user can use on the issue).
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, $dependant));
         // Everything is OK, but the issue is closed and frozen.
-        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, [$closed, $opened]));
+        self::assertFalse($this->security->isGranted(IssueVoter::CHANGE_STATE, $closed));
         // Everything is OK (the issue is not frozen anymore).
         $issueC->template->frozenTime = null;
-        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, [$closed, $opened]));
-    }
-
-    /**
-     * @covers ::isAssignGranted
-     * @covers ::voteOnAttribute
-     */
-    public function testAssign()
-    {
-        /** @var State $state */
-        [$state] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Assigned'], ['id' => 'ASC']);
-
-        $developer = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'fdooley@example.com']);
-        $support   = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'tmarquardt@example.com']);
-
-        $this->loginAs('ldoyle@example.com');
-        self::assertTrue($this->security->isGranted(IssueVoter::ASSIGN_ISSUE, [$state, $developer]));
-        self::assertFalse($this->security->isGranted(IssueVoter::ASSIGN_ISSUE, [$state, $support]));
+        self::assertTrue($this->security->isGranted(IssueVoter::CHANGE_STATE, $closed));
     }
 
     /**
@@ -365,29 +339,25 @@ class IssueVoterTest extends TransactionalTestCase
         [/* skipping */, /* skipping */, $createdByDev2]  = $this->repository->findBy(['subject' => 'Development task 8'], ['id' => 'ASC']);
         [/* skipping */, /* skipping */, $assignedToDev3] = $this->repository->findBy(['subject' => 'Development task 2'], ['id' => 'ASC']);
 
-        $developer = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'fdooley@example.com']);
-        $support   = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'tmarquardt@example.com']);
-
         $this->loginAs('ldoyle@example.com');
-        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$issueA, $developer]));
-        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$issueB, $developer]));
-        self::assertTrue($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$issueC, $developer]));
-        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$issueC, $support]));
-        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$unassigned, $developer]));
+        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $issueA));
+        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $issueB));
+        self::assertTrue($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $issueC));
+        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $unassigned));
 
         $this->loginAs('dquigley@example.com');
-        self::assertTrue($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$createdByDev2, $developer]));
-        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$assignedToDev3, $developer]));
+        self::assertTrue($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $createdByDev2));
+        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $assignedToDev3));
 
         $this->loginAs('akoepp@example.com');
-        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$createdByDev2, $developer]));
-        self::assertTrue($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$assignedToDev3, $developer]));
+        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $createdByDev2));
+        self::assertTrue($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $assignedToDev3));
 
         /** @var Issue $issueC */
         $issueC->suspend(time() + 86400);
 
         $this->loginAs('ldoyle@example.com');
-        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, [$issueC, $developer]));
+        self::assertFalse($this->security->isGranted(IssueVoter::REASSIGN_ISSUE, $issueC));
     }
 
     /**

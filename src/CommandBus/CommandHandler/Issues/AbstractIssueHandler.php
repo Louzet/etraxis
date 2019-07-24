@@ -23,7 +23,6 @@ use eTraxis\Repository\Contracts\EventRepositoryInterface;
 use eTraxis\Repository\Contracts\FieldValueRepositoryInterface;
 use eTraxis\Repository\Contracts\IssueRepositoryInterface;
 use eTraxis\Repository\Contracts\UserRepositoryInterface;
-use eTraxis\Voter\IssueVoter;
 use League\Tactician\Bundle\Middleware\InvalidCommandException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -143,7 +142,9 @@ abstract class AbstractIssueHandler
                 throw new NotFoundHttpException('Unknown user.');
             }
 
-            if (!$this->security->isGranted(IssueVoter::ASSIGN_ISSUE, [$issue->state, $issue->responsible])) {
+            $responsibles = $this->issueRepository->getResponsiblesByUser($issue, $user);
+
+            if (!in_array($issue->responsible, $responsibles, true)) {
                 throw new AccessDeniedHttpException('The issue cannot be assigned to specified user.');
             }
 

@@ -93,12 +93,16 @@ class ChangeStateHandler extends AbstractIssueHandler
             throw new NotFoundHttpException('Unknown state.');
         }
 
-        if (!$this->security->isGranted(IssueVoter::CHANGE_STATE, [$issue, $state])) {
-            throw new AccessDeniedHttpException('You are not allowed to change the state.');
+        if (!$this->security->isGranted(IssueVoter::CHANGE_STATE, $issue)) {
+            throw new AccessDeniedHttpException('You are not allowed to change the current state.');
         }
 
         /** @var \eTraxis\Entity\User $user */
         $user = $this->tokens->getToken()->getUser();
+
+        if (!in_array($state, $this->issueRepository->getTransitionsByUser($issue, $user), true)) {
+            throw new AccessDeniedHttpException('You are not allowed to change the current state to specified one.');
+        }
 
         if (!$issue->isClosed && $state->isFinal) {
             $eventType = EventType::ISSUE_CLOSED;
