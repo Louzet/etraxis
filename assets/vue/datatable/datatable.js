@@ -160,22 +160,6 @@ export default {
 
         // Current columns sorting.
         sorting: [],
-
-        // Translation resources.
-        text: {
-            empty:        i18n['table.empty'],
-            first:        i18n['page.first'],
-            last:         i18n['page.last'],
-            next:         i18n['page.next'],
-            pages:        i18n['table.pages'],
-            pleaseWait:   i18n['text.please_wait'],
-            previous:     i18n['page.previous'],
-            refresh:      i18n['button.refresh'],
-            resetFilters: i18n['button.reset_filters'],
-            search:       i18n['button.search'],
-            size:         i18n['table.size'],
-            status:       i18n['table.status'],
-        },
     }),
 
     computed: {
@@ -186,12 +170,12 @@ export default {
         status() {
 
             if (this.blocked) {
-                return this.text.pleaseWait;
+                return i18n['text.please_wait'];
             }
 
             return this.total === 0
                    ? null
-                   : this.text.status
+                   : i18n['table.status']
                        .replace('%from%', this.from + 1)
                        .replace('%to%', this.to + 1)
                        .replace('%total%', this.total);
@@ -215,6 +199,9 @@ export default {
 
             return filterables.length;
         },
+
+        // Translation resources.
+        i18n: () => i18n,
     },
 
     methods: {

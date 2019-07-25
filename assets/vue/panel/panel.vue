@@ -1,9 +1,9 @@
 <template>
     <div class="panel" :class="{ 'collapsed': collapsed }">
         <div class="panel-header" @click="collapsed = !collapsed">
-            <span v-if="!collapsed" class="pull-after fa fa-chevron-up" :title="text.collapse"></span>
-            <span v-if="collapsed" class="pull-after fa fa-chevron-down" :title="text.expand"></span>
-            <span class="pull-after fa fa-plus" :title="text.create" @click.stop="$emit('create')"></span>
+            <span v-if="!collapsed" class="pull-after fa fa-chevron-up" :title="i18n['button.collapse']"></span>
+            <span v-if="collapsed" class="pull-after fa fa-chevron-down" :title="i18n['button.expand']"></span>
+            <span class="pull-after fa fa-plus" :title="i18n['button.create']" @click.stop="$emit('create')"></span>
             <div>{{ header }}</div>
         </div>
         <div v-show="!collapsed">
@@ -34,14 +34,13 @@
 
             // Whether the panel is collapsed or expanded.
             collapsed: false,
+        }),
+
+        computed: {
 
             // Translation resources.
-            text: {
-                create:   i18n['button.create'],
-                collapse: i18n['button.collapse'],
-                expand:   i18n['button.expand'],
-            },
-        }),
+            i18n: () => i18n,
+        },
     };
 
 </script>

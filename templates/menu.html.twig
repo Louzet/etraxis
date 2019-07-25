@@ -28,10 +28,10 @@
                 <a href="{{ path('login') }}">{{ menu.item('button.login', 'fa-sign-in') }}</a>
             {% elseif app.request.uri starts with url('admin') %}
                 {# Admin area menu #}
-                <a href="{{ path('homepage')       }}">{{ menu.item('button.home', 'fa-home')    }}</a>
                 <a href="{{ path('admin_users')    }}">{{ menu.item('users',       'fa-user')    }}</a>
                 <a href="{{ path('admin_groups')   }}">{{ menu.item('groups',      'fa-users')   }}</a>
                 <a href="{{ path('admin_projects') }}">{{ menu.item('projects',    'fa-sitemap') }}</a>
+                <a href="{{ path('homepage')       }}">{{ menu.item('button.back', 'fa-reply')   }}</a>
             {% else %}
                 {# Public area menu #}
                 <a href="{{ path('settings') }}">{{ menu.item('menu.settings', 'fa-sliders') }}</a>

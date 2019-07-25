@@ -6,10 +6,10 @@
             <slot></slot>
             <span v-if="!simplified" class="search">
                 <span class="buttonset">
-                    <button class="fa fa-refresh" :title="text.refresh" :disabled="blocked" @click="refresh"></button>
-                    <button class="fa fa-filter" :title="text.resetFilters" :disabled="blocked" @click="resetFilters"></button>
+                    <button class="fa fa-refresh" :title="i18n['button.refresh']" :disabled="blocked" @click="refresh"></button>
+                    <button class="fa fa-filter" :title="i18n['button.reset_filters']" :disabled="blocked" @click="resetFilters"></button>
                 </span>
-                <input type="text" :placeholder="text.search" :readonly="blocked" v-model.trim="search">
+                <input type="text" :placeholder="i18n['button.search']" :readonly="blocked" v-model.trim="search">
             </span>
             <div class="clearfix"></div>
         </div>
@@ -45,7 +45,7 @@
 
             <tbody>
             <tr v-if="total === 0" class="empty">
-                <td :colspan="checkboxes ? columns.length + 1 : columns.length">{{ text.empty }}</td>
+                <td :colspan="checkboxes ? columns.length + 1 : columns.length">{{ i18n['table.empty'] }}</td>
             </tr>
             <tr v-for="row in rows" :class="row.DT_class">
                 <td v-if="checkboxes" @click="row.DT_checkable !== false ? toggleCheck(row.DT_id) : null">
@@ -61,17 +61,17 @@
 
         <div class="footer">
             <select class="size" :disabled="blocked" v-model="pageSize">
-                <option :value="10">{{ text.size.replace('%size%', 10) }}</option>
-                <option :value="20">{{ text.size.replace('%size%', 20) }}</option>
-                <option :value="50">{{ text.size.replace('%size%', 50) }}</option>
-                <option :value="100">{{ text.size.replace('%size%', 100) }}</option>
+                <option :value="10">{{ i18n['table.size'].replace('%size%', 10) }}</option>
+                <option :value="20">{{ i18n['table.size'].replace('%size%', 20) }}</option>
+                <option :value="50">{{ i18n['table.size'].replace('%size%', 50) }}</option>
+                <option :value="100">{{ i18n['table.size'].replace('%size%', 100) }}</option>
             </select>
             <span class="buttonset paging">
-                <button class="fa first-page" :disabled="blocked || pages === 0 || page === 1" :title="text.first" @click="page = 1"></button>
-                <button class="fa fa-lg previous-page" :disabled="blocked || pages === 0 || page === 1" :title="text.previous" @click="page -= 1"></button>
-                <input class="page" type="text" :readonly="blocked" :disabled="pages === 0" :title="text.pages.replace('%number%', pages)" v-model.trim.lazy.number="userPage">
-                <button class="fa fa-lg next-page" :disabled="blocked || pages === 0 || page === pages" :title="text.next" @click="page += 1"></button>
-                <button class="fa last-page" :disabled="blocked || pages === 0 || page === pages" :title="text.last" @click="page = pages"></button>
+                <button class="fa first-page" :disabled="blocked || pages === 0 || page === 1" :title="i18n['page.first']" @click="page = 1"></button>
+                <button class="fa fa-lg previous-page" :disabled="blocked || pages === 0 || page === 1" :title="i18n['page.previous']" @click="page -= 1"></button>
+                <input class="page" type="text" :readonly="blocked" :disabled="pages === 0" :title="i18n['table.pages'].replace('%number%', pages)" v-model.trim.lazy.number="userPage">
+                <button class="fa fa-lg next-page" :disabled="blocked || pages === 0 || page === pages" :title="i18n['page.next']" @click="page += 1"></button>
+                <button class="fa last-page" :disabled="blocked || pages === 0 || page === pages" :title="i18n['page.last']" @click="page = pages"></button>
             </span>
             <p class="status">{{ status }}</p>
             <div class="clear"></div>
