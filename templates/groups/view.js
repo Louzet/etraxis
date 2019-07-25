@@ -65,7 +65,9 @@ new Vue({
     data: {
 
         // Group's information.
-        group: {},
+        group: {
+            options: {},
+        },
 
         // Form contents.
         values: {},

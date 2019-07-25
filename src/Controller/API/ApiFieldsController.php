@@ -20,6 +20,8 @@ use eTraxis\Entity\Field;
 use eTraxis\Repository\CollectionTrait;
 use eTraxis\Repository\Contracts\FieldRepositoryInterface;
 use eTraxis\Repository\Contracts\ListItemRepositoryInterface;
+use eTraxis\Voter\FieldVoter;
+use eTraxis\Voter\ListItemVoter;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -170,7 +172,7 @@ class ApiFieldsController extends AbstractController
      *
      * @API\Parameter(name="id", in="path", type="integer", required=true, description="Field ID.")
      *
-     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\Field::class))
+     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\FieldEx::class))
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Field is not found.")
@@ -184,10 +186,21 @@ class ApiFieldsController extends AbstractController
         /** @var \Doctrine\ORM\EntityManagerInterface $manager */
         $manager = $this->getDoctrine()->getManager();
 
-        $main  = $field->jsonSerialize();
+        $main = $field->jsonSerialize();
+
         $extra = $field->getFacade($manager)->jsonSerialize();
 
-        return $this->json($main + $extra);
+        $options = [
+            Field::JSON_OPTIONS => [
+                FieldVoter::UPDATE_FIELD       => $this->isGranted(FieldVoter::UPDATE_FIELD, $field),
+                FieldVoter::REMOVE_FIELD       => $this->isGranted(FieldVoter::REMOVE_FIELD, $field),
+                FieldVoter::DELETE_FIELD       => $this->isGranted(FieldVoter::DELETE_FIELD, $field),
+                FieldVoter::MANAGE_PERMISSIONS => $this->isGranted(FieldVoter::MANAGE_PERMISSIONS, $field),
+                ListItemVoter::CREATE_ITEM     => $this->isGranted(ListItemVoter::CREATE_ITEM, $field),
+            ],
+        ];
+
+        return $this->json($main + $extra + $options);
     }
 
     /**

@@ -17,6 +17,7 @@ use eTraxis\CommandBus\Command\Groups as Command;
 use eTraxis\Entity\Group;
 use eTraxis\Repository\CollectionTrait;
 use eTraxis\Repository\Contracts\GroupRepositoryInterface;
+use eTraxis\Voter\GroupVoter;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -133,7 +134,7 @@ class ApiGroupsController extends AbstractController
      *
      * @API\Parameter(name="id", in="path", type="integer", required=true, description="Group ID.")
      *
-     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\Group::class))
+     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\GroupEx::class))
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Group is not found.")
@@ -144,7 +145,15 @@ class ApiGroupsController extends AbstractController
      */
     public function getGroup(Group $group): JsonResponse
     {
-        return $this->json($group);
+        $data = $group->jsonSerialize();
+
+        $data[Group::JSON_OPTIONS] = [
+            GroupVoter::UPDATE_GROUP      => $this->isGranted(GroupVoter::UPDATE_GROUP, $group),
+            GroupVoter::DELETE_GROUP      => $this->isGranted(GroupVoter::DELETE_GROUP, $group),
+            GroupVoter::MANAGE_MEMBERSHIP => $this->isGranted(GroupVoter::MANAGE_MEMBERSHIP, $group),
+        ];
+
+        return $this->json($data);
     }
 
     /**

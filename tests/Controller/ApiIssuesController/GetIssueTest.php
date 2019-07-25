@@ -78,6 +78,22 @@ class GetIssueTest extends TransactionalTestCase
             'is_closed'    => false,
             'is_frozen'    => false,
             'read_at'      => null,
+            'options'      => [
+                'issue.view'           => true,
+                'issue.update'         => false,
+                'issue.delete'         => false,
+                'state.change'         => [],
+                'issue.reassign'       => [],
+                'issue.suspend'        => false,
+                'issue.resume'         => false,
+                'comment.public.add'   => false,
+                'comment.private.add'  => false,
+                'comment.private.read' => true,
+                'file.attach'          => false,
+                'file.delete'          => false,
+                'dependency.add'       => false,
+                'dependency.remove'    => false,
+            ],
         ];
 
         $uri = sprintf('/api/issues/%s', $issue->id);

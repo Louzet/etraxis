@@ -52,6 +52,14 @@ class GetStateTest extends TransactionalTestCase
             'type'        => 'initial',
             'responsible' => 'keep',
             'next'        => null,
+            'options'     => [
+                'state.update'             => true,
+                'state.delete'             => false,
+                'state.set_initial'        => true,
+                'state.transitions'        => true,
+                'state.responsible_groups' => false,
+                'field.create'             => true,
+            ],
         ];
 
         $uri = sprintf('/api/states/%s', $state->id);

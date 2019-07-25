@@ -42,6 +42,14 @@ class GetUserTest extends TransactionalTestCase
             'locale'      => 'en_US',
             'theme'       => 'azure',
             'timezone'    => 'UTC',
+            'options'     => [
+                'user.update'   => true,
+                'user.delete'   => true,
+                'user.disable'  => true,
+                'user.enable'   => true,
+                'user.unlock'   => true,
+                'user.password' => true,
+            ],
         ];
 
         $uri = sprintf('/api/users/%s', $user->id);

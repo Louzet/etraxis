@@ -79,6 +79,7 @@ class Field implements \JsonSerializable
     public const JSON_MAXLENGTH   = 'maxlength';
     public const JSON_DEFAULT     = 'default';
     public const JSON_PCRE        = 'pcre';
+    public const JSON_OPTIONS     = 'options';
 
     /**
      * @var int

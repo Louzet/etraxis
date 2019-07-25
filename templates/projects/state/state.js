@@ -31,10 +31,9 @@ new Vue({
     data: {
 
         // State info.
-        state: {},
-
-        // Admin actions available for the state.
-        actions: {},
+        state: {
+            options: {},
+        },
 
         // Form contents.
         values: {},
@@ -91,10 +90,10 @@ new Vue({
         },
 
         /**
-         * @property {null|number} Currently selected template.
+         * @property {boolean} Whether the current template is locked.
          */
         isLocked() {
-            return this.$store.state.templates.list.find(template => template.id === this.templateId).locked;
+            return this.$store.state.templates.list.find(template => template.id === this.$store.state.templates.currentId).locked;
         },
 
         /**
@@ -147,8 +146,6 @@ new Vue({
                 groups: [],
             }));
 
-            this.actions = {};
-
             axios.get(url(`/api/states/${this.stateId}`))
                 .then(response => {
                     this.state = response.data;
@@ -173,10 +170,6 @@ new Vue({
                             this.roles  = transition ? transition.roles : [];
                             this.groups = transition ? transition.groups : [];
                         });
-                })
-                .then(() => {
-                    axios.get(url(`/admin/states/actions/${this.stateId}`))
-                        .then(response => this.actions = response.data);
                 })
                 .catch(exception => ui.errors(exception))
                 .then(() => ui.unblock());

@@ -42,6 +42,11 @@ class GetGroupTest extends TransactionalTestCase
             'name'        => 'Managers',
             'description' => 'Managers A',
             'global'      => false,
+            'options'     => [
+                'group.update'     => true,
+                'group.delete'     => true,
+                'group.membership' => true,
+            ],
         ];
 
         $uri = sprintf('/api/groups/%s', $group->id);

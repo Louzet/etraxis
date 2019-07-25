@@ -192,25 +192,26 @@ class ApiIssuesController extends AbstractController
      *
      * @API\Parameter(name="id", in="path", type="integer", required=true, description="Issue ID.")
      *
-     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\Issue::class))
+     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\IssueEx::class))
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Issue is not found.")
      *
      * @param Issue                       $issue
-     * @param LastReadRepositoryInterface $repository
+     * @param IssueRepositoryInterface    $issueRepository
+     * @param LastReadRepositoryInterface $lastReadRepository
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      *
      * @return JsonResponse
      */
-    public function getIssue(Issue $issue, LastReadRepositoryInterface $repository): JsonResponse
+    public function getIssue(Issue $issue, IssueRepositoryInterface $issueRepository, LastReadRepositoryInterface $lastReadRepository): JsonResponse
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
 
         /** @var \eTraxis\Entity\LastRead $lastRead */
-        $lastRead = $repository->findOneBy([
+        $lastRead = $lastReadRepository->findOneBy([
             'issue' => $issue,
             'user'  => $this->getUser(),
         ]);
@@ -219,7 +220,45 @@ class ApiIssuesController extends AbstractController
 
         $data[Issue::JSON_READ_AT] = $lastRead === null ? null : $lastRead->readAt;
 
-        $repository->markAsRead($issue, $this->getUser());
+        $data[Issue::JSON_OPTIONS] = [
+            IssueVoter::VIEW_ISSUE           => $this->isGranted(IssueVoter::VIEW_ISSUE, $issue),
+            IssueVoter::UPDATE_ISSUE         => $this->isGranted(IssueVoter::UPDATE_ISSUE, $issue),
+            IssueVoter::DELETE_ISSUE         => $this->isGranted(IssueVoter::DELETE_ISSUE, $issue),
+            IssueVoter::CHANGE_STATE         => [],
+            IssueVoter::REASSIGN_ISSUE       => [],
+            IssueVoter::SUSPEND_ISSUE        => $this->isGranted(IssueVoter::SUSPEND_ISSUE, $issue),
+            IssueVoter::RESUME_ISSUE         => $this->isGranted(IssueVoter::RESUME_ISSUE, $issue),
+            IssueVoter::ADD_PUBLIC_COMMENT   => $this->isGranted(IssueVoter::ADD_PUBLIC_COMMENT, $issue),
+            IssueVoter::ADD_PRIVATE_COMMENT  => $this->isGranted(IssueVoter::ADD_PRIVATE_COMMENT, $issue),
+            IssueVoter::READ_PRIVATE_COMMENT => $this->isGranted(IssueVoter::READ_PRIVATE_COMMENT, $issue),
+            IssueVoter::ATTACH_FILE          => $this->isGranted(IssueVoter::ATTACH_FILE, $issue),
+            IssueVoter::DELETE_FILE          => $this->isGranted(IssueVoter::DELETE_FILE, $issue),
+            IssueVoter::ADD_DEPENDENCY       => $this->isGranted(IssueVoter::ADD_DEPENDENCY, $issue),
+            IssueVoter::REMOVE_DEPENDENCY    => $this->isGranted(IssueVoter::REMOVE_DEPENDENCY, $issue),
+        ];
+
+        if ($this->isGranted(IssueVoter::CHANGE_STATE, $issue)) {
+            $data[Issue::JSON_OPTIONS][IssueVoter::CHANGE_STATE] = array_map(function (State $state) {
+                return [
+                    'id'          => $state->id,
+                    'name'        => $state->name,
+                    'type'        => $state->type,
+                    'responsible' => $state->responsible,
+                ];
+            }, $issueRepository->getTransitionsByUser($issue, $this->getUser()));
+        }
+
+        if ($this->isGranted(IssueVoter::REASSIGN_ISSUE, $issue)) {
+            $data[Issue::JSON_OPTIONS][IssueVoter::REASSIGN_ISSUE] = array_map(function (User $user) {
+                return [
+                    'id'       => $user->id,
+                    'email'    => $user->email,
+                    'fullname' => $user->fullname,
+                ];
+            }, $issueRepository->getResponsiblesByUser($issue, $this->getUser()));
+        }
+
+        $lastReadRepository->markAsRead($issue, $this->getUser());
 
         return $this->json($data);
     }

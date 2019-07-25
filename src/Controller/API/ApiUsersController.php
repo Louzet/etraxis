@@ -17,6 +17,7 @@ use eTraxis\CommandBus\Command\Users as Command;
 use eTraxis\Entity\User;
 use eTraxis\Repository\CollectionTrait;
 use eTraxis\Repository\Contracts\UserRepositoryInterface;
+use eTraxis\Voter\UserVoter;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -136,7 +137,7 @@ class ApiUsersController extends AbstractController
      *
      * @API\Parameter(name="id", in="path", type="integer", required=true, description="User ID.")
      *
-     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\User::class))
+     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\UserEx::class))
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="User is not found.")
@@ -147,7 +148,18 @@ class ApiUsersController extends AbstractController
      */
     public function retrieveUser(User $user): JsonResponse
     {
-        return $this->json($user);
+        $data = $user->jsonSerialize();
+
+        $data[User::JSON_OPTIONS] = [
+            UserVoter::UPDATE_USER  => $this->isGranted(UserVoter::UPDATE_USER, $user),
+            UserVoter::DELETE_USER  => $this->isGranted(UserVoter::DELETE_USER, $user),
+            UserVoter::DISABLE_USER => $this->isGranted(UserVoter::DISABLE_USER, $user),
+            UserVoter::ENABLE_USER  => $this->isGranted(UserVoter::ENABLE_USER, $user),
+            UserVoter::UNLOCK_USER  => $this->isGranted(UserVoter::UNLOCK_USER, $user),
+            UserVoter::SET_PASSWORD => $this->isGranted(UserVoter::SET_PASSWORD, $user),
+        ];
+
+        return $this->json($data);
     }
 
     /**

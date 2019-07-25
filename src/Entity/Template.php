@@ -69,6 +69,7 @@ class Template implements \JsonSerializable
     public const JSON_CRITICAL    = 'critical';
     public const JSON_FROZEN      = 'frozen';
     public const JSON_LOCKED      = 'locked';
+    public const JSON_OPTIONS     = 'options';
 
     /**
      * @var int

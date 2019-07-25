@@ -45,6 +45,15 @@ class GetTemplateTest extends TransactionalTestCase
             'critical'    => 3,
             'frozen'      => 7,
             'locked'      => true,
+            'options'     => [
+                'template.update'      => true,
+                'template.delete'      => false,
+                'template.lock'        => true,
+                'template.unlock'      => true,
+                'template.permissions' => true,
+                'state.create'         => true,
+                'issue.create'         => false,
+            ],
         ];
 
         $uri = sprintf('/api/templates/%s', $template->id);

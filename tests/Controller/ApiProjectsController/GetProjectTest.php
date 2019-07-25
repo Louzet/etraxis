@@ -36,6 +36,13 @@ class GetProjectTest extends TransactionalTestCase
             'description' => 'Project A',
             'created'     => $project->createdAt,
             'suspended'   => true,
+            'options'     => [
+                'project.update'  => true,
+                'project.delete'  => false,
+                'project.suspend' => true,
+                'project.resume'  => true,
+                'template.create' => true,
+            ],
         ];
 
         $uri = sprintf('/api/projects/%s', $project->id);

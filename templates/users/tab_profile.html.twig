@@ -2,24 +2,12 @@
 
     <div class="grid-100">
         <button @click="goBack">{{ 'button.back' | trans }}</button>
-        {% if can.update %}
-            <button @click="showEditUserDialog">{{ 'button.edit' | trans }}</button>
-        {% endif %}
-        {% if can.password %}
-            <button @click="showPasswordDialog">{{ 'password.change' | trans }}</button>
-        {% endif %}
-        {% if can.disable %}
-            <button v-if="!profile.disabled" @click="disableUser">{{ 'button.disable' | trans }}</button>
-        {% endif %}
-        {% if can.enable %}
-            <button v-if="profile.disabled" @click="enableUser">{{ 'button.enable' | trans }}</button>
-        {% endif %}
-        {% if can.unlock %}
-            <button v-if="profile.locked" @click="unlockUser">{{ 'button.unlock' | trans }}</button>
-        {% endif %}
-        {% if can.delete %}
-            <button class="danger" @click="deleteUser">{{ 'button.delete' | trans }}</button>
-        {% endif %}
+        <button v-if="profile.options['user.update']" @click="showEditUserDialog">{{ 'button.edit' | trans }}</button>
+        <button v-if="profile.options['user.password']" @click="showPasswordDialog">{{ 'password.change' | trans }}</button>
+        <button v-if="profile.options['user.disable'] && !profile.disabled" @click="disableUser">{{ 'button.disable' | trans }}</button>
+        <button v-if="profile.options['user.enable'] && profile.disabled" @click="enableUser">{{ 'button.enable' | trans }}</button>
+        <button v-if="profile.options['user.unlock'] && profile.locked" @click="unlockUser">{{ 'button.unlock' | trans }}</button>
+        <button v-if="profile.options['user.delete']" class="danger" @click="deleteUser">{{ 'button.delete' | trans }}</button>
     </div>
 
     <div class="grid-50 mobile-grid-100">

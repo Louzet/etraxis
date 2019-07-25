@@ -17,6 +17,8 @@ use eTraxis\CommandBus\Command\Projects as Command;
 use eTraxis\Entity\Project;
 use eTraxis\Repository\CollectionTrait;
 use eTraxis\Repository\Contracts\ProjectRepositoryInterface;
+use eTraxis\Voter\ProjectVoter;
+use eTraxis\Voter\TemplateVoter;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -131,7 +133,7 @@ class ApiProjectsController extends AbstractController
      *
      * @API\Parameter(name="id", in="path", type="integer", required=true, description="Project ID.")
      *
-     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\Project::class))
+     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\ProjectEx::class))
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Project is not found.")
@@ -142,7 +144,17 @@ class ApiProjectsController extends AbstractController
      */
     public function getProject(Project $project): JsonResponse
     {
-        return $this->json($project);
+        $data = $project->jsonSerialize();
+
+        $data[Project::JSON_OPTIONS] = [
+            ProjectVoter::UPDATE_PROJECT   => $this->isGranted(ProjectVoter::UPDATE_PROJECT, $project),
+            ProjectVoter::DELETE_PROJECT   => $this->isGranted(ProjectVoter::DELETE_PROJECT, $project),
+            ProjectVoter::SUSPEND_PROJECT  => $this->isGranted(ProjectVoter::SUSPEND_PROJECT, $project),
+            ProjectVoter::RESUME_PROJECT   => $this->isGranted(ProjectVoter::RESUME_PROJECT, $project),
+            TemplateVoter::CREATE_TEMPLATE => $this->isGranted(TemplateVoter::CREATE_TEMPLATE, $project),
+        ];
+
+        return $this->json($data);
     }
 
     /**

@@ -1,9 +1,9 @@
 <div class="grid-row">
 
     <div v-if="isLocked" class="grid-100">
-        <button :disabled="!actions.update" @click="showEditStateDialog">{{ 'button.edit' | trans }}</button>
-        <button v-if="state.type === 'intermediate'" :disabled="!actions.initial" @click="setInitial">{{ 'state.make_initial' | trans }}</button>
-        <button :disabled="!actions.delete" class="danger" @click="deleteState">{{ 'button.delete' | trans }}</button>
+        <button :disabled="!state.options['state.update']" @click="showEditStateDialog">{{ 'button.edit' | trans }}</button>
+        <button v-if="state.type === 'intermediate'" :disabled="!state.options['state.set_initial']" @click="setInitial">{{ 'state.make_initial' | trans }}</button>
+        <button :disabled="!state.options['state.delete']" class="danger" @click="deleteState">{{ 'button.delete' | trans }}</button>
     </div>
     <div v-else class="grid-100">
         <button disabled title="{{ 'template.must_be_locked' | trans }}">{{ 'button.edit' | trans }}</button>

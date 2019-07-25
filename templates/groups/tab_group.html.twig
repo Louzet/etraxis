@@ -2,12 +2,8 @@
 
     <div class="grid-100">
         <button @click="goBack">{{ 'button.back' | trans }}</button>
-        {% if can.update %}
-            <button @click="showEditGroupDialog">{{ 'button.edit' | trans }}</button>
-        {% endif %}
-        {% if can.delete %}
-            <button class="danger" @click="deleteGroup">{{ 'button.delete' | trans }}</button>
-        {% endif %}
+        <button v-if="group.options['group.update']" @click="showEditGroupDialog">{{ 'button.edit' | trans }}</button>
+        <button v-if="group.options['group.delete']" class="danger" @click="deleteGroup">{{ 'button.delete' | trans }}</button>
     </div>
 
     <div class="grid-100">

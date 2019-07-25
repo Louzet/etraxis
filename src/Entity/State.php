@@ -58,6 +58,7 @@ class State implements \JsonSerializable
     public const JSON_TYPE        = 'type';
     public const JSON_RESPONSIBLE = 'responsible';
     public const JSON_NEXT        = 'next';
+    public const JSON_OPTIONS     = 'options';
 
     /**
      * @var int

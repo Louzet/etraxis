@@ -65,7 +65,9 @@ new Vue({
     data: {
 
         // User's profile.
-        profile: {},
+        profile: {
+            options: {},
+        },
 
         // Form contents.
         values: {},

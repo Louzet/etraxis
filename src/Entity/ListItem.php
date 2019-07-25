@@ -44,9 +44,10 @@ class ListItem implements \JsonSerializable
     public const MAX_TEXT = 50;
 
     // JSON properties.
-    public const JSON_ID    = 'id';
-    public const JSON_VALUE = 'value';
-    public const JSON_TEXT  = 'text';
+    public const JSON_ID      = 'id';
+    public const JSON_VALUE   = 'value';
+    public const JSON_TEXT    = 'text';
+    public const JSON_OPTIONS = 'options';
 
     /**
      * @var int

@@ -31,10 +31,9 @@ new Vue({
     data: {
 
         // Field info.
-        field: {},
-
-        // Admin actions available for the state.
-        actions: {},
+        field: {
+            options: {},
+        },
 
         // List items (for 'list' fields only).
         items: {},
@@ -51,6 +50,13 @@ new Vue({
          */
         applicationId() {
             return this.$store.getters.applicationId;
+        },
+
+        /**
+         * @property {boolean} Whether the current template is locked.
+         */
+        isLocked() {
+            return this.$store.state.templates.list.find(template => template.id === this.$store.state.templates.currentId).locked;
         },
 
         /**
@@ -101,17 +107,12 @@ new Vue({
 
             ui.block();
 
-            this.actions = {};
-            this.items   = {};
+            this.items = {};
 
             axios.get(url(`/api/fields/${this.fieldId}`))
                 .then(response => {
                     this.field = response.data;
                     this.$store.commit('fields/update', this.field);
-                })
-                .then(() => {
-                    axios.get(url(`/admin/fields/actions/${this.fieldId}`))
-                        .then(response => this.actions = response.data);
                 })
                 .then(() => {
                     if (this.field.type === 'list') {

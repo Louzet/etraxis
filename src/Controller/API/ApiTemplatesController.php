@@ -17,6 +17,9 @@ use eTraxis\CommandBus\Command\Templates as Command;
 use eTraxis\Entity\Template;
 use eTraxis\Repository\CollectionTrait;
 use eTraxis\Repository\Contracts\TemplateRepositoryInterface;
+use eTraxis\Voter\IssueVoter;
+use eTraxis\Voter\StateVoter;
+use eTraxis\Voter\TemplateVoter;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -139,7 +142,7 @@ class ApiTemplatesController extends AbstractController
      *
      * @API\Parameter(name="id", in="path", type="integer", required=true, description="Template ID.")
      *
-     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\Template::class))
+     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\TemplateEx::class))
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Template is not found.")
@@ -150,7 +153,19 @@ class ApiTemplatesController extends AbstractController
      */
     public function getTemplate(Template $template): JsonResponse
     {
-        return $this->json($template);
+        $data = $template->jsonSerialize();
+
+        $data[Template::JSON_OPTIONS] = [
+            TemplateVoter::UPDATE_TEMPLATE    => $this->isGranted(TemplateVoter::UPDATE_TEMPLATE, $template),
+            TemplateVoter::DELETE_TEMPLATE    => $this->isGranted(TemplateVoter::DELETE_TEMPLATE, $template),
+            TemplateVoter::LOCK_TEMPLATE      => $this->isGranted(TemplateVoter::LOCK_TEMPLATE, $template),
+            TemplateVoter::UNLOCK_TEMPLATE    => $this->isGranted(TemplateVoter::UNLOCK_TEMPLATE, $template),
+            TemplateVoter::MANAGE_PERMISSIONS => $this->isGranted(TemplateVoter::MANAGE_PERMISSIONS, $template),
+            StateVoter::CREATE_STATE          => $this->isGranted(StateVoter::CREATE_STATE, $template),
+            IssueVoter::CREATE_ISSUE          => $this->isGranted(IssueVoter::CREATE_ISSUE, $template),
+        ];
+
+        return $this->json($data);
     }
 
     /**

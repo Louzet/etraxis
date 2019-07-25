@@ -31,10 +31,9 @@ new Vue({
     data: {
 
         // Template info.
-        template: {},
-
-        // Admin actions available for the template.
-        actions: {},
+        template: {
+            options: {},
+        },
 
         // Form contents.
         values: {},
@@ -104,8 +103,6 @@ new Vue({
                 groups:     [],
             }));
 
-            this.actions = {};
-
             axios.get(url(`/api/templates/${this.templateId}`))
                 .then(response => {
                     this.template = response.data;
@@ -130,10 +127,6 @@ new Vue({
                             this.roles  = permission ? permission.roles : [];
                             this.groups = permission ? permission.groups : [];
                         });
-                })
-                .then(() => {
-                    axios.get(url(`/admin/templates/actions/${this.templateId}`))
-                        .then(response => this.actions = response.data);
                 })
                 .catch(exception => ui.errors(exception))
                 .then(() => ui.unblock());

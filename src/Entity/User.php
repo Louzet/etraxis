@@ -80,6 +80,7 @@ class User implements \JsonSerializable, EncoderAwareInterface, UserInterface
     public const JSON_LOCALE      = 'locale';
     public const JSON_THEME       = 'theme';
     public const JSON_TIMEZONE    = 'timezone';
+    public const JSON_OPTIONS     = 'options';
 
     /**
      * @var int

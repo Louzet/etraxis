@@ -67,11 +67,6 @@ class GroupsController extends AbstractController
     {
         return $this->render('groups/view.html.twig', [
             'group' => $group,
-            'can'   => [
-                'update'     => $this->isGranted(GroupVoter::UPDATE_GROUP, $group),
-                'delete'     => $this->isGranted(GroupVoter::DELETE_GROUP, $group),
-                'membership' => $this->isGranted(GroupVoter::MANAGE_MEMBERSHIP, $group),
-            ],
         ]);
     }
 }

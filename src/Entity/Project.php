@@ -48,6 +48,7 @@ class Project implements \JsonSerializable
     public const JSON_DESCRIPTION = 'description';
     public const JSON_CREATED     = 'created';
     public const JSON_SUSPENDED   = 'suspended';
+    public const JSON_OPTIONS     = 'options';
 
     /**
      * @var int

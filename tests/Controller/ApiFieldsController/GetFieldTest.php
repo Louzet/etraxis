@@ -67,6 +67,13 @@ class GetFieldTest extends TransactionalTestCase
                 'search'  => null,
                 'replace' => null,
             ],
+            'options'     => [
+                'field.update'      => true,
+                'field.remove'      => true,
+                'field.delete'      => false,
+                'field.permissions' => true,
+                'listitem.create'   => false,
+            ],
         ];
 
         $uri = sprintf('/api/fields/%s', $field->id);

@@ -15,6 +15,7 @@ namespace eTraxis\Controller\API;
 
 use eTraxis\CommandBus\Command\ListItems as Command;
 use eTraxis\Entity\ListItem;
+use eTraxis\Voter\ListItemVoter;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -41,7 +42,7 @@ class ApiItemsController extends AbstractController
      *
      * @API\Parameter(name="id", in="path", type="integer", required=true, description="Item ID.")
      *
-     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\ListItem::class))
+     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\ListItemEx::class))
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="Item is not found.")
@@ -52,7 +53,14 @@ class ApiItemsController extends AbstractController
      */
     public function getItem(ListItem $item): JsonResponse
     {
-        return $this->json($item);
+        $data = $item->jsonSerialize();
+
+        $data[ListItem::JSON_OPTIONS] = [
+            ListItemVoter::UPDATE_ITEM => $this->isGranted(ListItemVoter::UPDATE_ITEM, $item),
+            ListItemVoter::DELETE_ITEM => $this->isGranted(ListItemVoter::DELETE_ITEM, $item),
+        ];
+
+        return $this->json($data);
     }
 
     /**

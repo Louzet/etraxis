@@ -14,11 +14,8 @@
 namespace eTraxis\Controller;
 
 use eTraxis\Dictionary;
-use eTraxis\Entity\Project;
-use eTraxis\Voter\ProjectVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -45,25 +42,6 @@ class ProjectsController extends AbstractController
             'state_types'          => Dictionary\StateType::all(),
             'state_responsibles'   => Dictionary\StateResponsible::all(),
             'field_types'          => Dictionary\FieldType::all(),
-        ]);
-    }
-
-    /**
-     * Returns admin actions available for specified project.
-     *
-     * @Route("/actions/{id}", name="admin_project_actions", methods={"GET"}, requirements={"id": "\d+"})
-     *
-     * @param Project $project
-     *
-     * @return JsonResponse
-     */
-    public function actions(Project $project): JsonResponse
-    {
-        return $this->json([
-            'update'  => $this->isGranted(ProjectVoter::UPDATE_PROJECT, $project),
-            'delete'  => $this->isGranted(ProjectVoter::DELETE_PROJECT, $project),
-            'suspend' => $this->isGranted(ProjectVoter::SUSPEND_PROJECT, $project),
-            'resume'  => $this->isGranted(ProjectVoter::RESUME_PROJECT, $project),
         ]);
     }
 }

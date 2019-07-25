@@ -31,9 +31,13 @@ class GetItemTest extends TransactionalTestCase
         [$item] = $this->doctrine->getRepository(ListItem::class)->findBy(['value' => 2], ['id' => 'ASC']);
 
         $expected = [
-            'id'    => $item->id,
-            'value' => 2,
-            'text'  => 'normal',
+            'id'      => $item->id,
+            'value'   => 2,
+            'text'    => 'normal',
+            'options' => [
+                'listitem.update' => false,
+                'listitem.delete' => false,
+            ],
         ];
 
         $uri = sprintf('/api/items/%s', $item->id);

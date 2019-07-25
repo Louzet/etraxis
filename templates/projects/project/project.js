@@ -32,10 +32,9 @@ new Vue({
     data: {
 
         // Project info.
-        project: {},
-
-        // Admin actions available for the project.
-        actions: {},
+        project: {
+            options: {},
+        },
 
         // Form contents.
         values: {},
@@ -80,16 +79,10 @@ new Vue({
 
             ui.block();
 
-            this.actions = {};
-
             axios.get(url(`/api/projects/${this.projectId}`))
                 .then(response => {
                     this.project = response.data;
                     this.$store.commit('projects/update', this.project);
-                })
-                .then(() => {
-                    axios.get(url(`/admin/projects/actions/${this.projectId}`))
-                        .then(response => this.actions = response.data);
                 })
                 .catch(exception => ui.errors(exception))
                 .then(() => ui.unblock());

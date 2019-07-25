@@ -1,8 +1,12 @@
 <div class="grid-row">
 
-    <div class="grid-100">
-        <button :disabled="!actions.update" @click="showEditFieldDialog">{{ 'button.edit' | trans }}</button>
-        <button :disabled="!actions.delete" class="danger" @click="deleteField">{{ 'button.delete' | trans }}</button>
+    <div v-if="isLocked" class="grid-100">
+        <button :disabled="!field.options['field.update']" @click="showEditFieldDialog">{{ 'button.edit' | trans }}</button>
+        <button :disabled="!field.options['field.delete']" class="danger" @click="deleteField">{{ 'button.delete' | trans }}</button>
+    </div>
+    <div v-else class="grid-100">
+        <button disabled title="{{ 'template.must_be_locked' | trans }}">{{ 'button.edit' | trans }}</button>
+        <button disabled class="danger" title="{{ 'template.must_be_locked' | trans }}">{{ 'button.delete' | trans }}</button>
     </div>
 
     <div class="grid-100">

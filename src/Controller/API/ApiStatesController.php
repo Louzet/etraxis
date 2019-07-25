@@ -18,6 +18,8 @@ use eTraxis\Entity\State;
 use eTraxis\Entity\StateResponsibleGroup;
 use eTraxis\Repository\CollectionTrait;
 use eTraxis\Repository\Contracts\StateRepositoryInterface;
+use eTraxis\Voter\FieldVoter;
+use eTraxis\Voter\StateVoter;
 use League\Tactician\CommandBus;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -136,7 +138,7 @@ class ApiStatesController extends AbstractController
      *
      * @API\Parameter(name="id", in="path", type="integer", required=true, description="State ID.")
      *
-     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\State::class))
+     * @API\Response(response=200, description="Success.", @Model(type=eTraxis\Swagger\StateEx::class))
      * @API\Response(response=401, description="Client is not authenticated.")
      * @API\Response(response=403, description="Client is not authorized for this request.")
      * @API\Response(response=404, description="State is not found.")
@@ -147,7 +149,18 @@ class ApiStatesController extends AbstractController
      */
     public function getState(State $state): JsonResponse
     {
-        return $this->json($state);
+        $data = $state->jsonSerialize();
+
+        $data[State::JSON_OPTIONS] = [
+            StateVoter::UPDATE_STATE              => $this->isGranted(StateVoter::UPDATE_STATE, $state),
+            StateVoter::DELETE_STATE              => $this->isGranted(StateVoter::DELETE_STATE, $state),
+            StateVoter::SET_INITIAL               => $this->isGranted(StateVoter::SET_INITIAL, $state),
+            StateVoter::MANAGE_TRANSITIONS        => $this->isGranted(StateVoter::MANAGE_TRANSITIONS, $state),
+            StateVoter::MANAGE_RESPONSIBLE_GROUPS => $this->isGranted(StateVoter::MANAGE_RESPONSIBLE_GROUPS, $state),
+            FieldVoter::CREATE_FIELD              => $this->isGranted(FieldVoter::CREATE_FIELD, $state),
+        ];
+
+        return $this->json($data);
     }
 
     /**

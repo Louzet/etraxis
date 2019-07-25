@@ -50,6 +50,7 @@ class Group implements \JsonSerializable
     public const JSON_NAME        = 'name';
     public const JSON_DESCRIPTION = 'description';
     public const JSON_GLOBAL      = 'global';
+    public const JSON_OPTIONS     = 'options';
 
     /**
      * @var int
