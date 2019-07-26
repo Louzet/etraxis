@@ -70,8 +70,11 @@ class ReassignIssueCommandTest extends TransactionalTestCase
         self::assertSame($user->id, $event->parameter);
     }
 
-    public function testSuccessSameResponsible()
+    public function testSameResponsible()
     {
+        $this->expectException(AccessDeniedHttpException::class);
+        $this->expectExceptionMessage('The issue cannot be assigned to specified user.');
+
         $this->loginAs('ldoyle@example.com');
 
         /** @var Issue $issue */

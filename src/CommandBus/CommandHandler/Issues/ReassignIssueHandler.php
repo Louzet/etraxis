@@ -90,7 +90,7 @@ class ReassignIssueHandler
             throw new AccessDeniedHttpException('You are not allowed to reassign this issue.');
         }
 
-        $responsibles = $this->issueRepository->getResponsiblesByUser($issue, $user);
+        $responsibles = $this->issueRepository->getResponsiblesByUser($issue, $user, true);
 
         if (!in_array($responsible, $responsibles, true)) {
             throw new AccessDeniedHttpException('The issue cannot be assigned to specified user.');

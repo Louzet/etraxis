@@ -60,12 +60,13 @@ interface IssueRepositoryInterface extends CollectionInterface, ObjectRepository
     /**
      * Returns list of all possible assignees available to specified user.
      *
-     * @param Issue $issue Issue which is to be (re)assigned.
-     * @param User  $user  User who's (re)assigning the issue.
+     * @param Issue $issue       Issue which is to be (re)assigned.
+     * @param User  $user        User who's (re)assigning the issue.
+     * @param bool  $skipCurrent Whether to skip current responsible.
      *
      * @return User[]
      */
-    public function getResponsiblesByUser(Issue $issue, User $user): array;
+    public function getResponsiblesByUser(Issue $issue, User $user, bool $skipCurrent = false): array;
 
     /**
      * Sets new subject of the specified issue.

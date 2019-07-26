@@ -14,6 +14,7 @@
 namespace eTraxis\Controller\ApiIssuesController;
 
 use eTraxis\Entity\Issue;
+use eTraxis\Entity\State;
 use eTraxis\Entity\User;
 use eTraxis\TransactionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,24 +27,39 @@ class GetIssueTest extends TransactionalTestCase
 {
     public function testSuccess()
     {
-        $this->loginAs('nhills@example.com');
+        $this->loginAs('ldoyle@example.com');
 
         /** @var Issue $issue */
-        [$issue] = $this->doctrine->getRepository(Issue::class)->findBy(['subject' => 'Support request 6']);
+        [/* skipping */, /* skipping */, $issue] = $this->doctrine->getRepository(Issue::class)->findBy(['subject' => 'Support request 4']);
+
+        /** @var State $resolved */
+        [/* skipping */, /* skipping */, $resolved] = $this->doctrine->getRepository(State::class)->findBy(['name' => 'Resolved']);
 
         /** @var User $author */
-        $author = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'lucas.oconnell@example.com']);
+        $author = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'dtillman@example.com']);
+
+        /** @var User $responsible */
+        $responsible = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'cbatz@example.com']);
+
+        /** @var User $kbahringer */
+        $kbahringer = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'kbahringer@example.com']);
+
+        /** @var User $tbuckridge */
+        $tbuckridge = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'tbuckridge@example.com']);
+
+        /** @var User $tmarquardt */
+        $tmarquardt = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'tmarquardt@example.com']);
 
         $expected = [
             'id'           => $issue->id,
-            'subject'      => 'Support request 6',
+            'subject'      => 'Support request 4',
             'created_at'   => $issue->createdAt,
             'changed_at'   => $issue->changedAt,
             'closed_at'    => null,
             'author'       => [
                 'id'       => $author->id,
-                'email'    => 'lucas.oconnell@example.com',
-                'fullname' => 'Lucas O\'Connell',
+                'email'    => 'dtillman@example.com',
+                'fullname' => 'Derrick Tillman',
             ],
             'state'        => [
                 'id'          => $issue->state->id,
@@ -51,24 +67,28 @@ class GetIssueTest extends TransactionalTestCase
                     'id'          => $issue->state->template->id,
                     'project'     => [
                         'id'          => $issue->state->template->project->id,
-                        'name'        => 'Distinctio',
-                        'description' => 'Project A',
+                        'name'        => 'Excepturi',
+                        'description' => 'Project C',
                         'created'     => $issue->state->template->project->createdAt,
-                        'suspended'   => true,
+                        'suspended'   => false,
                     ],
                     'name'        => 'Support',
                     'prefix'      => 'req',
-                    'description' => 'Support Request A',
+                    'description' => 'Support Request C',
                     'critical'    => 3,
                     'frozen'      => 7,
-                    'locked'      => true,
+                    'locked'      => false,
                 ],
-                'name'        => 'Submitted',
-                'type'        => 'initial',
-                'responsible' => 'keep',
+                'name'        => 'Opened',
+                'type'        => 'intermediate',
+                'responsible' => 'assign',
                 'next'        => null,
             ],
-            'responsible'  => null,
+            'responsible'  => [
+                'id'       => $responsible->id,
+                'email'    => 'cbatz@example.com',
+                'fullname' => 'Carter Batz',
+            ],
             'is_cloned'    => false,
             'origin'       => null,
             'age'          => $issue->age,
@@ -80,19 +100,42 @@ class GetIssueTest extends TransactionalTestCase
             'read_at'      => null,
             'options'      => [
                 'issue.view'           => true,
-                'issue.update'         => false,
-                'issue.delete'         => false,
-                'state.change'         => [],
-                'issue.reassign'       => [],
-                'issue.suspend'        => false,
+                'issue.update'         => true,
+                'issue.delete'         => true,
+                'state.change'         => [
+                    [
+                        'id'          => $resolved->id,
+                        'name'        => $resolved->name,
+                        'type'        => $resolved->type,
+                        'responsible' => $resolved->responsible,
+                    ],
+                ],
+                'issue.reassign'       => [
+                    [
+                        'id'       => $kbahringer->id,
+                        'email'    => 'kbahringer@example.com',
+                        'fullname' => 'Kailyn Bahringer',
+                    ],
+                    [
+                        'id'       => $tbuckridge->id,
+                        'email'    => 'tbuckridge@example.com',
+                        'fullname' => 'Tony Buckridge',
+                    ],
+                    [
+                        'id'       => $tmarquardt->id,
+                        'email'    => 'tmarquardt@example.com',
+                        'fullname' => 'Tracy Marquardt',
+                    ],
+                ],
+                'issue.suspend'        => true,
                 'issue.resume'         => false,
-                'comment.public.add'   => false,
-                'comment.private.add'  => false,
+                'comment.public.add'   => true,
+                'comment.private.add'  => true,
                 'comment.private.read' => true,
-                'file.attach'          => false,
-                'file.delete'          => false,
-                'dependency.add'       => false,
-                'dependency.remove'    => false,
+                'file.attach'          => true,
+                'file.delete'          => true,
+                'dependency.add'       => true,
+                'dependency.remove'    => true,
             ],
         ];
 

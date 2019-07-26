@@ -185,7 +185,7 @@ class IssueRepository extends ServiceEntityRepository implements Contracts\Issue
     /**
      * {@inheritdoc}
      */
-    public function getResponsiblesByUser(Issue $issue, User $user): array
+    public function getResponsiblesByUser(Issue $issue, User $user, bool $skipCurrent = false): array
     {
         $query = $this->getEntityManager()->createQueryBuilder();
 
@@ -198,6 +198,12 @@ class IssueRepository extends ServiceEntityRepository implements Contracts\Issue
             ->andWhere('sr.state = :state')
             ->orderBy('user.fullname')
             ->setParameter('state', $issue->state);
+
+        if ($skipCurrent && $issue->responsible !== null) {
+            $query
+                ->andWhere('user != :responsible')
+                ->setParameter('responsible', $issue->responsible);
+        }
 
         $result = $query->getQuery()->getResult();
 

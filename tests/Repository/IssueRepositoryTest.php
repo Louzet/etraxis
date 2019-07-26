@@ -157,6 +157,33 @@ class IssueRepositoryTest extends TransactionalTestCase
     }
 
     /**
+     * @covers ::getResponsiblesByUser
+     */
+    public function testGetResponsiblesSkipCurrentByUser()
+    {
+        /** @var Issue $issue */
+        [/* skipping */, /* skipping */, $issue] = $this->repository->findBy(['subject' => 'Support request 4'], ['id' => 'ASC']);
+
+        /** @var User $manager */
+        $manager = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'ldoyle@example.com']);
+
+        $users = $this->repository->getResponsiblesByUser($issue, $manager, true);
+        self::assertCount(3, $users);
+
+        $expected = [
+            'Kailyn Bahringer',
+            'Tony Buckridge',
+            'Tracy Marquardt',
+        ];
+
+        $actual = array_map(function (User $user) {
+            return $user->fullname;
+        }, $users);
+
+        self::assertSame($expected, $actual);
+    }
+
+    /**
      * @covers ::changeSubject
      */
     public function testChangeSubject()

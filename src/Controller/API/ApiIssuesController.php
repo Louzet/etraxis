@@ -255,7 +255,7 @@ class ApiIssuesController extends AbstractController
                     'email'    => $user->email,
                     'fullname' => $user->fullname,
                 ];
-            }, $issueRepository->getResponsiblesByUser($issue, $this->getUser()));
+            }, $issueRepository->getResponsiblesByUser($issue, $this->getUser(), true));
         }
 
         $lastReadRepository->markAsRead($issue, $this->getUser());
