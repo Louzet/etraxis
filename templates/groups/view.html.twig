@@ -6,19 +6,14 @@
 
     <div class="grid-row" id="vue-group" v-cloak>
         <div class="grid-100">
-
             <tabs>
                 <tab id="group" :title="group.name">
-                    {% include 'groups/tab_group.html.twig' %}
+                    <tab-group :group="group" @reload="reloadGroup"></tab-group>
                 </tab>
-                <tab id="groups" title="{{ 'group.membership' | trans }}" :counter="groupMembers.length">
-                    {% include 'groups/tab_members.html.twig' %}
+                <tab id="groups" title="{{ 'group.membership' | trans }}" :counter="members.length">
+                    <tab-members :members="members" @reload="reloadMembers"></tab-members>
                 </tab>
             </tabs>
-
-            <modal ref="dlgEditGroup" header="{{ 'group.edit' | trans }}" @submit="updateGroup">
-                {% include 'groups/dlg_group.html.twig' with { 'group': group } %}
-            </modal>
         </div>
     </div>
 

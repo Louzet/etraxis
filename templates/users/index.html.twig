@@ -17,9 +17,7 @@
                 </span>
             </datatable>
 
-            <modal ref="dlgNewUser" header="{{ 'user.new' | trans }}" @submit="createUser">
-                {% include 'users/dlg_user.html.twig' %}
-            </modal>
+            <dlg-user ref="dlgUser" :header="i18n['user.new']" :default="values" :errors="errors" @submit="createUser"></dlg-user>
 
         </div>
     </div>
@@ -29,6 +27,9 @@
 {% block scripts %}
 
     <script>eTraxis.currentUser     = {{ app.user.id | json_encode | raw }};</script>
+    <script>eTraxis.locales         = {{ locales     | json_encode | raw }};</script>
+    <script>eTraxis.themes          = {{ themes      | json_encode | raw }};</script>
+    <script>eTraxis.timezones       = {{ timezones   | json_encode | raw }};</script>
     <script>eTraxis.defaultLocale   = {{ locale      | json_encode | raw }};</script>
     <script>eTraxis.defaultTheme    = {{ theme       | json_encode | raw }};</script>
     <script>eTraxis.defaultTimezone = {{ timezone    | json_encode | raw }};</script>

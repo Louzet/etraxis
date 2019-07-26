@@ -11,9 +11,10 @@
 
 import Column    from 'components/datatable/column';
 import DataTable from 'components/datatable/datatable.vue';
-import Modal     from 'components/modal/modal.vue';
 import ui        from 'utilities/ui';
 import url       from 'utilities/url';
+
+import DlgGroup from './dlg_group.vue';
 
 /**
  * 'Groups' page.
@@ -35,7 +36,7 @@ new Vue({
 
     components: {
         'datatable': DataTable,
-        'modal':     Modal,
+        'dlg-group': DlgGroup,
     },
 
     data: {
@@ -50,6 +51,12 @@ new Vue({
         // Form contents.
         values: {},
         errors: {},
+    },
+
+    computed: {
+
+        // Translation resources.
+        i18n: () => i18n,
     },
 
     methods: {
@@ -90,25 +97,35 @@ new Vue({
         showNewGroupDialog() {
 
             this.values = {
-                project: '',
+                name:        null,
+                description: null,
+                project:     '',
             };
 
             this.errors = {};
 
-            this.$refs.dlgNewGroup.open();
+            this.$refs.dlgGroup.open();
         },
 
         /**
          * Creates new group.
+         *
+         * @param {Object} event Event data.
          */
-        createGroup() {
+        createGroup(event) {
+
+            let data = {
+                name:        event.name,
+                description: event.description,
+                project:     event.project,
+            };
 
             ui.block();
 
-            axios.post(url('/api/groups'), this.values)
+            axios.post(url('/api/groups'), data)
                 .then(() => {
                     ui.info(i18n['group.successfully_created'], () => {
-                        this.$refs.dlgNewGroup.close();
+                        this.$refs.dlgGroup.close();
                         this.$refs.groups.refresh();
                     });
                 })

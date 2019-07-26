@@ -11,9 +11,10 @@
 
 import Column    from 'components/datatable/column';
 import DataTable from 'components/datatable/datatable.vue';
-import Modal     from 'components/modal/modal.vue';
 import ui        from 'utilities/ui';
 import url       from 'utilities/url';
+
+import DlgUser from './dlg_user.vue';
 
 /**
  * 'Users' page.
@@ -38,7 +39,7 @@ new Vue({
 
     components: {
         'datatable': DataTable,
-        'modal':     Modal,
+        'dlg-user':  DlgUser,
     },
 
     data: {
@@ -58,6 +59,12 @@ new Vue({
         // Form contents.
         values: {},
         errors: {},
+    },
+
+    computed: {
+
+        // Translation resources.
+        i18n: () => i18n,
     },
 
     methods: {
@@ -128,38 +135,38 @@ new Vue({
         showNewUserDialog() {
 
             this.values = {
-                locale:   eTraxis.defaultLocale,
-                theme:    eTraxis.defaultTheme,
-                timezone: eTraxis.defaultTimezone,
-                admin:    false,
-                disabled: false,
+                fullname:    null,
+                email:       null,
+                description: null,
+                locale:      eTraxis.defaultLocale,
+                theme:       eTraxis.defaultTheme,
+                timezone:    eTraxis.defaultTimezone,
+                admin:       false,
+                disabled:    false,
             };
 
             this.errors = {};
 
-            this.$refs.dlgNewUser.open();
+            this.$refs.dlgUser.open();
         },
 
         /**
          * Creates new user.
+         *
+         * @param {Object} event Event data.
          */
-        createUser() {
-
-            if (this.values.password !== this.values.confirm) {
-                ui.alert(i18n['password.dont_match']);
-                return;
-            }
+        createUser(event) {
 
             let data = {
-                fullname:    this.values.fullname,
-                email:       this.values.email,
-                description: this.values.description,
-                password:    this.values.password,
-                locale:      this.values.locale,
-                theme:       this.values.theme,
-                timezone:    this.values.timezone,
-                admin:       this.values.admin,
-                disabled:    this.values.disabled,
+                fullname:    event.fullname,
+                email:       event.email,
+                description: event.description,
+                password:    event.password,
+                locale:      event.locale,
+                theme:       event.theme,
+                timezone:    event.timezone,
+                admin:       event.admin,
+                disabled:    event.disabled,
             };
 
             ui.block();
@@ -167,7 +174,7 @@ new Vue({
             axios.post(url('/api/users'), data)
                 .then(() => {
                     ui.info(i18n['user.successfully_created'], () => {
-                        this.$refs.dlgNewUser.close();
+                        this.$refs.dlgUser.close();
                         this.$refs.users.refresh();
                     });
                 })

@@ -13,9 +13,7 @@
                 {% endif %}
             </datatable>
 
-            <modal ref="dlgNewGroup" header="{{ 'group.new' | trans }}" @submit="createGroup">
-                {% include 'groups/dlg_group.html.twig' %}
-            </modal>
+            <dlg-group ref="dlgGroup" :header="i18n['group.new']" :default="values" :errors="errors" @submit="createGroup"></dlg-group>
 
         </div>
     </div>

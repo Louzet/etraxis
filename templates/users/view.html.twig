@@ -6,24 +6,14 @@
 
     <div class="grid-row" id="vue-user" v-cloak>
         <div class="grid-100">
-
             <tabs>
                 <tab id="profile" :title="profile.fullname">
-                    {% include 'users/tab_profile.html.twig' %}
+                    <tab-profile :profile="profile" @reload="reloadProfile"></tab-profile>
                 </tab>
-                <tab id="groups" title="{{ 'groups' | trans }}" :counter="userGroups.length">
-                    {% include 'users/tab_groups.html.twig' %}
+                <tab id="groups" title="{{ 'groups' | trans }}" :counter="groups.length">
+                    <tab-groups :groups="groups" @reload="reloadGroups"></tab-groups>
                 </tab>
             </tabs>
-
-            <modal ref="dlgEditUser" header="{{ 'user.edit' | trans }}" @submit="updateUser">
-                {% include 'users/dlg_user.html.twig' with { 'user': user } %}
-            </modal>
-
-            <modal ref="dlgPassword" header="{{ 'password.change' | trans }}" @submit="setPassword">
-                {% include 'users/dlg_password.html.twig' %}
-            </modal>
-
         </div>
     </div>
 
@@ -35,6 +25,7 @@
     <script>eTraxis.providers = {{ providers | json_encode | raw }};</script>
     <script>eTraxis.locales   = {{ locales   | json_encode | raw }};</script>
     <script>eTraxis.themes    = {{ themes    | json_encode | raw }};</script>
+    <script>eTraxis.timezones = {{ timezones | json_encode | raw }};</script>
 
     <script src="{{ asset('js/users/view.js') }}"></script>
 

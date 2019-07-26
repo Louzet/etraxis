@@ -9,11 +9,13 @@
 //
 //----------------------------------------------------------------------
 
-import Modal from 'components/modal/modal.vue';
-import Tab   from 'components/tabs/tab.vue';
-import Tabs  from 'components/tabs/tabs.vue';
-import ui    from 'utilities/ui';
-import url   from 'utilities/url';
+import Tab  from 'components/tabs/tab.vue';
+import Tabs from 'components/tabs/tabs.vue';
+import ui   from 'utilities/ui';
+import url  from 'utilities/url';
+
+import TabProfile from './tab_profile.vue';
+import TabGroups  from './tab_groups.vue';
 
 /**
  * A user page.
@@ -28,38 +30,15 @@ new Vue({
 
         // Load groups the user is a member of.
         this.reloadGroups();
-
-        // Load all available groups.
-        const loadAllGroups = (offset = 0) => {
-
-            let headers = {
-                'X-Sort': JSON.stringify({
-                    project: 'ASC',
-                    name: 'ASC'
-                }),
-            };
-
-            axios.get(url(`/api/groups?offset=${offset}`), { headers })
-                .then(response => {
-
-                    for (let group of response.data.data) {
-                        this.allGroups.push(group);
-                    }
-
-                    if (response.data.to + 1 < response.data.total) {
-                        loadAllGroups(response.data.to + 1);
-                    }
-                })
-                .catch(exception => ui.errors(exception));
-        };
-
-        loadAllGroups();
     },
 
     components: {
-        'modal': Modal,
-        'tab':   Tab,
-        'tabs':  Tabs,
+
+        'tab':  Tab,
+        'tabs': Tabs,
+
+        'tab-profile': TabProfile,
+        'tab-groups':  TabGroups,
     },
 
     data: {
@@ -69,60 +48,8 @@ new Vue({
             options: {},
         },
 
-        // Form contents.
-        values: {},
-        errors: {},
-
-        // All existing groups.
-        allGroups: [],
-
         // Groups the user is a member of.
-        userGroups: [],
-
-        // Groups selected to add.
-        groupsToAdd: [],
-
-        // Groups selected to remove.
-        groupsToRemove: [],
-
-        // Translation resources.
-        text: {
-            global: i18n['group.global'],
-        },
-    },
-
-    computed: {
-
-        /**
-         * @property {string} Human-readable provider.
-         */
-        provider() {
-            return eTraxis.providers[this.profile.provider];
-        },
-
-        /**
-         * @property {string} Human-readable language.
-         */
-        language() {
-            return eTraxis.locales[this.profile.locale];
-        },
-
-        /**
-         * @property {string} Human-readable theme.
-         */
-        theme() {
-            return eTraxis.themes[this.profile.theme];
-        },
-
-        /**
-         * @property {Array<Object>} List of all groups which the user is not a member of.
-         */
-        otherGroups() {
-
-            let ids = this.userGroups.map(group => group.id);
-
-            return this.allGroups.filter(group => ids.indexOf(group.id) === -1);
-        },
+        groups: [],
     },
 
     methods: {
@@ -149,7 +76,7 @@ new Vue({
 
             axios.get(url(`/api/users/${eTraxis.userId}/groups`))
                 .then(response => {
-                    this.userGroups = response.data.sort((group1, group2) => {
+                    this.groups = response.data.sort((group1, group2) => {
                         if (group1.project === group2.project) {
                             return group1.name.localeCompare(group2.name);
                         }
@@ -164,198 +91,6 @@ new Vue({
                         }
                     });
                 })
-                .catch(exception => ui.errors(exception))
-                .then(() => ui.unblock());
-        },
-
-        /**
-         * Redirects back to list of users.
-         */
-        goBack() {
-            location.href = url('/admin/users');
-        },
-
-        /**
-         * Shows 'Edit user' dialog.
-         */
-        showEditUserDialog() {
-
-            this.values = {
-                fullname:    this.profile.fullname,
-                email:       this.profile.email,
-                description: this.profile.description,
-                locale:      this.profile.locale,
-                theme:       this.profile.theme,
-                timezone:    this.profile.timezone,
-                admin:       this.profile.admin,
-                disabled:    this.profile.disabled,
-            };
-
-            this.errors = {};
-
-            this.$refs.dlgEditUser.open();
-        },
-
-        /**
-         * Updates the user.
-         */
-        updateUser() {
-
-            let data = {
-                fullname:    this.values.fullname,
-                email:       this.values.email,
-                description: this.values.description,
-                locale:      this.values.locale,
-                theme:       this.values.theme,
-                timezone:    this.values.timezone,
-                admin:       this.values.admin,
-                disabled:    this.values.disabled,
-            };
-
-            ui.block();
-
-            axios.put(url(`/api/users/${eTraxis.userId}`), data)
-                .then(() => {
-                    ui.info(i18n['text.changes_saved'], () => {
-                        this.$refs.dlgEditUser.close();
-                        this.reloadProfile();
-                    });
-                })
-                .catch(exception => (this.errors = ui.errors(exception)))
-                .then(() => ui.unblock());
-        },
-
-        /**
-         * Shows 'Change password' dialog.
-         */
-        showPasswordDialog() {
-
-            this.values = {};
-            this.errors = {};
-
-            this.$refs.dlgPassword.open();
-        },
-
-        /**
-         * Sets user's password.
-         */
-        setPassword() {
-
-            if (this.values.password !== this.values.confirm) {
-                ui.alert(i18n['password.dont_match']);
-                return;
-            }
-
-            let data = {
-                password: this.values.password,
-            };
-
-            ui.block();
-
-            axios.put(url(`/api/users/${eTraxis.userId}/password`), data)
-                .then(() => {
-                    ui.info(i18n['password.changed']);
-                    this.$refs.dlgPassword.close();
-                })
-                .catch(exception => (this.errors = ui.errors(exception)))
-                .then(() => ui.unblock());
-        },
-
-        /**
-         * Deletes the user.
-         */
-        deleteUser() {
-
-            ui.confirm(i18n['confirm.user.delete'], () => {
-
-                ui.block();
-
-                axios.delete(url(`/api/users/${eTraxis.userId}`))
-                    .then(() => {
-                        location.href = url('/admin/users');
-                    })
-                    .catch(exception => ui.errors(exception))
-                    .then(() => ui.unblock());
-            });
-        },
-
-        /**
-         * Disables the user.
-         */
-        disableUser() {
-
-            ui.block();
-
-            let data = {
-                users: [eTraxis.userId],
-            };
-
-            axios.post(url('/api/users/disable'), data)
-                .then(() => this.reloadProfile())
-                .catch(exception => ui.errors(exception))
-                .then(() => ui.unblock());
-        },
-
-        /**
-         * Enables the user.
-         */
-        enableUser() {
-
-            ui.block();
-
-            let data = {
-                users: [eTraxis.userId],
-            };
-
-            axios.post(url('/api/users/enable'), data)
-                .then(() => this.reloadProfile())
-                .catch(exception => ui.errors(exception))
-                .then(() => ui.unblock());
-        },
-
-        /**
-         * Unlocks the user.
-         */
-        unlockUser() {
-
-            ui.block();
-
-            axios.post(url(`/api/users/${eTraxis.userId}/unlock`))
-                .then(() => this.reloadProfile())
-                .catch(exception => ui.errors(exception))
-                .then(() => ui.unblock());
-        },
-
-        /**
-         * Adds the user to selected groups.
-         */
-        addGroups() {
-
-            ui.block();
-
-            let data = {
-                add: this.groupsToAdd,
-            };
-
-            axios.patch(url(`/api/users/${eTraxis.userId}/groups`), data)
-                .then(() => this.reloadGroups())
-                .catch(exception => ui.errors(exception))
-                .then(() => ui.unblock());
-        },
-
-        /**
-         * Removes the user from selected groups.
-         */
-        removeGroups() {
-
-            ui.block();
-
-            let data = {
-                remove: this.groupsToRemove,
-            };
-
-            axios.patch(url(`/api/users/${eTraxis.userId}/groups`), data)
-                .then(() => this.reloadGroups())
                 .catch(exception => ui.errors(exception))
                 .then(() => ui.unblock());
         },
