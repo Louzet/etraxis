@@ -956,28 +956,7 @@ class ApiIssuesController extends AbstractController
 
         $request->headers->set('X-Filter', json_encode($filter + ['dependency' => $issue->id]));
 
-        $collection = $this->getCollection($request, $repository);
-
-        /** @var \eTraxis\Entity\LastRead[] $lastReads */
-        $lastReads = $lastReadRepository->findBy([
-            'issue' => $collection->data,
-            'user'  => $this->getUser(),
-        ]);
-
-        $values = [];
-
-        foreach ($lastReads as $lastRead) {
-            $values[$lastRead->issue->id] = $lastRead->readAt;
-        }
-
-        array_walk($collection->data, function (Issue &$issue) use ($values) {
-            $readAt = $values[$issue->id] ?? null;
-            $issue  = $issue->jsonSerialize();
-
-            $issue[Issue::JSON_READ_AT] = $readAt;
-        });
-
-        return $this->json($collection);
+        return $this->listIssues($request, $repository, $lastReadRepository);
     }
 
     /**
