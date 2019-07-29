@@ -101,7 +101,7 @@ class User implements \JsonSerializable, EncoderAwareInterface, UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=60, nullable=true)
+     * @ORM\Column(name="password", type="string", nullable=true)
      */
     protected $password;
 
