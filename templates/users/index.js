@@ -14,6 +14,12 @@ import DataTable from 'components/datatable/datatable.vue';
 import ui        from 'utilities/ui';
 import url       from 'utilities/url';
 
+import { PROVIDER_ETRAXIS   } from 'utilities/const';
+import { PROVIDER_LDAP      } from 'utilities/const';
+import { PROVIDER_BITBUCKET } from 'utilities/const';
+import { PROVIDER_GITHUB    } from 'utilities/const';
+import { PROVIDER_GOOGLE    } from 'utilities/const';
+
 import DlgUser from './dlg_user.vue';
 
 /**
@@ -31,10 +37,12 @@ new Vue({
         };
 
         // 'Authentication' column filter.
-        this.columns[3].filter = {
-            'etraxis': 'eTraxis',
-            'ldap':    'LDAP',
-        };
+        this.columns[3].filter = {};
+        this.columns[3].filter[PROVIDER_ETRAXIS]   = 'eTraxis';
+        this.columns[3].filter[PROVIDER_LDAP]      = 'LDAP';
+        this.columns[3].filter[PROVIDER_BITBUCKET] = 'Bitbucket';
+        this.columns[3].filter[PROVIDER_GITHUB]    = 'GitHub';
+        this.columns[3].filter[PROVIDER_GOOGLE]    = 'Google';
     },
 
     components: {
