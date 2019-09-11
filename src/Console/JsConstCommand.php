@@ -57,7 +57,8 @@ class JsConstCommand extends Command
 
                 if ($constant !== 'FALLBACK') {
 
-                    $javascript[] = sprintf('export const %s_%s = %s;',
+                    $javascript[] = sprintf(
+                        'export const %s_%s = %s;',
                         $prefix,
                         $constant,
                         $value === null ? 'null' : "'{$value}'"

@@ -43,7 +43,7 @@ class DownloadFileTest extends TransactionalTestCase
 
         self::assertSame('text/plain', $response->headers->get('CONTENT_TYPE'));
         self::assertSame('inline; filename=Inventore.pdf', $response->headers->get('CONTENT_DISPOSITION'));
-        self::assertSame(11, $response->headers->get('CONTENT_LENGTH'));
+        self::assertSame(11, (int) $response->headers->get('CONTENT_LENGTH'));
     }
 
     public function test401()
