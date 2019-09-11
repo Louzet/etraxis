@@ -10,7 +10,7 @@
         "source": "https://github.com/etraxis/etraxis"
     },
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.2.0",
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
