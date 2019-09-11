@@ -185,9 +185,12 @@ class ApiMyController extends AbstractController
      */
     public function getProjects(TemplateRepositoryInterface $repository): JsonResponse
     {
+        /** @var \eTraxis\Entity\User $user */
+        $user = $this->getUser();
+
         $projects = array_map(function (Template $template) {
             return $template->project;
-        }, $repository->getTemplatesByUser($this->getUser()));
+        }, $repository->getTemplatesByUser($user));
 
         return $this->json(array_values(array_unique($projects, SORT_REGULAR)));
     }
@@ -211,6 +214,9 @@ class ApiMyController extends AbstractController
      */
     public function getTemplates(TemplateRepositoryInterface $repository): JsonResponse
     {
-        return $this->json($repository->getTemplatesByUser($this->getUser()));
+        /** @var \eTraxis\Entity\User $user */
+        $user = $this->getUser();
+
+        return $this->json($repository->getTemplatesByUser($user));
     }
 }

@@ -210,6 +210,9 @@ class ApiIssuesController extends AbstractController
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
 
+        /** @var User $user */
+        $user = $this->getUser();
+
         /** @var \eTraxis\Entity\LastRead $lastRead */
         $lastRead = $lastReadRepository->findOneBy([
             'issue' => $issue,
@@ -245,7 +248,7 @@ class ApiIssuesController extends AbstractController
                     'type'        => $state->type,
                     'responsible' => $state->responsible,
                 ];
-            }, $issueRepository->getTransitionsByUser($issue, $this->getUser()));
+            }, $issueRepository->getTransitionsByUser($issue, $user));
         }
 
         if ($this->isGranted(IssueVoter::REASSIGN_ISSUE, $issue)) {
@@ -255,10 +258,10 @@ class ApiIssuesController extends AbstractController
                     'email'    => $user->email,
                     'fullname' => $user->fullname,
                 ];
-            }, $issueRepository->getResponsiblesByUser($issue, $this->getUser(), true));
+            }, $issueRepository->getResponsiblesByUser($issue, $user, true));
         }
 
-        $lastReadRepository->markAsRead($issue, $this->getUser());
+        $lastReadRepository->markAsRead($issue, $user);
 
         return $this->json($data);
     }
@@ -645,6 +648,9 @@ class ApiIssuesController extends AbstractController
     {
         $this->denyAccessUnlessGranted(IssueVoter::VIEW_ISSUE, $issue);
 
+        /** @var User $user */
+        $user = $this->getUser();
+
         /** @var \Doctrine\Common\Persistence\ObjectRepository[] $repositories */
         $repositories = [
             FieldType::DECIMAL => $decimalRepository,
@@ -653,7 +659,7 @@ class ApiIssuesController extends AbstractController
             FieldType::LIST    => $listRepository,
         ];
 
-        $changes = $repository->findAllByIssue($issue, $this->getUser());
+        $changes = $repository->findAllByIssue($issue, $user);
 
         $data = [];
 
