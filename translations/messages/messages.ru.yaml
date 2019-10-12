@@ -10,6 +10,7 @@ button.disable: Деактивировать
 button.edit: Редактировать
 button.enable: Активировать
 button.expand: Развернуть
+button.impersonate: 'Войти как пользователь'
 button.lock: Заблокировать
 button.login: Войти
 button.logout: Выйти

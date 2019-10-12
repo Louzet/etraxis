@@ -12,6 +12,7 @@
             <button v-if="profile.options['user.disable'] && !profile.disabled" @click="disableUser">{{ i18n['button.disable'] }}</button>
             <button v-if="profile.options['user.enable'] && profile.disabled" @click="enableUser">{{ i18n['button.enable'] }}</button>
             <button v-if="profile.options['user.unlock'] && profile.locked" @click="unlockUser">{{ i18n['button.unlock'] }}</button>
+            <button v-if="enableImpersonation" @click="impersonateUser">{{ i18n['button.impersonate'] }}</button>
             <button v-if="profile.options['user.delete']" class="danger" @click="deleteUser">{{ i18n['button.delete'] }}</button>
         </div>
 
@@ -85,6 +86,11 @@
             profile: {
                 type: Object,
                 required: true,
+            },
+
+            enableImpersonation: {
+                type: Boolean,
+                default: false,
             },
         },
 
@@ -266,6 +272,13 @@
                     .then(() => this.$emit('reload'))
                     .catch(exception => ui.errors(exception))
                     .then(() => ui.unblock());
+            },
+
+            /**
+             * Impersonates the user.
+             */
+            impersonateUser() {
+                location.href = url(`/?_switch_user=${this.profile.email}`)
             },
         },
     };

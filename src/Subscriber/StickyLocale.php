@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\SwitchUserEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
 /**
@@ -47,6 +48,7 @@ class StickyLocale implements EventSubscriberInterface
     {
         return [
             SecurityEvents::INTERACTIVE_LOGIN => 'saveLocale',
+            SecurityEvents::SWITCH_USER       => 'onSwitchUser',
             KernelEvents::REQUEST             => ['setLocale', 20],
         ];
     }
@@ -62,6 +64,23 @@ class StickyLocale implements EventSubscriberInterface
         $user = $event->getAuthenticationToken()->getUser();
 
         $this->session->set('_locale', $user->locale);
+    }
+
+    /**
+     * Overrides current locale with the locale of impersonated user.
+     *
+     * @param SwitchUserEvent $event
+     */
+    public function onSwitchUser(SwitchUserEvent $event): void
+    {
+        $request = $event->getRequest();
+
+        if ($request->hasSession() && ($session = $request->getSession())) {
+            /** @var \eTraxis\Entity\User $user */
+            $user = $event->getTargetUser();
+
+            $session->set('_locale', $user->locale);
+        }
     }
 
     /**

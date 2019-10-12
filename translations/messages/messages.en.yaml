@@ -10,6 +10,7 @@ button.disable: Disable
 button.edit: Edit
 button.enable: Enable
 button.expand: Expand
+button.impersonate: 'Login as user'
 button.lock: Lock
 button.login: Login
 button.logout: Logout

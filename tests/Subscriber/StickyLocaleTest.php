@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\SwitchUserEvent;
 
 /**
  * @coversDefaultClass \eTraxis\Subscriber\StickyLocale
@@ -45,6 +46,7 @@ class StickyLocaleTest extends TransactionalTestCase
     {
         $expected = [
             'security.interactive_login',
+            'security.switch_user',
             'kernel.request',
         ];
 
@@ -68,6 +70,27 @@ class StickyLocaleTest extends TransactionalTestCase
 
         $object = new StickyLocale($this->session, 'en');
         $object->saveLocale($event);
+
+        self::assertSame('ru', $this->session->get('_locale'));
+    }
+
+    /**
+     * @covers ::onSwitchUser
+     */
+    public function testOnSwitchUser()
+    {
+        /** @var User $user */
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['email' => 'artem@example.com']);
+
+        $user->locale = 'ru';
+
+        $request = new Request();
+        $request->setSession($this->session);
+
+        $event = new SwitchUserEvent($request, $user);
+
+        $object = new StickyLocale($this->session, 'en');
+        $object->onSwitchUser($event);
 
         self::assertSame('ru', $this->session->get('_locale'));
     }

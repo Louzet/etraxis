@@ -41,5 +41,14 @@ new Vue({
                 location.href = url('/logout');
             });
         },
+
+        /**
+         * Switches back from impersonated user.
+         */
+        exitImpersonation() {
+            ui.confirm(i18n['confirm.logout'], () => {
+                location.href = url('/?_switch_user=_exit');
+            });
+        },
     },
 });

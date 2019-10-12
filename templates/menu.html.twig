@@ -40,8 +40,12 @@
                 {% endif %}
             {% endif %}
 
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <a href="{{ path('logout') }}" @click.prevent="logout">{{ menu.item('button.logout', 'fa-sign-out') }}</a>
+            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                {# Impersonated session #}
+                <a href="#" @click.prevent="exitImpersonation">{{ menu.item('button.logout', 'fa-sign-out') }}</a>
+            {% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                {# Normal session #}
+                <a href="#" @click.prevent="logout">{{ menu.item('button.logout', 'fa-sign-out') }}</a>
             {% endif %}
 
         </div>

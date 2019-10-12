@@ -8,7 +8,11 @@
         <div class="grid-100">
             <tabs>
                 <tab id="profile" :title="profile.fullname">
-                    <tab-profile :profile="profile" @reload="reloadProfile"></tab-profile>
+                    {% if is_granted('ROLE_PREVIOUS_ADMIN') or app.user.id == user.id %}
+                        <tab-profile :profile="profile" :enable-impersonation="false" @reload="reloadProfile"></tab-profile>
+                    {% else %}
+                        <tab-profile :profile="profile" :enable-impersonation="true" @reload="reloadProfile"></tab-profile>
+                    {% endif %}
                 </tab>
                 <tab id="groups" title="{{ 'groups' | trans }}" :counter="groups.length">
                     <tab-groups :groups="groups" @reload="reloadGroups"></tab-groups>
